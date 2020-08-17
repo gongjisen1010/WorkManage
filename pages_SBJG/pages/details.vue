@@ -129,19 +129,19 @@
 			
 			<!-- 按钮 -->
 			<view>
-				<view class="ol_shutDown">
+				<view class="ol_shutDown"  @click="equipmentShutDown">
 					<image class="sd_icon" style="width: 30upx;" src="../static/guanji.png" mode="aspectFit"></image>
 					<text class="sd_text">设备关机</text>
 				</view>
-				<view class="ol_shutDown">
+				<view class="ol_shutDown" @click="equipmentRestart">
 					<image class="sd_icon" style="width: 36upx;" src="../static/chongqi.png" mode="aspectFit"></image>
 					<text class="sd_text">设备重启</text>
 				</view>
-				<view class="ol_shutDown">
+				<view class="ol_shutDown" @click="notYetOpen">
 					<image class="sd_icon" style="width: 30upx;" src="../static/zijian.png" mode="aspectFit"></image>
 					<text class="sd_text">设备自检</text>
 				</view>
-				<view class="ol_shutDown">
+				<view class="ol_shutDown" @click="notYetOpen">
 					<image class="sd_icon" style="width: 36upx;" src="../static/ziling.png" mode="aspectFit"></image>
 					<text class="sd_text">保修登记</text>
 				</view>
@@ -238,6 +238,7 @@
 <script>
 	import LineChart from '@/components/stan-ucharts/LineChart.vue';
 	import popup from "@/components/uni-popup/uni-popup.vue";
+	import $Sbjg from "@/common/sbjg.js"
 	export default {
 		components: {
 			LineChart,
@@ -259,8 +260,7 @@
 					{ 
 						name: '内存占用量', 
 						data: [0.1, 0.8, 0.95, 0.15, 0.112, 0.132] ,
-					},
-					]
+					}]
 				},
 				lineData2: {
 					//数字的图--折线图数据
@@ -307,6 +307,113 @@
 			close() {
 				this.$refs.popup.close()
 			},
+			// --------------------------------------设备关机------------------
+			equipmentShutDown:function(){
+				uni.showModal({
+					title:'您确认要把设备关机吗？',
+					success: (res) => {
+						console.log(res)
+						if(res.confirm == true){
+							console.log(this.parameter.AID)
+							uni.showLoading({
+								title:'正在请求关机'
+							})
+							uni.request({
+								url: $Sbjg.SbjgInterface.giveOrders.Url,
+								method: $Sbjg.SbjgInterface.giveOrders.method,
+								data: {
+									SettingAID : this.parameter.AID,
+									Msg : '关机',
+								},
+								success: (res) => {
+									console.log(res)
+									if(res.data == '指令发送成功'){
+										uni.hideLoading()
+										uni.showToast({
+											title:'关机成功',
+											icon:'success'
+										})
+									}else{
+										uni.hideLoading()
+										uni.showToast({
+											title:'关机失败，请重试',
+											icon:'success'
+										})
+									}
+									
+								},
+								fail: () => {
+									uni.hideLoading()
+									uni.showToast({
+										title:'服务器异常，请重试',
+										icon:'success'
+									})
+								}
+							})
+						}else{
+							
+						}
+					}
+				})
+			},
+			// --------------------------------------设备重启------------------
+			equipmentRestart:function(){
+				uni.showModal({
+					title:'您确认要把设备关机吗？',
+					success: (res) => {
+						console.log(res)
+						if(res.confirm == true){
+							console.log(this.parameter.AID)
+							uni.showLoading({
+								title:'正在请求重启'
+							})
+							uni.request({
+								url: $Sbjg.SbjgInterface.giveOrders.Url,
+								method: $Sbjg.SbjgInterface.giveOrders.method,
+								data: {
+									SettingAID : this.parameter.AID,
+									Msg : '重启',
+								},
+								success: (res) => {
+									console.log(res)
+									if(res.data == '指令发送成功'){
+										uni.hideLoading()
+										uni.showToast({
+											title:'重启成功',
+											icon:'success'
+										})
+									}else{
+										uni.hideLoading()
+										uni.showToast({
+											title:'重启失败，请重试',
+											icon:'success'
+										})
+									}
+									
+								},
+								fail: () => {
+									uni.hideLoading()
+									uni.showToast({
+										title:'服务器异常，请重试',
+										icon:'success'
+									})
+								}
+							})
+						}else{
+							
+						}
+					}
+				})
+			},
+			
+			//------------------------暂未开放----------------------------
+			notYetOpen:function(){
+				uni.showToast({
+					title:'暂未开放',
+					icon:'none'
+				})
+			},
+			
 			
 			getServerData() {
 				setTimeout(() => {
@@ -314,17 +421,18 @@
 					this.$refs['lineData1'].showCharts();
 				}, 1000);
 			}
-			
 		},
 		
 		created() {
-			this.$nextTick(() => {
-				//折线图
-				this.$refs['lineData2'].showCharts();
-			});
-			//ajax调用
-			this.getServerData();
-		}
+		   this.$nextTick(() => {
+		    //折线图
+		    this.$refs['lineData2'].showCharts();
+		   });
+		   //ajax调用
+		   this.getServerData();
+		  }
+	
+		
 	}
 </script>
 
