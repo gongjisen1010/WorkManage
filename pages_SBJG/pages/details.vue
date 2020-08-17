@@ -129,20 +129,20 @@
 			
 			<!-- 按钮 -->
 			<view>
-				<view class="ol_shutDown">
+				<view class="ol_shutDown" hover-class="ol_hover">
 					<image class="sd_icon" style="width: 30upx;" src="../static/guanji.png" mode="aspectFit"></image>
 					<text class="sd_text">设备关机</text>
 				</view>
-				<view class="ol_shutDown">
+				<view class="ol_shutDown" hover-class="ol_hover">
 					<image class="sd_icon" style="width: 36upx;" src="../static/chongqi.png" mode="aspectFit"></image>
 					<text class="sd_text">设备重启</text>
 				</view>
-				<view class="ol_shutDown">
+				<view class="ol_shutDown" hover-class="ol_hover">
 					<image class="sd_icon" style="width: 30upx;" src="../static/zijian.png" mode="aspectFit"></image>
 					<text class="sd_text">设备自检</text>
 				</view>
-				<view class="ol_shutDown">
-					<image class="sd_icon" style="width: 36upx;" src="../static/ziling.png" mode="aspectFit"></image>
+				<view class="ol_shutDown" hover-class="ol_hover">
+					<image class="sd_icon" style="width: 36upx;" src="../static/dengji.png" mode="aspectFit"></image>
 					<text class="sd_text">保修登记</text>
 				</view>
 <!-- 				<view class="ol_register">
@@ -587,6 +587,7 @@
 		margin-top: 24upx;
 		margin-left: 32upx;
 		border-radius: 24upx;
+		width: 23%;
 		.sd_icon{
 			// width: 36upx;
 			height: 36upx;
@@ -687,7 +688,7 @@
 		
 		.ct_text {
 			padding: 12upx 30upx;
-			font-size: 26upx;
+			font-size: 24upx;
 			width: 178upx;
 			color: #999999;
 			border: 1px solid rgba(153, 153, 153, 1);
@@ -819,5 +820,14 @@
 			font-size:26upx;
 			color:#666666;
 		}
+	}
+	
+	//设备详情页面点击状态
+	.ol_hover{
+		transition: all .3s;//过度
+		border-radius: 24upx;
+		opacity: 0.1;
+		color: #FFFFFF;
+		background: #5694fb;
 	}
 </style>
