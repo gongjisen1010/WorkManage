@@ -58,6 +58,10 @@
 			
 			<!-- 现状图 -->
 			<view class="ol_LineChart">
+				<!-- 折线Line纯数字-->
+				<view class="line">
+					<line-chart ref="lineData2" canvasId="index_line_2" :dataAs="lineData2" />
+				</view>
 				<!-- 折线Line带百分比 -->
 				<view class="line">
 					<line-chart
@@ -73,10 +77,7 @@
 					/>
 				</view>
 				
-				<!-- 折线Line纯数字-->
-				<view class="line">
-					<line-chart ref="lineData2" canvasId="index_line_2" :dataAs="lineData2" />
-				</view>
+				
 			</view>
 			
 			<!-- 状态 -->
