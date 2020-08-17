@@ -787,7 +787,7 @@
 	
 		.noticeBox2 {
 			line-height: 32upx;
-			height: 936upx;
+			height: 600upx;
 	
 			.tv_title {
 				display: block;

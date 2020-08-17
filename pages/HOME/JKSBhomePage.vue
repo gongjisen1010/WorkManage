@@ -164,11 +164,11 @@
 			}
 		},
 		onLoad: function() {
-			this.interfaceData();
+			
 		},
 
-		onShow() {
-
+		onShow:function() {
+			this.interfaceData();
 		},
 
 		methods: {
@@ -485,7 +485,7 @@
 
 		.noticeBox2 {
 			line-height: 32upx;
-			height: 810upx;
+			height: 600upx;
 
 			.tv_title {
 				display: block;
