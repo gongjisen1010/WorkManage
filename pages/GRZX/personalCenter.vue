@@ -95,7 +95,7 @@
 		},
 		onShow() {
 			//#ifdef H5
-				this.getCode();
+				// this.getCode();
 			//#endif
 		},
 		methods:{
@@ -247,6 +247,10 @@
 		top:150upx;
 		left: 5%;
 		
+		/* #ifdef H5 */
+			top:20upx;
+		/* #endif */
+		
 		//背景图
 		.backClass{ 
 			width: 100%;
@@ -329,6 +333,10 @@
 	.centerBox{
 		width: 90%;
 		margin-top: 155upx;
+		/* #ifdef H5 */
+			margin-top:25upx;
+		/* #endif */
+		
 		margin-left: 5%;
 		display: flex;
 		flex-direction: row;

@@ -83,6 +83,9 @@
         "title" : "智慧龙洲",
         "router" : {
             "base" : "/h5_sbjg/"
+        },
+        "devServer" : {
+            "https" : false
         }
     }
 }

@@ -12,22 +12,26 @@
 				</view>
 
 				<!-- 多少台设备 -->
-				<text class="hp_equipment">{{totalQuantity}}台设备</text>
+				<text class="hp_equipment">{{DeviceData.length}}台设备</text>
 
 				<!-- 设备类型 -->
 				<view class="hp_equipmentType">
 					<text class="et_text">设备类型</text>
-					<view class="et_typeContent" v-for="(item,index) in ">
+					<view class="et_typeContent" v-for="(item,index) in DeviceData" :key="index">
 						<view>
 							<view class="tc_image">
-								<image class="tc_image2" src="../../static/shebei1.png" mode="aspectFill"></image>
+								<image class="tc_image2" v-if="item.Type=='售票机'" src="../../static/HOME/shoupiaoji.png" mode="aspectFill"></image>
+								<image class="tc_image2" v-if="item.Type=='检票机'" src="../../static/HOME/jianpiaoji.png" mode="aspectFill"></image>
+								<image class="tc_image2" v-if="item.Type=='凭单机'" src="../../static/HOME/pindanji.png" mode="aspectFill"></image>
 							</view>
 						</view>
 
 						<view class="et_content">
-							<view class="ct_title">{{title}}</view>
+							<view class="ct_title">{{item.Type}}</view>
 							<view class="ct_content">
-								<text class="ct_number">{{equipmentNumber}}台</text>
+								<text class="ct_number" v-if="item.Type=='售票机'">{{ticketMachine.length}}台</text>
+								<text class="ct_number" v-if="item.Type=='检票机'">{{ticketChecking.length}}台</text>
+								<text class="ct_number" v-if="item.Type=='凭单机'">{{standAlone.length}}台</text>
 								<text class="ct_text" @tap="checkAttention">查看设备></text>
 							</view>
 						</view>
@@ -41,7 +45,7 @@
 			<view class="boxView2">
 				<view class="titleView2">
 					<text class="Nb_text3">今点通凭单机</text>
-					<text class="Nb_text4" @click="close">X</text>
+					<text class="Nb_text4 jdticon icon-fork" @click="close"></text>
 				</view>
 				<scroll-view class="noticeBox2" scroll-y="ture">
 					<view class="tv_title" v-for="(item,index) in equipmentMachinery" :key="index">
@@ -58,7 +62,7 @@
 								<view class="ct_content">
 									<text class="ct_number">{{item2.model}}</text>
 									<text class="ct_state" v-if="item2.state==0">在线</text>
-									<text class="ct_state2" v-if="item2.state==1">不在线</text>
+									<text class="ct_state2" v-if="item2.state==1">离线</text>
 									<text class="ct_text" @click="Jump">查看设备></text>
 								</view>
 							</view>
@@ -70,19 +74,22 @@
 				<view class="zl_click">
 					<view class="zl_topClick">
 						<!-- 设备区域 -->
-						<view class="zl_independentTravel">
-							<image class="zl_itImage" src="../../static/HOME/shebeiquyu.png"></image>
-							<text class="zl_itText">设备区域</text>
+						<view class="zl_independentTravel" @click="click(1)">
+							<image class="zl_itImage" :hidden="type==1" src="../../static/HOME/shebeiquyu.png" mode="aspectFit"></image>
+							<image class="zl_itImage" v-if="type==1" src="../../static/HOME/shebeiquyu2.png" mode="aspectFit"></image>
+							<text class="zl_itText" :class="{current:type===1}">设备区域</text>
 						</view>
 						<!-- 在线状态	 -->
-						<view class="zl_independentTravel2">
-							<image class="zl_itImage2" src="../../static/HOME/zaixianzhuangtai.png"></image>
-							<text class="zl_itText2">在线状态</text>
+						<view class="zl_independentTravel2" @click="click(2)">
+							<image class="zl_itImage2" :hidden="type==2"  src="../../static/HOME/zaixianzhuangtai.png" mode="aspectFit"></image>
+							<image class="zl_itImage2" v-if="type==2" src="../../static/HOME/zaixianzhuangtai2.png" mode="aspectFit"></image>
+							<text class="zl_itText2" :class="{current:type===2}">在线状态</text>
 						</view>
 						<!-- 设备分布 -->
-						<view class="zl_independentTravel3">
-							<image class="zl_itImage3" src="../../static/HOME/shebeifenbu.png"></image>
-							<text class="zl_itText3">设备分布</text>
+						<view class="zl_independentTravel3" @click="click(3)">
+							<image class="zl_itImage3" :hidden="type==3"  src="../../static/HOME/shebeifenbu.png" mode="aspectFit"></image>
+							<image class="zl_itImage3" v-if="type===3" src="../../static/HOME/shebeifenbu2.png" mode="aspectFit"></image>
+							<text class="zl_itText3" :class="{current:type===3}">设备分布</text>
 						</view>
 					</view>
 				</view>
@@ -100,6 +107,7 @@
 		},
 		data() {
 			return {
+				type: 0,
 				// selectBank: [{
 				// 		txt: '客运中心站',
 				// 	},
@@ -107,11 +115,11 @@
 				// 		txt: '泉州汽车站',
 				// 	}
 				// ],
-				selectBank:[{
-					AID:'',
-					CompanyID:'',
-					StationID:'',
-					StationName:'',
+				selectBank: [{
+					AID: '',
+					CompanyID: '',
+					StationID: '',
+					StationName: '',
 				}],
 				equipmentMachinery: [{
 						txt: '售票机',
@@ -143,43 +151,64 @@
 				totalQuantity: 233,
 				equipmentNumber: 122,
 				index: 0,
-				bankObject: '', 
+				bankObject: '',
+				DeviceData: [],
+				ticketMachine: [],
+				ticketChecking: [],
+				standAlone: [],
+				state: 0,
 			}
 		},
-		onLoad:function(){
+		onLoad: function() {
 			this.interfaceData();
 		},
-		
+
 		onShow() {
-			
+
 		},
-		
+
 		methods: {
 			//----------------------接口数据--------------------------------------
-			interfaceData:function(){
+			interfaceData: function() {
 				//获取所有的车站
 				uni.request({
-					url:$Sbjg.SbjgInterface.GetStarte.Url,
-					method:$Sbjg.SbjgInterface.GetStarte.method,
-					success:(res)=>{
-						console.log('获取所有的车站',res)
+					url: $Sbjg.SbjgInterface.GetStarte.Url,
+					method: $Sbjg.SbjgInterface.GetStarte.method,
+					success: (res) => {
+						console.log('获取所有的车站', res)
 						this.selectBank = res.data;
 						this.bankObject = res.data[0].StationName;
 						this.deviceData();
 					}
 				})
 				//获取所有的设备数据
-				
+
 			},
-			deviceData:function(){
+			deviceData: function() {
 				uni.request({
-					url:$Sbjg.SbjgInterface.GetSerialsByID.Url,
-					method:$Sbjg.SbjgInterface.GetSerialsByID.method,
-					data:{
-						CompanyName:this.bankObject
+					url: $Sbjg.SbjgInterface.GetSerialsByID.Url,
+					method: $Sbjg.SbjgInterface.GetSerialsByID.method,
+					data: {
+						CompanyName: this.bankObject
 					},
-					success:(res)=>{
-						console.log('获取所有的设备数据',res)
+					success: (res) => {
+						// console.log('获取所有的设备数据',res)
+						this.DeviceData = res.data.filter(item => {
+							return item.Type !== '';
+						})
+						this.ticketMachine = res.data.filter(item => {
+							return item.Type == '售票机';
+						})
+						this.ticketChecking = res.data.filter(item => {
+							return item.Type == '检票机';
+						})
+						this.standAlone = res.data.filter(item => {
+							return item.Type == '凭单机';
+						})
+						console.log('获取所有的设备数据', this.DeviceData)
+						console.log('售票机', this.ticketMachine)
+						console.log('检票机', this.ticketChecking)
+						console.log('凭单机', this.standAlone)
 					}
 				})
 			},
@@ -200,13 +229,24 @@
 			close() {
 				this.$refs.popup.close()
 			},
-			
+
 			//-------------------------------跳转---------------------------------
-			Jump(){
+			Jump() {
 				uni.navigateTo({
-					url:'../../pages_SBJG/pages/details'
+					url: '../../pages_SBJG/pages/details'
 				})
-			}
+			},
+
+			//-----------------tab事件---------------------------------------
+			click:function(e){
+				if (e == 1) {
+					this.type = 1;
+				} else if (e == 2) {
+					this.type = 2;
+				} else if (e == 3) {
+					this.type = 3;
+				}
+			},
 		}
 	}
 </script>
@@ -319,7 +359,7 @@
 							bottom: 0;
 							right: 0;
 							margin: 30upx;
-							padding: 16upx 30upx;
+							padding: 10upx 20upx;
 							font-size: 26upx;
 							color: #999999;
 							border: 1px solid rgba(153, 153, 153, 1);
@@ -433,7 +473,7 @@
 								bottom: 0;
 								right: 0;
 								margin: 40upx 20upx;
-								padding: 12upx 30upx;
+								padding: 10upx 20upx;
 								font-size: 26upx;
 								color: #999999;
 								border: 1px solid rgba(153, 153, 153, 1);
@@ -447,7 +487,7 @@
 
 		//顶部点击跳转栏
 		.zl_click {
-			
+
 			.zl_topClick {
 				display: flex;
 				padding-top: 20upx;
@@ -461,60 +501,72 @@
 
 					.zl_itImage {
 						position: absolute;
-						width: 35upx;
-						height: 40upx;
-						top: 8upx;
+						width: 30upx;
+						height: 30upx;
+						top: 16upx;
 					}
 
 					.zl_itText {
-						padding-left: 50upx;
+						padding-left: 38upx;
 						font-size: 30upx;
 						color: #333333;
-						line-height:54upx;
+						line-height: 54upx;
+
+						&.current {
+							color: #5694fb;
+						}
 					}
 				}
-				
+
 				// 在线状态
 				.zl_independentTravel2 {
 					position: relative;
 					border-left: 1px solid #E7E7E7;
 					width: 33%;
 					text-align: center;
-				
+
 					.zl_itImage2 {
 						position: absolute;
-						width: 38upx;
-						height: 34upx;
-						top: 14upx;
+						width: 30upx;
+						height: 30upx;
+						top: 16upx;
 					}
-				
+
 					.zl_itText2 {
-						padding-left: 50upx;
+						padding-left: 38upx;
 						font-size: 30upx;
 						color: #333333;
-						line-height:58upx;
+						line-height: 58upx;
+
+						&.current {
+							color: #5694fb;
+						}
 					}
 				}
-				
+
 				// 设备分布
 				.zl_independentTravel3 {
 					position: relative;
 					border-left: 1px solid #E7E7E7;
 					width: 33%;
 					text-align: center;
-				
+
 					.zl_itImage3 {
 						position: absolute;
-						width: 38upx;
-						height: 38upx;
-						top: 12upx;
+						width: 30upx;
+						height: 30upx;
+						top: 16upx;
 					}
-				
+
 					.zl_itText3 {
-						padding-left: 50upx;
+						padding-left: 38upx;
 						font-size: 30upx;
 						color: #333333;
-						line-height:56upx;
+						line-height: 56upx;
+
+						&.current {
+							color: #5694fb;
+						}
 					}
 				}
 			}
