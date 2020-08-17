@@ -1,10 +1,5 @@
 {
 	"pages": [
-		// {
-		//     "path" : "pages/GRZY/zy_commuterCard",
-		//     "style" : {}
-		// },
-		
 		{
 		    "path" : "pages/HOME/JKSBhomePage",
 		    "style" : {
