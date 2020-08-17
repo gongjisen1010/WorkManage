@@ -12,13 +12,13 @@
 			<text class="nameClass">{{userName}}</text>
 			<!-- 企业车站数 -->
 			<view class="stationBox commonBox">
-				<text class="numClass">{{stationNum}}<text class="fs">个</text></text>
-				<text class="fontClass">企业车站数</text>
+				<text class="numClass">{{equipmentNum}}<text class="fs">台</text></text>
+				<text class="fontClass">设备总台数</text>
 			</view>
 			<!-- 企业设备数 -->
 			<view class="equipmentBox commonBox">
-				<text class="numClass">{{equipmentNum}}<text class="fs">台</text></text>
-				<text class="fontClass">企业设备数</text>
+				<text class="numClass">{{typeNum}}<text class="fs">种</text></text>
+				<text class="fontClass">设备分类数</text>
 			</view>
 			<!-- 分隔线 -->
 			<view class="lineClass"></view>
@@ -49,8 +49,8 @@
 			return{
 				userName:'', //公司名称
 				portrait:'../../static/GRZX/icon-jdt.png', //头像
-				stationNum:5,//企业车站数
-				equipmentNum:2530,//企业设备数
+				equipmentNum:0,//设备总台数
+				typeNum:0,//设备分类数
 				login:false,
 				
 				modularList:[{  //企业车辆，企业设备，智慧中心功能
@@ -101,7 +101,8 @@
 			//#endif
 		},
 		onShow() {
-			this.loadData();
+			this.loadData();//加载用户信息
+			this.loadStation();//加载设备总台数和设备分类数
 		},
 		methods:{
 			//----------------------------加载用户信息-------------------------------
@@ -118,6 +119,31 @@
 						this.portrait="../../static/GRZX/icon-jdt.png";
 						this.userName="立即登录";
 					}
+				})
+			},
+			
+			//----------------------------加载设备总台数和设备分类数-------------------------------
+			loadStation(){
+				this.typeNum=0;
+				this.equipmentNum=0;
+				uni.getStorage({
+					key:'station',
+					success:res=> {
+						uni.request({
+							url: this.$GrzxInter.Interface.GetNumAll.value,
+							method: this.$GrzxInter.Interface.GetNumAll.method,
+							header:this.$GrzxInter.Interface.GetNumAll.header,
+							data: {
+								CompanyName: res.data,
+							},
+							success: (res) => {
+								this.typeNum=res.data.length;
+								for(let i=0;i<res.data.length;i++){
+									this.equipmentNum+=parseInt(res.data[i].num);
+								}
+							}
+						})
+					},
 				})
 			},
 			
