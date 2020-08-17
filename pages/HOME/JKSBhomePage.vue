@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="hp_top">
-			<image class="top_image" src="../../static/beijin.png" mode="aspectFill"></image>
+			<image class="top_image" src="../../static/HOME/beijin.png" mode="aspectFill"></image>
 			<view class="hp_outerLayer">
 				<!-- 选择车站 -->
 				<view class="if_DriverNumber">
@@ -17,7 +17,7 @@
 				<!-- 设备类型 -->
 				<view class="hp_equipmentType">
 					<text class="et_text">设备类型</text>
-					<view class="et_typeContent">
+					<view class="et_typeContent" v-for="(item,index) in ">
 						<view>
 							<view class="tc_image">
 								<image class="tc_image2" src="../../static/shebei1.png" mode="aspectFill"></image>
@@ -71,17 +71,17 @@
 					<view class="zl_topClick">
 						<!-- 设备区域 -->
 						<view class="zl_independentTravel">
-							<image class="zl_itImage" src="../../static/shebeiquyu.png"></image>
+							<image class="zl_itImage" src="../../static/HOME/shebeiquyu.png"></image>
 							<text class="zl_itText">设备区域</text>
 						</view>
 						<!-- 在线状态	 -->
 						<view class="zl_independentTravel2">
-							<image class="zl_itImage2" src="../../static/zaixianzhuangtai.png"></image>
+							<image class="zl_itImage2" src="../../static/HOME/zaixianzhuangtai.png"></image>
 							<text class="zl_itText2">在线状态</text>
 						</view>
 						<!-- 设备分布 -->
 						<view class="zl_independentTravel3">
-							<image class="zl_itImage3" src="../../static/shebeifenbu.png"></image>
+							<image class="zl_itImage3" src="../../static/HOME/shebeifenbu.png"></image>
 							<text class="zl_itText3">设备分布</text>
 						</view>
 					</view>
