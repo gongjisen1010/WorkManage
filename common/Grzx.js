@@ -1,6 +1,7 @@
 import $oSit from '@/common/overallSituation.js';
 
 const Url=$oSit.Interface.address.Url;
+const Url2=$oSit.Interface.address.Url2;
 
 const systemConfig={
 	appName:$oSit.Interface.system.appName,	
@@ -69,6 +70,27 @@ const Interface={
 	 	name:'通过微信的openid获取用户信息',
 	 	method:'POST',
 	 	pages: [],
+	 },
+	 //--------------------------------------获取所有的车站--------------------------------------
+	 GetStarte:{
+	 	value: Url2 + '/Home/GetStarte',
+	 	name:'获取所有的车站',
+	 	method:'POST',
+	 	header: {'content-type': 'application/json'},
+	 },
+	 //--------------------------------------获取所有的设备数据--------------------------------------
+	 GetSerialsByID:{
+	 	value: Url2 + '/Home/GetSerialsByID',
+	 	name:'获取所有的设备数据',
+	 	method:'POST',
+	 	header: {'content-type': 'application/json'},
+	 },
+	  //--------------------------------------获取所有设备--------------------------------------
+	 GetNumAll:{
+	 	value: Url2 + '/Home/GetNumAll',
+	 	name:'获取所有设备',
+	 	method:'POST',
+	 	header: {'content-type': 'application/json'},
 	 },
 }
 
