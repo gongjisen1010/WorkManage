@@ -121,8 +121,14 @@
 						});
 						break;
 					case '设置':
+						uni.navigateTo({
+							url:'../../pages_GRZX/pages/set',
+						})
 						break;
 					case '帮助与反馈':
+						uni.navigateTo({
+							url:'../../pages_GRZX/pages/feedback',
+						})
 						break;
 					default:
 						return '';
