@@ -19,6 +19,7 @@ const SbjgInterface = {
 		Url: Url2 + '/Home/GetStarte',
 		name:'获取所有的车站',
 		method:'POST',
+		header: {'content-type': 'application/json'},
 	},
 	
 	//--------------------------------------获取所有的设备数据--------------------------------------
@@ -26,18 +27,22 @@ const SbjgInterface = {
 		Url: Url2 + '/Home/GetSerialsByID',
 		name:'获取所有的设备数据',
 		method:'POST',
+		header: {'content-type': 'application/json'},
 	},
 	//--------------------------------------设备关机/重启--------------------------------------
 	GetCommndAdd:{
 		Url: Url2 + '/Home/GetCommndAdd',
 		name:'设备关机/重启',
 		method:'POST',
+		header: {'content-type': 'application/json'},
 	},
 	//--------------------------------------获取设备参数--------------------------------------
 	GetBySettingAID:{
 		Url: Url2 + '/Home/GetBySettingAID',
 		name:'获取设备参数',
 		method:'POST',
+		header: {'content-type': 'application/json'},
+		
 	},
 }
 // 接口声明区

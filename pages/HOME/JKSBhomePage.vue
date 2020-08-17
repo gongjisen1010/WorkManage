@@ -213,6 +213,7 @@
 				uni.request({
 					url: $Sbjg.SbjgInterface.GetStarte.Url,
 					method: $Sbjg.SbjgInterface.GetStarte.method,
+					header:$Sbjg.SbjgInterface.GetStarte.header,
 					success: (res) => {
 						console.log('获取所有的车站', res)
 						this.selectBank = res.data;
@@ -227,6 +228,7 @@
 				uni.request({
 					url: $Sbjg.SbjgInterface.GetSerialsByID.Url,
 					method: $Sbjg.SbjgInterface.GetSerialsByID.method,
+					header:$Sbjg.SbjgInterface.GetSerialsByID.header,
 					data: {
 						CompanyName: this.bankObject
 					},

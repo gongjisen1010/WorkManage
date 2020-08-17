@@ -141,7 +141,7 @@
 					<image class="sd_icon" style="width: 30upx;" src="../static/zijian.png" mode="aspectFit"></image>
 					<text class="sd_text">设备自检</text>
 				</view>
-				<view class="ol_shutDown" hover-class="ol_hover" style="margin-bottom: 32upx;" @click="notYetOpen">
+				<view class="ol_shutDown" hover-class="ol_hover" style="margin-bottom: 56upx;" @click="notYetOpen">
 					<image class="sd_icon" style="width: 36upx;" src="../static/dengji.png" mode="aspectFit"></image>
 					<text class="sd_text">保修登记</text>
 				</view>
@@ -156,7 +156,7 @@
 			<view class="boxView2">
 				<view class="titleView2">
 					<text class="Nb_text3">设备位置</text>
-					<text class="Nb_text4" @click="close">X</text>
+					<text class="Nb_text4 jdticon icon-fork" @click="close"></text>
 				</view>
 				<scroll-view class="noticeBox2" scroll-y="ture">
 					<view class="tv_title">
@@ -308,6 +308,7 @@
 					uni.request({
 						url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
 						method: $Sbjg.SbjgInterface.GetBySettingAID.method,
+						header:$Sbjg.SbjgInterface.GetBySettingAID.header,
 						data: {
 							AID : that.parameter.AID,
 						},
@@ -317,7 +318,7 @@
 							uni.hideLoading()
 						}
 					})
-				},3000)
+				},15000)
 			},
 			//--------------------开头标题--------------------------
 			titleData: function() {
@@ -347,6 +348,7 @@
 							uni.request({
 								url: $Sbjg.SbjgInterface.GetCommndAdd.Url,
 								method: $Sbjg.SbjgInterface.GetCommndAdd.method,
+								header:$Sbjg.SbjgInterface.GetCommndAdd.header,
 								data: {
 									SettingAID : this.parameter.AID,
 									Msg : '关机',
@@ -396,6 +398,7 @@
 							uni.request({
 								url: $Sbjg.SbjgInterface.GetCommndAdd.Url,
 								method: $Sbjg.SbjgInterface.GetCommndAdd.method,
+								header:$Sbjg.SbjgInterface.GetCommndAdd.header,
 								data: {
 									SettingAID : this.parameter.AID,
 									Msg : '重启',
@@ -725,6 +728,7 @@
 		background: #FFFFFF;
 		display: flex;
 		float: left;
+		width: 23%;
 		padding: 36upx 78upx;
 		margin-top: 24upx;
 		margin-left: 32upx;
@@ -838,9 +842,14 @@
 	
 	.ol_equipmentStatus{
 		position: absolute;
-		width:128upx;
+		width:120upx;
 		text-align: center;
+		/* #ifdef APP-PLUS */
+		top: 30upx;
+		/* #endif */
+		/* #ifdef MP-WEIXIN */
 		top: 50upx;
+		/* #endif */
 		left: 88upx;
 		
 		.es_text{
@@ -862,9 +871,14 @@
 	
 	.ol_networkStatus{
 		position: absolute;
-		width:128upx;
+		width:120upx;
 		text-align: center;
+		/* #ifdef APP-PLUS */
+		top: 250upx;
+		/* #endif */
+		/* #ifdef MP-WEIXIN */
 		top: 230upx;
+		/* #endif */
 		left: 88upx;
 		
 		.ns_text{
