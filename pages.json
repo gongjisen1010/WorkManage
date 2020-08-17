@@ -4,17 +4,27 @@
 		//     "path" : "pages/GRZY/zy_commuterCard",
 		//     "style" : {}
 		// },
+		
+		{	//个人中心
+			"path": "pages/GRZX/personalCenter",
+			"style": {
+				"navigationStyle": "custom"
+			}	
+		}
     ],
 	"subPackages": [
 		//---------------------------------------------第1个包：个人中心------------------------------------------
 		{
 			"root": "pages_GRZX/",
 			"pages": [
-				//----------------------------------用户首页--------------------------------------------
-				// {
-				// 	"path": "pages/JCYY/theDay",
-				// 	"style": {}
-				// }
+				{
+					"path": "pages/feedback",
+					"style": {}
+				},
+				{
+					"path": "pages/set",
+					"style": {}
+				}
 			]
 		},
 		//---------------------------------------------第2个包：设备监管------------------------------------------
@@ -38,25 +48,28 @@
 	},
 	
 	"tabBar": {
-		"color": "#333333",
-		"selectedColor": "#ff9012",
+		"color": "#666666",
+		"selectedColor": "#666666",
 		"backgroundColor": "#FFFFFF",
 		"borderStyle": "black",
-		//#ifdef APP-PLUS
-		"fontSize": "16px",
-		//#endif
 		"list": [
 			{
-				"pagePath": "",
-				"text": "首页"
+				"pagePath": "pages/GRZX/personalCenter",
+				"text": "首页",
+				"iconPath":"static/HOME/home.png",
+				"selectedIconPath":"static/HOME/home_selector.png"
 			},
 			// {
 			// 	"pagePath": "",
-			// 	"text": "商城"
+			// 	"text": "商城",
+			//	"iconPath":"static/HOME/shop.png",
+			//	"selectedIconPath":"static/HOME/shop_selector.png"
 			// },
 			{
-				"pagePath": "",
-				"text": "我的"
+				"pagePath": "pages/GRZX/personalCenter",
+				"text": "我的",
+				"iconPath":"static/HOME/personalCenter.png",
+				"selectedIconPath":"static/HOME/personalCenter_selector.png"
 			}
 		]
 	}

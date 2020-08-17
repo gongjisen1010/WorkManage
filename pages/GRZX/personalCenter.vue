@@ -1,0 +1,329 @@
+<template>
+	<view>
+		<view class="topBox">
+			<!-- 背景图 -->
+			<image src="../../static/GRZX/backImg.png" class="backClass"></image>
+			<!-- 头像 -->
+			<view class="portraitBox">
+				<image :src="portrait" class="portraitClass"></image>
+			</view>
+			<!-- 公司名称 -->
+			<text class="nameClass">{{userName}}</text>
+			<!-- 企业车站数 -->
+			<view class="stationBox commonBox">
+				<text class="numClass">{{stationNum}}<text class="fs">个</text></text>
+				<text class="fontClass">企业车站数</text>
+			</view>
+			<!-- 企业设备数 -->
+			<view class="equipmentBox commonBox">
+				<text class="numClass">{{equipmentNum}}<text class="fs">台</text></text>
+				<text class="fontClass">企业设备数</text>
+			</view>
+			<!-- 分隔线 -->
+			<view class="lineClass"></view>
+		</view>
+		
+		<!-- 企业车辆，企业设备，智慧中心 -->
+		<view class="centerBox">
+			<view v-for="(item,index) in modularList" :key="index" class="modularClass" @click="operation(item.title)" hover-class="btnClass">
+				<image :src="item.icon" :class="item.style"></image>
+				<text class="titleClass">{{item.title}}</text>
+			</view>
+		</view>
+		
+		<!-- 联系客服，设置，帮助与反馈 -->
+		<view class="bottomBox">
+			<view v-for="(item,index) in functionList" :key="index" class="functionClass" @click="operation(item.title)" hover-class="btnClass">
+				<image :src="item.icon" :class="item.style"></image>
+				<text class="titleClass">{{item.title}}</text>
+				<image src="../../static/GRZX/icon-right.png" :class="item.rightClass"></image>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default{
+		data(){
+			return{
+				userName:'今点通', //公司名称
+				portrait:'../../static/GRZX/icon-jdt.png', //头像
+				stationNum:5,//企业车站数
+				equipmentNum:2530,//企业设备数
+				
+				modularList:[{  //企业车辆，企业设备，智慧中心功能
+					title:'企业车辆',
+					style:'carClass',
+					icon:'../../static/GRZX/icon-car.png',
+					IsUse:true,
+				},
+				{
+					title:'企业设备',
+					style:'equipmentClass',
+					icon:'../../static/GRZX/icon-equipment.png',
+					IsUse:true,
+				},
+				{
+					title:'智慧中心',
+					style:'smartClass',
+					icon:'../../static/GRZX/icon-smart.png',
+					IsUse:true,
+				}],
+				
+				functionList:[{ //联系客服，设置，帮助与反馈功能
+					title:'联系客服',
+					style:'serviceClass',
+					icon:'../../static/GRZX/icon-service.png',
+					IsUse:true,
+					rightClass:'rightClass ml1',
+				},
+				{
+					title:'设置',
+					style:'setClass',
+					icon:'../../static/GRZX/icon-set.png',
+					IsUse:true,
+					rightClass:'rightClass ml2',
+				},
+				{
+					title:'帮助与反馈',
+					style:'helpClass',
+					icon:'../../static/GRZX/icon-help.png',
+					IsUse:true,
+					rightClass:'rightClass ml3',
+				}]
+			}
+		},
+		methods:{
+			//----------------------------操作-------------------------------
+			operation(title){
+				switch (title){
+					case '企业车辆':
+						uni.showToast({
+							title:'暂未开放',
+							icon:'none'
+						})
+						break;
+					case '企业设备':
+						uni.showToast({
+							title:'暂未开放',
+							icon:'none'
+						})
+						break;
+					case '智慧中心':
+						uni.showToast({
+							title:'暂未开放',
+							icon:'none'
+						})
+						break;
+					case '联系客服':
+						uni.makePhoneCall({
+							phoneNumber: '15260779766', //仅为示例
+						});
+						break;
+					case '设置':
+						break;
+					case '帮助与反馈':
+						break;
+					default:
+						return '';
+				}
+			},
+		}
+	}
+</script>
+
+<style lang="scss">
+	page{
+		background-color: #FFFFFF;
+	}
+	
+	.topBox{
+		width: 90%;
+		position: relative;
+		top:150upx;
+		left: 5%;
+		
+		//背景图
+		.backClass{ 
+			width: 100%;
+			height: 320upx;
+		}
+		
+		//头像外框
+		.portraitBox{ 
+			width: 110upx;
+			height: 110upx;
+			border-radius: 50%;
+			background-color: #FFFFFF;
+			position: absolute;
+			left: 7%;
+			top: 25upx;
+			box-shadow:0px 6px 6px 0px rgba(4,0,0,0.09);
+		}
+		
+		//头像
+		.portraitClass{	
+			width: 60upx;
+			height: 55upx;
+			position: absolute;
+			left: 25%;
+			top: 28upx;
+		}
+		
+		//公司名称
+		.nameClass{
+			position: absolute;
+			left: 26.5%;
+			top: 52upx;
+			font-size: 38upx;
+			font-weight:500;
+			color:#333333;
+		}
+		
+		//------------------------------开始------------------------------
+		//企业车站数，企业设备数
+		.commonBox{
+			width: 50%;
+			position: absolute;
+			top: 185upx;
+			display: flex;
+			flex-direction: column;
+			color: #333333;
+			text-align: center;
+		}
+		.stationBox{
+			left: 0%;
+		}
+		.equipmentBox{
+			left: 50%;
+		}
+		.fs{
+			font-size: 28upx;
+			margin-left: 8upx;
+		}
+		.numClass{
+			font-size:36upx;
+			font-weight:400;
+			margin-bottom: 15upx;
+		}  
+		.fontClass{
+			font-size:26upx;
+			font-weight:300;
+		}
+		//------------------------------结束------------------------------
+		
+		//分割线
+		.lineClass{
+			border-left: 1upx solid #696969;
+			height: 80upx;
+			position: absolute;
+			top: 195upx;
+			left: 50%;
+		}
+	}
+	
+	.centerBox{
+		width: 90%;
+		margin-top: 155upx;
+		margin-left: 5%;
+		display: flex;
+		flex-direction: row;
+		
+		//每个模块--企业车辆，企业设备，智慧中心 
+		.modularClass{
+			width: 33%;
+			display: flex;
+			flex-direction: column;
+			border-radius: 10upx;
+		}
+		
+		//图标
+		.carClass{
+			width: 60upx;
+			height: 55upx;
+			padding: 25upx 82upx 15upx 82upx;
+		}
+		.equipmentClass{
+			width: 54upx;
+			height: 54upx;
+			padding: 25upx 82upx 15upx 90upx;
+		}
+		.smartClass{
+			width: 58upx;
+			height: 55upx;
+			padding: 25upx 82upx 15upx 82upx;
+		}
+		
+		//文字
+		.titleClass{
+			text-align: center;
+			font-size:28upx;
+			font-weight:300;
+			color:#333333;
+			padding-bottom: 10upx;
+		}
+	}
+	
+	.bottomBox{
+		width: 90%;
+		margin-top: 30upx;
+		margin-left: 5%;
+		display: flex;
+		flex-direction: column;
+		//每个功能---联系客服，设置，帮助与反馈
+		.functionClass{
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+			border-bottom: 1upx solid #E7E7E7;
+			border-radius: 10upx;
+		}
+		
+		//联系客服
+		.serviceClass{
+			width: 41upx;
+			height: 41upx;
+			padding: 45upx 20upx;
+		}
+		//设置
+		.setClass{
+			width: 40upx;
+			height: 39upx;
+			padding: 46upx 20upx;
+		}
+		//帮助与反馈
+		.helpClass{
+			width: 41upx;
+			height: 37upx;
+			padding: 47upx 20upx;
+		}
+		//文字
+		.titleClass{
+			font-size:34upx;
+			font-weight:300;
+			color:#333333;
+			padding-top: 40upx;
+		}
+		.rightClass{
+			width: 30upx;
+			height: 30upx;
+			margin-top: 48upx;
+		}
+		.ml1{
+			margin-left: 60%;
+		}
+		.ml2{
+			margin-left: 70%;
+		}
+		.ml3{
+			margin-left: 55%;
+		}
+	}
+	
+	//按钮点击的效果
+	.btnClass{
+		transition: all .3s; /*过渡 */ 
+		opacity: 0.9;
+		background-color:#E4E7ED;
+	}
+</style>
