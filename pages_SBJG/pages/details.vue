@@ -162,71 +162,71 @@
 				</view>
 				<scroll-view class="noticeBox2" scroll-y="ture">
 					<view class="tv_title">
-						<view class="tl_sellTicket">
-							<text class="st_text">设备年限</text>
-							<text class="st_text2" v-if="parameter.Online==true">5</text>
-							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content">
+							<text class="ct_text">设备年限</text>
+							<text class="ct_text2" v-if="parameter.Online==true">5</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_sellTicket">
-							<text class="st_text">设备开机次数</text>
-							<text class="st_text2" v-if="parameter.Online==true">52</text>
-							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content">
+							<text class="ct_text">设备开机次数</text>
+							<text class="ct_text2" v-if="parameter.Online==true">52</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_sellTicket">
-							<text class="st_text">开机时间</text>
-							<text class="st_text2" v-if="parameter.Online==true">5分钟</text>
-							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content">
+							<text class="ct_text">开机时间</text>
+							<text class="ct_text2" v-if="parameter.Online==true">5分钟</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_sellTicket">
-							<text class="st_text">售票数量</text>
-							<text class="st_text2" v-if="parameter.Online==true">{{numberTickets}}</text>
-							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content">
+							<text class="ct_text">售票数量</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{numberTickets}}</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_sellTicket">
-							<text class="st_text">售票金额</text>
-							<text class="st_text2"></text>
-							<text class="st_text2" v-if="parameter.Online==true">{{numberTickets}}</text>
-							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content">
+							<text class="ct_text">售票金额</text>
+							<text class="ct_text2"></text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{numberTickets}}</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_abnormal">
-							<text class="st_text">异常次数</text>
-							<text class="st_text2" v-if="parameter.Online==true">{{abnormalTimes}}</text>
-							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content">
+							<text class="ct_text">异常次数</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{abnormalTimes}}</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_repair">
-							<text class="st_text">维修次数</text>
-							<text class="st_text2" v-if="parameter.Online==true">{{frequency}}</text>
-							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content">
+							<text class="ct_text">维修次数</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{frequency}}</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_runningState">
-							<text class="st_text">设备状态</text>
-							<text class="st_text2" v-if="parameter.Online==true">在线</text>
-							<text class="st_text3" v-if="parameter.Online==false">离线</text>
+						<view class="tl_content">
+							<text class="ct_text">设备状态</text>
+							<text class="ct_text2" style="color: #3CB96B;" v-if="parameter.Online==true">在线</text>
+							<text class="ct_text2" style="color: #FF6969;" v-if="parameter.Online==false">离线</text>
 						</view>
-						<view class="tl_networkStatus">
-							<text class="st_text">网络状态</text>
-							<text class="st_text2" v-if="parameter.Online==true">正常</text>
-							<text class="st_text3" v-if="parameter.Online==false">异常</text>
+						<view class="tl_content">
+							<text class="ct_text">网络状态</text>
+							<text class="ct_text2" style="color: #3CB96B;" v-if="parameter.Online==true">正常</text>
+							<text class="ct_text2" style="color: #FF6969;" v-if="parameter.Online==false">异常</text>
 						</view>
-						<view class="tl_CPUusage">
-							<text class="st_text">CPU占用率</text>
-							<text class="st_text2" v-if="parameter.Online==true">{{cpu}}</text>
-							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content">
+							<text class="ct_text">CPU占用率</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{cpu}}</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_memoryUsage">
-							<text class="st_text">内存占用率</text>
-							<text class="st_text2" v-if="parameter.Online==true">{{memory}}</text>
-							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content">
+							<text class="ct_text">内存占用率</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{memory}}</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_runFunction">
-							<text class="st_text">当前运行程序</text>
-							<text class="st_text2" v-if="parameter.Online==true">{{runFunction}}</text>
-							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content">
+							<text class="ct_text">当前运行程序</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{runFunction}}</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_runTime">
-							<text class="st_text">程序运行时间</text>
-							<text class="st_text2" v-if="parameter.Online==true">{{time}}时</text>
-							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content">
+							<text class="ct_text">程序运行时间</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{time}}时</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 					</view>
 				</scroll-view>
@@ -649,198 +649,21 @@
 			.tv_title {
 				display: block;
 				width: 100%;
-				padding-top: 80upx;
+				margin-bottom: 220upx;
 				
 				//售票次数
-				.tl_sellTicket{
+				.tl_content{
 					position: relative;
+					padding-top: 60upx;
 					width: 100%;
 					
-					.st_text{
+					.ct_text{
 						left: 0;
 						font-size: 32upx;
 						padding-left: 20upx;
 					}
 					
-					.st_text2{
-						position: absolute;
-						right: 0;
-						font-size: 32upx;
-						padding-right: 20upx;
-					}
-				}
-				
-				//异常次数
-				.tl_abnormal{
-					position: relative;
-					width: 100%;
-					padding-top: 70upx;
-					
-					.st_text{
-						left: 0;
-						font-size: 32upx;
-						padding-left: 20upx;
-					}
-					
-					.st_text2{
-						position: absolute;
-						right: 0;
-						font-size: 32upx;
-						padding-right: 20upx;
-					}
-				}
-				
-				//维修次数
-				.tl_repair{
-					position: relative;
-					width: 100%;
-					padding-top: 70upx;
-					
-					.st_text{
-						left: 0;
-						font-size: 32upx;
-						padding-left: 20upx;
-					}
-					
-					.st_text2{
-						position: absolute;
-						right: 0;
-						font-size: 32upx;
-						padding-right: 20upx;
-					}
-				}
-				
-				//运行状态
-				.tl_runningState{
-					position: relative;
-					width: 100%;
-					padding-top: 70upx;
-					
-					.st_text{
-						left: 0;
-						font-size: 32upx;
-						padding-left: 20upx;
-					}
-					
-					.st_text2{
-						position: absolute;
-						right: 0;
-						color: #3CB96B;
-						font-size: 32upx;
-						padding-right: 20upx;
-					}
-					
-					.st_text3{
-						position: absolute;
-						right: 0;
-						color: #FF6969;
-						font-size: 32upx;
-						padding-right: 20upx;
-					}
-				}
-				
-				//网络状态
-				.tl_networkStatus{
-					position: relative;
-					width: 100%;
-					padding-top: 70upx;
-					
-					.st_text{
-						left: 0;
-						font-size: 32upx;
-						padding-left: 20upx;
-					}
-					
-					.st_text2{
-						position: absolute;
-						right: 0;
-						color: #3CB96B;
-						font-size: 32upx;
-						padding-right: 20upx;
-					}
-					
-					.st_text3{
-						position: absolute;
-						right: 0;
-						color: #FF6969;
-						font-size: 32upx;
-						padding-right: 20upx;
-					}
-				}
-				
-				//cpu占用率
-				.tl_CPUusage{
-					position: relative;
-					width: 100%;
-					padding-top: 70upx;
-					
-					.st_text{
-						left: 0;
-						font-size: 32upx;
-						padding-left: 20upx;
-					}
-					
-					.st_text2{
-						position: absolute;
-						right: 0;
-						font-size: 32upx;
-						padding-right: 20upx;
-					}
-				}
-				
-				//内存占用率
-				.tl_memoryUsage{
-					position: relative;
-					width: 100%;
-					padding-top: 70upx;
-					
-					.st_text{
-						left: 0;
-						font-size: 32upx;
-						padding-left: 20upx;
-					}
-					
-					.st_text2{
-						position: absolute;
-						right: 0;
-						font-size: 32upx;
-						padding-right: 20upx;
-					}
-				}
-				
-				//当前运行程序
-				.tl_runFunction{
-					position: relative;
-					width: 100%;
-					padding-top: 70upx;
-					
-					.st_text{
-						left: 0;
-						font-size: 32upx;
-						padding-left: 20upx;
-					}
-					
-					.st_text2{
-						position: absolute;
-						right: 0;
-						font-size: 32upx;
-						padding-right: 20upx;
-					}
-				}
-				
-				//程序运行时间
-				.tl_runTime{
-					position: relative;
-					width: 100%;
-					padding-top: 70upx;
-					
-					.st_text{
-						left: 0;
-						font-size: 32upx;
-						padding-left: 20upx;
-					}
-					
-					.st_text2{
+					.ct_text2{
 						position: absolute;
 						right: 0;
 						font-size: 32upx;
