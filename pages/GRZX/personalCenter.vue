@@ -5,7 +5,8 @@
 			<image src="../../static/GRZX/backImg.png" class="backClass"></image>
 			<!-- 头像 -->
 			<view class="portraitBox">
-				<image :src="portrait" class="portraitClass"></image>
+				<image :src="portrait" v-if="!login" class="portraitClass1"></image>
+				<image :src="portrait" v-if="login" class="portraitClass2"></image>
 			</view>
 			<!-- 公司名称 -->
 			<text class="nameClass">{{userName}}</text>
@@ -46,10 +47,11 @@
 	export default{
 		data(){
 			return{
-				userName:'今点通', //公司名称
+				userName:'', //公司名称
 				portrait:'../../static/GRZX/icon-jdt.png', //头像
 				stationNum:5,//企业车站数
 				equipmentNum:2530,//企业设备数
+				login:false,
 				
 				modularList:[{  //企业车辆，企业设备，智慧中心功能
 					title:'企业车辆',
@@ -93,12 +95,32 @@
 				}]
 			}
 		},
-		onShow() {
+		onLoad() {
 			//#ifdef H5
-				// this.getCode();
+				this.getCode();
 			//#endif
 		},
+		onShow() {
+			this.loadData();
+		},
 		methods:{
+			//----------------------------加载用户信息-------------------------------
+			loadData(){
+				uni.getStorage({
+					key:'userInfo',
+					success:res=> {
+						this.login=true;
+						this.portrait=res.data.portrait;
+						this.userName=res.data.nickname;
+					},
+					fail:err=> {
+						this.login=false;
+						this.portrait="../../static/GRZX/icon-jdt.png";
+						this.userName="立即登录";
+					}
+				})
+			},
+			
 			//----------------------------操作-------------------------------
 			operation(title){
 				switch (title){
@@ -169,20 +191,19 @@
 						success(res) {
 							console.log(res, "res")
 							uni.setStorageSync('wxuserInfo', res.data)
-							console.log(openid, "openid")
-							if (openid != "" && openid != null && openid != undefined) {
+							if (res.data.openid != "" && res.data.openid != null && res.data.openid != undefined) {
 								uni.request({
-									url: that.$GrzxInter.Interface.GetUserInfoByOpenId_wx.value,
+									url: that.$GrzxInter.Interface.GetUserInfoByOpenId_xcx.value,
 									data: {
-										openid: openid,
+										openid:res.data.openid,
 										systemname:that.$GrzxInter.systemConfig.appName,//应用名称
 										openidtype:that.$GrzxInter.systemConfig.openidtype,//应用类型
 									},
-									method: that.$GrzxInter.Interface.GetUserInfoByOpenId_wx.method,
+									method: that.$GrzxInter.Interface.GetUserInfoByOpenId_xcx.method,
 									success(res1) {
 										console.log(res1, 'res1')
 										//判断是否有绑定手机号
-										if (res1.data.msg == "获取用户信息失败,不存在该openID用户信息") {
+										if (res1.data.msg == "获取用户信息失败,不存在该openID用户信息"||res1.data.msg == "获取用户信息失败,请输入Openid") {
 											uni.showModal({
 												content: '您暂未绑定手机号，是否绑定',
 												confirmText: '去绑定',
@@ -200,7 +221,7 @@
 													}
 												}
 											})
-										}else if (openid != "" && res1.data.status) {
+										}else if (res.data.openid != "" && res1.data.status) {
 											uni.setStorageSync('userInfo', res1.data.data)
 										}
 									}
@@ -270,12 +291,17 @@
 		}
 		
 		//头像
-		.portraitClass{	
+		.portraitClass1{	
 			width: 60upx;
 			height: 55upx;
 			position: absolute;
 			left: 25%;
 			top: 28upx;
+		}
+		.portraitClass2{
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
 		}
 		
 		//公司名称

@@ -38,7 +38,7 @@ const appConfig={  //AppId,AppSecret配置
 		H5AppSecret:'3c1d7f83dde3ce7c5dc4ca9a6a7d141c',
 	},
 	local:{
-		url:'http://zntc.145u.net/h5_sbjg/#/',
+		url:'http://zntc.145u.net/h5_sbjg/#/pages/GRZX/personalCenter',
 		name:'公众号请求地址',
 	},
 }

@@ -2,6 +2,13 @@ import $oSit from '@/common/overallSituation.js';
 
 const Url=$oSit.Interface.address.Url;
 
+const systemConfig={
+	appName:$oSit.Interface.system.appName,	
+	applyName:$oSit.Interface.system.applyName,		//应用名称
+	openidtype:$oSit.Interface.system.openidtype,	//应用类型：app，小程序，公众号
+}
+
+
 const appConfig={
 	H5Config:{
 		name:'公众号的Appid和App秘钥',
@@ -57,10 +64,16 @@ const Interface={
 		method:'POST',
 		pages: [],
 	 },
-	 
+	 GetUserInfoByOpenId_wx:{
+	 	value:Url+'/api/person/GetUserInfoByOpenId_wx',
+	 	name:'通过微信的openid获取用户信息',
+	 	method:'POST',
+	 	pages: [],
+	 },
 }
 
 export default {
 	Interface,
-	appConfig
+	appConfig,
+	systemConfig,
 }
