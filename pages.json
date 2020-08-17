@@ -1,20 +1,63 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-            "path" : "pages/index/JKSBhomePage",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/index/details",
-            "style" : {}
-        }
+	"pages": [
+		// {
+		//     "path" : "pages/GRZY/zy_commuterCard",
+		//     "style" : {}
+		// },
     ],
+	"subPackages": [
+		//---------------------------------------------第1个包：个人中心------------------------------------------
+		{
+			"root": "pages_GRZX/",
+			"pages": [
+				//----------------------------------用户首页--------------------------------------------
+				// {
+				// 	"path": "pages/JCYY/theDay",
+				// 	"style": {}
+				// }
+			]
+		},
+		//---------------------------------------------第2个包：设备监管------------------------------------------
+		{
+			"root": "pages_SBJG/",
+			"pages": [
+				//----------------------------------详情页--------------------------------------------
+				// {
+				// 	"path": "pages/JCYY/theDay",
+				// 	"style": {}
+				// }
+			]
+		}
+	],
+	
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	
+	"tabBar": {
+		"color": "#333333",
+		"selectedColor": "#ff9012",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "black",
+		//#ifdef APP-PLUS
+		"fontSize": "16px",
+		//#endif
+		"list": [
+			{
+				"pagePath": "",
+				"text": "首页"
+			},
+			// {
+			// 	"pagePath": "",
+			// 	"text": "商城"
+			// },
+			{
+				"pagePath": "",
+				"text": "我的"
+			}
+		]
 	}
 }
