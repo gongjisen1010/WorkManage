@@ -11,6 +11,7 @@ const Interface = {
 			// Url : 'https://zntc.145u.net:9099',
 			Url : 'https://zntc.145u.net:9099', //综合出行
 		// #endif
+		Url2:'http://sbjg.ipin8.com',//设备监管
 	},
 	
 	system:{

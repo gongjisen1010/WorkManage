@@ -5,6 +5,13 @@
 		//     "style" : {}
 		// },
 		
+		{
+		    "path" : "pages/HOME/JKSBhomePage",
+		    "style" : {
+				"navigationStyle": "custom"
+			}
+		},
+		
 		{	//个人中心
 			"path": "pages/GRZX/personalCenter",
 			"style": {
@@ -32,10 +39,10 @@
 			"root": "pages_SBJG/",
 			"pages": [
 				//----------------------------------详情页--------------------------------------------
-				// {
-				// 	"path": "pages/JCYY/theDay",
-				// 	"style": {}
-				// }
+				{
+					"path": "pages/details",
+					"style": {}
+				}
 			]
 		}
 	],
@@ -54,7 +61,7 @@
 		"borderStyle": "black",
 		"list": [
 			{
-				"pagePath": "pages/GRZX/personalCenter",
+				"pagePath": "pages/HOME/JKSBhomePage",
 				"text": "首页",
 				"iconPath":"static/HOME/home.png",
 				"selectedIconPath":"static/HOME/home_selector.png"
