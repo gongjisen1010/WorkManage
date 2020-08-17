@@ -126,19 +126,19 @@
 			<!-- 按钮 -->
 			<view>
 				<view class="ol_shutDown">
-					<image class="sd_icon" src="../static/guanji.png"></image>
+					<image class="sd_icon" style="width: 30upx;" src="../static/guanji.png" mode="aspectFit"></image>
 					<text class="sd_text">设备关机</text>
 				</view>
 				<view class="ol_shutDown">
-					<image class="sd_icon" src="../static/chongqi.png"></image>
+					<image class="sd_icon" style="width: 36upx;" src="../static/chongqi.png" mode="aspectFit"></image>
 					<text class="sd_text">设备重启</text>
 				</view>
 				<view class="ol_shutDown">
-					<image class="sd_icon" src="../static/zijian.png"></image>
+					<image class="sd_icon" style="width: 30upx;" src="../static/zijian.png" mode="aspectFit"></image>
 					<text class="sd_text">设备自检</text>
 				</view>
 				<view class="ol_shutDown">
-					<image class="sd_icon" src="../static/ziling.png"></image>
+					<image class="sd_icon" style="width: 36upx;" src="../static/ziling.png" mode="aspectFit"></image>
 					<text class="sd_text">下达指令</text>
 				</view>
 				<view class="ol_register">
@@ -534,17 +534,17 @@
 		background: #FFFFFF;
 		display: flex;
 		float: left;
-		padding: 36upx 74upx;
+		padding: 36upx 78upx;
 		margin-top: 24upx;
 		margin-left: 32upx;
 		border-radius: 24upx;
 		.sd_icon{
-			width: 36upx;
+			// width: 36upx;
 			height: 36upx;
 		}
 		
 		.sd_text{
-			font-size: 32upx;
+			font-size: 30upx;
 			font-weight: bold;
 			line-height: 38upx;
 			padding-left: 16upx;
@@ -553,6 +553,7 @@
 	
 	//保修登记
 	.ol_register{
+		font-size: 30upx;
 		float: left;
 		border-radius: 24upx;
 		background: #FFFFFF; 
