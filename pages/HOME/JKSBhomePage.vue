@@ -50,7 +50,7 @@
 				<scroll-view class="noticeBox2" scroll-y="ture">
 					<view class="tv_title" v-if="popUpModule==0" v-for="(item,index) in standAlone" :key="index">
 						<!-- <view class="tt_txt">{{item.txt}}</view> -->
-						<view class="tt_equipmentContent" @click="Jump">
+						<view class="tt_equipmentContent" @click="Jump(item)">
 							<view class="ec_image">
 								<image class="ec_image2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
 							</view>
@@ -68,7 +68,7 @@
 					
 					<view class="tv_title" v-if="popUpModule==1" v-for="(item,index) in ticketChecking" :key="index">
 						<!-- <view class="tt_txt">{{item.txt}}</view> -->
-						<view class="tt_equipmentContent" @click="Jump">
+						<view class="tt_equipmentContent" @click="Jump(item)">
 							<view class="ec_image">
 								<image class="ec_image2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
 							</view>
@@ -86,7 +86,7 @@
 					
 					<view class="tv_title" v-if="popUpModule==2" v-for="(item,index) in ticketMachine" :key="index">
 						<!-- <view class="tt_txt">{{item.txt}}</view> -->
-						<view class="tt_equipmentContent" @click="Jump">
+						<view class="tt_equipmentContent" @click="Jump(item)">
 							<view class="ec_image">
 								<image class="ec_image2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
 							</view>
@@ -272,10 +272,23 @@
 			},
 
 			//-------------------------------跳转---------------------------------
-			Jump() {
-				uni.navigateTo({
-					url: '../../pages_SBJG/pages/details'
+			Jump(item) {
+				uni.setStorage({
+					key:'equipmentParameters',
+					data:item,
+					success:function(){
+						uni.navigateTo({
+							url: '../../pages_SBJG/pages/details'
+						})
+					},
+					fail:function(){
+						uni.showToast({
+							title:'获取设备参数异常，请关闭弹框重新点击',
+							icon:'none'
+						})
+					}
 				})
+				
 			},
 
 			//-----------------tab事件---------------------------------------

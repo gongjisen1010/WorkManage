@@ -8,24 +8,25 @@
 			
 			<view class="ol_equipmentStatus">
 				<text class="es_text">设备状态</text>
-				<text class="es_text2" v-if="equipmentStatus==0">硬件正常</text>
-				<text class="es_text3" v-if="equipmentStatus==1">硬件异常</text>
-				<text class="es_text2" v-if="equipmentStatus==0">软件正常</text>
-				<text class="es_text3" v-if="equipmentStatus==1">软件异常</text>
-				<text class="es_text2" v-if="equipmentStatus==0">网络正常</text>
-				<text class="es_text3" v-if="equipmentStatus==1">网络异常</text>
+				<text class="es_text2" v-if="parameter.Online==true">硬件在线</text>
+				<text class="es_text3" v-if="parameter.Online==false">硬件离线</text>
+				<text class="es_text2" v-if="parameter.Online==true">软件正常</text>
+				<text class="es_text3" v-if="parameter.Online==false">软件异常</text>
+				<text class="es_text2" v-if="parameter.Online==true">网络正常</text>
+				<text class="es_text3" v-if="parameter.Online==false">网络异常</text>
 			</view>
 			
 			<view class="ol_networkStatus">
 				<text class="ns_text">设备状态</text>
-				<text class="ns_text2" v-if="networkStatus==0">外网正常</text>
-				<text class="ns_text3" v-if="networkStatus==1">外网异常</text>
-				<text class="ns_text2" v-if="networkStatus==0">内网正常</text>
-				<text class="ns_text3" v-if="networkStatus==1">内网异常</text>
+				<text class="ns_text2" v-if="parameter.Online==true">外网正常</text>
+				<text class="ns_text3" v-if="parameter.Online==false">外网异常</text>
+				<text class="ns_text2" v-if="parameter.Online==true">内网正常</text>
+				<text class="ns_text3" v-if="parameter.Online==false">内网异常</text>
 			</view>
 			
 			<view class="ol_ticketSalesAmount">
-				<text class="tsa_text">{{sellTicket}}/{{money}}</text>
+				<text class="tsa_text" v-if="parameter.Online==true">{{sellTicket}}/{{money}}</text>
+				<text class="tsa_text" v-if="parameter.Online==false">---/---</text>
 				<view style="display: flex;">
 					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFill"></image>
 					<text class="tsa_text2">售票数/金额</text>
@@ -33,15 +34,17 @@
 			</view>
 			
 			<view class="ol_cpuConsumption">
-				<text class="cc_text">{{cpu}}</text>
+				<text class="cc_text" v-if="parameter.Online==true">78%</text>
+				<text class="cc_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
 					<image class="cc_icon" src="../static/cpu.png" mode="aspectFill"></image>
-					<text class="cc_text2">CPU占用率</text>
+					<text class="cc_text2">CPU利用率</text>
 				</view>
 			</view>
 			
 			<view class="ol_cpuTemperature">
-				<text class="ct_text">{{cpu}}</text>
+				<text class="ct_text" v-if="parameter.Online==true">56°C</text>
+				<text class="ct_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
 					<image class="ct_icon" src="../static/wendu.png" mode="aspectFill"></image>
 					<text class="ct_text2">CPU温度</text>
@@ -140,11 +143,11 @@
 				</view>
 				<view class="ol_shutDown">
 					<image class="sd_icon" style="width: 36upx;" src="../static/ziling.png" mode="aspectFit"></image>
-					<text class="sd_text">下达指令</text>
+					<text class="sd_text">保修登记</text>
 				</view>
-				<view class="ol_register">
+<!-- 				<view class="ol_register">
 					<text>保修登记</text>
-				</view>
+					</view> -->
 			</view>
 			
 			
@@ -160,42 +163,70 @@
 				<scroll-view class="noticeBox2" scroll-y="ture">
 					<view class="tv_title">
 						<view class="tl_sellTicket">
+							<text class="st_text">设备年限</text>
+							<text class="st_text2" v-if="parameter.Online==true">5</text>
+							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						</view>
+						<view class="tl_sellTicket">
+							<text class="st_text">设备开机次数</text>
+							<text class="st_text2" v-if="parameter.Online==true">52</text>
+							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						</view>
+						<view class="tl_sellTicket">
+							<text class="st_text">开机时间</text>
+							<text class="st_text2" v-if="parameter.Online==true">5分钟</text>
+							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						</view>
+						<view class="tl_sellTicket">
 							<text class="st_text">售票数量</text>
-							<text class="st_text2">{{numberTickets}}</text>
+							<text class="st_text2" v-if="parameter.Online==true">{{numberTickets}}</text>
+							<text class="st_text2" v-if="parameter.Online==false">--</text>
+						</view>
+						<view class="tl_sellTicket">
+							<text class="st_text">售票金额</text>
+							<text class="st_text2"></text>
+							<text class="st_text2" v-if="parameter.Online==true">{{numberTickets}}</text>
+							<text class="st_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_abnormal">
 							<text class="st_text">异常次数</text>
-							<text class="st_text2">{{abnormalTimes}}</text>
+							<text class="st_text2" v-if="parameter.Online==true">{{abnormalTimes}}</text>
+							<text class="st_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_repair">
 							<text class="st_text">维修次数</text>
-							<text class="st_text2">{{frequency}}</text>
+							<text class="st_text2" v-if="parameter.Online==true">{{frequency}}</text>
+							<text class="st_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_runningState">
-							<text class="st_text">运行状态</text>
-							<text class="st_text2" v-if="state==0">在线</text>
-							<text class="st_text3" v-if="state==1">不在线</text>
+							<text class="st_text">设备状态</text>
+							<text class="st_text2" v-if="parameter.Online==true">在线</text>
+							<text class="st_text3" v-if="parameter.Online==false">离线</text>
 						</view>
 						<view class="tl_networkStatus">
 							<text class="st_text">网络状态</text>
-							<text class="st_text2" v-if="networkStatus==0">正常</text>
-							<text class="st_text3" v-if="networkStatus==1">异常</text>
+							<text class="st_text2" v-if="parameter.Online==true">正常</text>
+							<text class="st_text3" v-if="parameter.Online==false">异常</text>
 						</view>
 						<view class="tl_CPUusage">
 							<text class="st_text">CPU占用率</text>
-							<text class="st_text2">{{cpu}}</text>
+							<text class="st_text2" v-if="parameter.Online==true">{{cpu}}</text>
+							<text class="st_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_memoryUsage">
 							<text class="st_text">内存占用率</text>
-							<text class="st_text2">{{memory}}</text>
+							<text class="st_text2" v-if="parameter.Online==true">{{memory}}</text>
+							<text class="st_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_runFunction">
 							<text class="st_text">当前运行程序</text>
-							<text class="st_text2">{{runFunction}}</text>
+							<text class="st_text2" v-if="parameter.Online==true">{{runFunction}}</text>
+							<text class="st_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_runTime">
 							<text class="st_text">程序运行时间</text>
-							<text class="st_text2">{{time}}时</text>
+							<text class="st_text2" v-if="parameter.Online==true">{{time}}时</text>
+							<text class="st_text2" v-if="parameter.Online==false">--</text>
 						</view>
 					</view>
 				</scroll-view>
@@ -221,7 +252,15 @@
 				lineData: {
 					//带百分比的图--折线图数据
 					categories: ['0时', '1时', '2时', '3时', '4时', '5时','6时','7时','8时','9时','10时','11时','12时','13时','14时','15时','16时','17时','18时','19时','20时','21时','22时','23时'],
-					series: [{ name: 'CPU', data: [0.7, 0.4, 0.65, 0.1, 0.44, 0.98] }, { name: '内存占用量', data: [0.1, 0.8, 0.95, 0.15, 0.112, 0.132] }]
+					series: [{ 
+						name: 'CPU利用率', 
+						data: [0.7, 0.4, 0.65, 0.1, 0.44, 0.98],
+					}, 
+					{ 
+						name: '内存占用量', 
+						data: [0.1, 0.8, 0.95, 0.15, 0.112, 0.132] ,
+					},
+					]
 				},
 				lineData2: {
 					//数字的图--折线图数据
@@ -239,16 +278,25 @@
 				state:0,
 				runFunction:"联网售票系统",
 				time:240,
+				
+				parameter:'',
 			}
 		},
-		onLoad() {
-			this.titleData();
+		onLoad:function() {
+			this.RequestDeviceParameters();
 		},
 		methods: {
+			RequestDeviceParameters:function(){
+				var data = uni.getStorageSync('equipmentParameters')
+				console.log(data)
+				this.parameter = data;
+				console.log(this.parameter)
+				this.titleData();
+			},
 			//--------------------开头标题--------------------------
 			titleData: function() {
 				uni.setNavigationBarTitle({
-					title: this.title
+					title: this.parameter.WorkNumber
 				})
 			},
 			
