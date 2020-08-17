@@ -25,7 +25,7 @@
 			</view>
 			
 			<view class="ol_ticketSalesAmount">
-				<text class="tsa_text" v-if="parameter.Online==true">{{sellTicket}}/{{money}}</text>
+				<text class="tsa_text" v-if="parameter.Online==true">{{emptyTicketReset(sellTicketData.Score1)}}/{{emptyTicketReset(sellTicketData.Score2)}}</text>
 				<text class="tsa_text" v-if="parameter.Online==false">---/---</text>
 				<view style="display: flex;">
 					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFill"></image>
@@ -141,13 +141,11 @@
 					<image class="sd_icon" style="width: 30upx;" src="../static/zijian.png" mode="aspectFit"></image>
 					<text class="sd_text">设备自检</text>
 				</view>
-				<view class="ol_shutDown" @click="notYetOpen">
+				<view class="ol_shutDown" style="margin-bottom: 32upx;" @click="notYetOpen">
 					<image class="sd_icon" style="width: 36upx;" src="../static/ziling.png" mode="aspectFit"></image>
 					<text class="sd_text">保修登记</text>
 				</view>
-<!-- 				<view class="ol_register">
-					<text>保修登记</text>
-					</view> -->
+				<!-- <view class="ol_register"></view> -->
 			</view>
 			
 			
@@ -179,13 +177,13 @@
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">售票数量</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{numberTickets}}</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{sellTicketData.Score1}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">售票金额</text>
 							<text class="ct_text2"></text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{numberTickets}}</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{sellTicketData.Score2}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
@@ -279,11 +277,16 @@
 				runFunction:"联网售票系统",
 				time:240,
 				
-				parameter:'',
+				parameter:'', //设备数据
+				sellTicketData : '', //售票数据
+				timer : '',//定时器参数
 			}
 		},
 		onLoad:function() {
 			this.RequestDeviceParameters();
+		},
+		onUnload:function(){
+			clearInterval(this.timer)
 		},
 		methods: {
 			RequestDeviceParameters:function(){
@@ -292,6 +295,29 @@
 				this.parameter = data;
 				console.log(this.parameter)
 				this.titleData();
+				this.getDeviceData();
+			},
+			//获取设备参数
+			getDeviceData:function(){
+				var that = this;
+				this.timer = setInterval(function(){
+					uni.showLoading({
+						title:'刷新设备数据中...',
+					})
+					// console.log('请求一次')
+					uni.request({
+						url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
+						method: $Sbjg.SbjgInterface.GetBySettingAID.method,
+						data: {
+							AID : that.parameter.AID,
+						},
+						success: (res) => {
+							console.log(res)
+							that.sellTicketData = res.data
+							uni.hideLoading()
+						}
+					})
+				},3000)
 			},
 			//--------------------开头标题--------------------------
 			titleData: function() {
@@ -319,8 +345,8 @@
 								title:'正在请求关机'
 							})
 							uni.request({
-								url: $Sbjg.SbjgInterface.giveOrders.Url,
-								method: $Sbjg.SbjgInterface.giveOrders.method,
+								url: $Sbjg.SbjgInterface.GetCommndAdd.Url,
+								method: $Sbjg.SbjgInterface.GetCommndAdd.method,
 								data: {
 									SettingAID : this.parameter.AID,
 									Msg : '关机',
@@ -368,8 +394,8 @@
 								title:'正在请求重启'
 							})
 							uni.request({
-								url: $Sbjg.SbjgInterface.giveOrders.Url,
-								method: $Sbjg.SbjgInterface.giveOrders.method,
+								url: $Sbjg.SbjgInterface.GetCommndAdd.Url,
+								method: $Sbjg.SbjgInterface.GetCommndAdd.method,
 								data: {
 									SettingAID : this.parameter.AID,
 									Msg : '重启',
@@ -414,6 +440,14 @@
 				})
 			},
 			
+			//售票参数重置
+			emptyTicketReset:function(e){
+				if(e==undefined){
+					return '---'
+				}else{
+					return e
+				}
+			},
 			
 			getServerData() {
 				setTimeout(() => {
@@ -713,7 +747,6 @@
 		font-size: 30upx;
 		float: left;
 		border-radius: 24upx;
-		background: #FFFFFF; 
 		margin: 24upx 32upx;
 		padding: 32upx 279upx;
 		font-weight:bold;
