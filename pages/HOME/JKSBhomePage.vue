@@ -364,7 +364,7 @@
 
 				.tsnrText {
 					display: flex;
-					font-size: 32upx;
+					font-size: 36upx;
 					font-weight: bold;
 				}
 
