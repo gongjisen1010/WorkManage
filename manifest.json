@@ -80,6 +80,9 @@
         "enable" : false
     },
     "h5" : {
-        "title" : "智慧龙洲"
+        "title" : "智慧龙洲",
+        "router" : {
+            "base" : "/h5_sbjg/"
+        }
     }
 }
