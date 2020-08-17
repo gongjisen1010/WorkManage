@@ -4,11 +4,11 @@
 		<image :src="bindPhoneImg" class="backClass"></image>
 		<text class="titleClass">手机绑定</text>
 		<view class="inputItem phoneNum">
-			<image src="../../static/GRZX/shouji.png" class="iconClass1"></image>
+			<!-- <image src="../../static/GRZX/shouji.png" class="iconClass1"></image> -->
 			<input type="number" placeholder="手机号码" maxlength="11" class="inputClass" data-key="phoneNumber" @input="inputChange1" />
 		</view>
 		<view class="inputItem Captcha">
-			<image src="../../static/GRZX/yanzhengma.png" class="iconClass2"></image>
+			<!-- <image src="../../static/GRZX/yanzhengma.png" class="iconClass2"></image> -->
 			<input type="number" placeholder="输入验证码" maxlength="4" class="inputClass" data-key="captchaCode" @input="inputChange2" />
 			<view class="getCode style" @click="getCodeClick" id="Code">{{textCode}}</view>
 		</view>
