@@ -25,7 +25,7 @@
 			</view>
 			
 			<view class="ol_ticketSalesAmount">
-				<text class="tsa_text" v-if="parameter.Online==true">{{sellTicket}}/{{money}}</text>
+				<text class="tsa_text" v-if="parameter.Online==true">{{emptyTicketReset(sellTicketData.Score1)}}/{{emptyTicketReset(sellTicketData.Score2)}}</text>
 				<text class="tsa_text" v-if="parameter.Online==false">---/---</text>
 				<view style="display: flex;">
 					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFill"></image>
@@ -129,25 +129,23 @@
 			
 			<!-- 按钮 -->
 			<view>
-				<view class="ol_shutDown" hover-class="ol_hover">
+				<view class="ol_shutDown" hover-class="ol_hover"  @click="equipmentShutDown">
 					<image class="sd_icon" style="width: 30upx;" src="../static/guanji.png" mode="aspectFit"></image>
 					<text class="sd_text">设备关机</text>
 				</view>
-				<view class="ol_shutDown" hover-class="ol_hover">
+				<view class="ol_shutDown" hover-class="ol_hover" @click="equipmentRestart">
 					<image class="sd_icon" style="width: 36upx;" src="../static/chongqi.png" mode="aspectFit"></image>
 					<text class="sd_text">设备重启</text>
 				</view>
-				<view class="ol_shutDown" hover-class="ol_hover">
+				<view class="ol_shutDown" hover-class="ol_hover" @click="notYetOpen">
 					<image class="sd_icon" style="width: 30upx;" src="../static/zijian.png" mode="aspectFit"></image>
 					<text class="sd_text">设备自检</text>
 				</view>
-				<view class="ol_shutDown" hover-class="ol_hover">
+				<view class="ol_shutDown" hover-class="ol_hover" style="margin-bottom: 32upx;" @click="notYetOpen">
 					<image class="sd_icon" style="width: 36upx;" src="../static/dengji.png" mode="aspectFit"></image>
 					<text class="sd_text">保修登记</text>
 				</view>
-<!-- 				<view class="ol_register">
-					<text>保修登记</text>
-					</view> -->
+				<!-- <view class="ol_register"></view> -->
 			</view>
 			
 			
@@ -179,13 +177,13 @@
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">售票数量</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{numberTickets}}</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{sellTicketData.Score1}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">售票金额</text>
 							<text class="ct_text2"></text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{numberTickets}}</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{sellTicketData.Score2}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
@@ -238,6 +236,7 @@
 <script>
 	import LineChart from '@/components/stan-ucharts/LineChart.vue';
 	import popup from "@/components/uni-popup/uni-popup.vue";
+	import $Sbjg from "@/common/sbjg.js"
 	export default {
 		components: {
 			LineChart,
@@ -259,8 +258,7 @@
 					{ 
 						name: '内存占用量', 
 						data: [0.1, 0.8, 0.95, 0.15, 0.112, 0.132] ,
-					},
-					]
+					}]
 				},
 				lineData2: {
 					//数字的图--折线图数据
@@ -279,11 +277,16 @@
 				runFunction:"联网售票系统",
 				time:240,
 				
-				parameter:'',
+				parameter:'', //设备数据
+				sellTicketData : '', //售票数据
+				timer : '',//定时器参数
 			}
 		},
 		onLoad:function() {
 			this.RequestDeviceParameters();
+		},
+		onUnload:function(){
+			clearInterval(this.timer)
 		},
 		methods: {
 			RequestDeviceParameters:function(){
@@ -292,6 +295,29 @@
 				this.parameter = data;
 				console.log(this.parameter)
 				this.titleData();
+				this.getDeviceData();
+			},
+			//获取设备参数
+			getDeviceData:function(){
+				var that = this;
+				this.timer = setInterval(function(){
+					uni.showLoading({
+						title:'刷新设备数据中...',
+					})
+					// console.log('请求一次')
+					uni.request({
+						url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
+						method: $Sbjg.SbjgInterface.GetBySettingAID.method,
+						data: {
+							AID : that.parameter.AID,
+						},
+						success: (res) => {
+							console.log(res)
+							that.sellTicketData = res.data
+							uni.hideLoading()
+						}
+					})
+				},3000)
 			},
 			//--------------------开头标题--------------------------
 			titleData: function() {
@@ -307,6 +333,121 @@
 			close() {
 				this.$refs.popup.close()
 			},
+			// --------------------------------------设备关机------------------
+			equipmentShutDown:function(){
+				uni.showModal({
+					title:'您确认要把设备关机吗？',
+					success: (res) => {
+						console.log(res)
+						if(res.confirm == true){
+							console.log(this.parameter.AID)
+							uni.showLoading({
+								title:'正在请求关机'
+							})
+							uni.request({
+								url: $Sbjg.SbjgInterface.GetCommndAdd.Url,
+								method: $Sbjg.SbjgInterface.GetCommndAdd.method,
+								data: {
+									SettingAID : this.parameter.AID,
+									Msg : '关机',
+								},
+								success: (res) => {
+									console.log(res)
+									if(res.data == '指令发送成功'){
+										uni.hideLoading()
+										uni.showToast({
+											title:'关机成功',
+											icon:'success'
+										})
+									}else{
+										uni.hideLoading()
+										uni.showToast({
+											title:'关机失败，请重试',
+											icon:'success'
+										})
+									}
+									
+								},
+								fail: () => {
+									uni.hideLoading()
+									uni.showToast({
+										title:'服务器异常，请重试',
+										icon:'success'
+									})
+								}
+							})
+						}else{
+							
+						}
+					}
+				})
+			},
+			// --------------------------------------设备重启------------------
+			equipmentRestart:function(){
+				uni.showModal({
+					title:'您确认要把设备关机吗？',
+					success: (res) => {
+						console.log(res)
+						if(res.confirm == true){
+							console.log(this.parameter.AID)
+							uni.showLoading({
+								title:'正在请求重启'
+							})
+							uni.request({
+								url: $Sbjg.SbjgInterface.GetCommndAdd.Url,
+								method: $Sbjg.SbjgInterface.GetCommndAdd.method,
+								data: {
+									SettingAID : this.parameter.AID,
+									Msg : '重启',
+								},
+								success: (res) => {
+									console.log(res)
+									if(res.data == '指令发送成功'){
+										uni.hideLoading()
+										uni.showToast({
+											title:'重启成功',
+											icon:'success'
+										})
+									}else{
+										uni.hideLoading()
+										uni.showToast({
+											title:'重启失败，请重试',
+											icon:'success'
+										})
+									}
+									
+								},
+								fail: () => {
+									uni.hideLoading()
+									uni.showToast({
+										title:'服务器异常，请重试',
+										icon:'success'
+									})
+								}
+							})
+						}else{
+							
+						}
+					}
+				})
+			},
+			
+			//------------------------暂未开放----------------------------
+			notYetOpen:function(){
+				uni.showToast({
+					title:'暂未开放',
+					icon:'none'
+				})
+			},
+			
+			//售票参数重置
+			emptyTicketReset:function(e){
+				if(e==undefined){
+					return '---'
+				}else{
+					return e
+				}
+			},
 			
 			getServerData() {
 				setTimeout(() => {
@@ -314,17 +455,18 @@
 					this.$refs['lineData1'].showCharts();
 				}, 1000);
 			}
-			
 		},
 		
 		created() {
-			this.$nextTick(() => {
-				//折线图
-				this.$refs['lineData2'].showCharts();
-			});
-			//ajax调用
-			this.getServerData();
-		}
+		   this.$nextTick(() => {
+		    //折线图
+		    this.$refs['lineData2'].showCharts();
+		   });
+		   //ajax调用
+		   this.getServerData();
+		  }
+	
+		
 	}
 </script>
 
@@ -587,7 +729,6 @@
 		margin-top: 24upx;
 		margin-left: 32upx;
 		border-radius: 24upx;
-		width: 23%;
 		.sd_icon{
 			// width: 36upx;
 			height: 36upx;
@@ -606,7 +747,6 @@
 		font-size: 30upx;
 		float: left;
 		border-radius: 24upx;
-		background: #FFFFFF; 
 		margin: 24upx 32upx;
 		padding: 32upx 279upx;
 		font-weight:bold;
@@ -823,11 +963,11 @@
 	}
 	
 	//设备详情页面点击状态
-	.ol_hover{
-		transition: all .3s;//过度
-		border-radius: 24upx;
-		opacity: 0.1;
-		color: #FFFFFF;
-		background: #5694fb;
-	}
+	 .ol_hover{
+	  transition: all .3s;//过度
+	  border-radius: 24upx;
+	  opacity: 0.1;
+	  color: #FFFFFF;
+	  background: #5694fb;
+	 }
 </style>

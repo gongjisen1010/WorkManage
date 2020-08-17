@@ -27,6 +27,18 @@ const SbjgInterface = {
 		name:'获取所有的设备数据',
 		method:'POST',
 	},
+	//--------------------------------------设备关机/重启--------------------------------------
+	GetCommndAdd:{
+		Url: Url2 + '/Home/GetCommndAdd',
+		name:'设备关机/重启',
+		method:'POST',
+	},
+	//--------------------------------------获取设备参数--------------------------------------
+	GetBySettingAID:{
+		Url: Url2 + '/Home/GetBySettingAID',
+		name:'获取设备参数',
+		method:'POST',
+	},
 }
 // 接口声明区
 export default {
