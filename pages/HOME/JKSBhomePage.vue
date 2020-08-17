@@ -17,22 +17,22 @@
 				<!-- 设备类型 -->
 				<view class="hp_equipmentType">
 					<text class="et_text">设备类型</text>
-					<view class="et_typeContent" v-for="(item,index) in DeviceData" :key="index">
+					<view class="et_typeContent" v-for="(item,index) in DeviceData" :key="index" @tap="checkAttention(item.Type)">
 						<view>
 							<view class="tc_image">
-								<image class="tc_image2" v-if="item.Type=='售票机'" src="../../static/HOME/shoupiaoji.png" mode="aspectFill"></image>
-								<image class="tc_image2" v-if="item.Type=='检票机'" src="../../static/HOME/jianpiaoji.png" mode="aspectFill"></image>
-								<image class="tc_image2" v-if="item.Type=='凭单机'" src="../../static/HOME/pindanji.png" mode="aspectFill"></image>
+								<image class="tc_image2" v-if="item.Type=='2'" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
+								<image class="tc_image2" v-if="item.Type=='1'" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
+								<image class="tc_image2" v-if="item.Type=='0'" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
 							</view>
 						</view>
 
-						<view class="et_content">
-							<view class="ct_title">{{item.Type}}</view>
+						<view class="et_content"  >
+							<view class="ct_title">{{EquipmentName(item.Type)}}</view>
 							<view class="ct_content">
-								<text class="ct_number" v-if="item.Type=='售票机'">{{ticketMachine.length}}台</text>
-								<text class="ct_number" v-if="item.Type=='检票机'">{{ticketChecking.length}}台</text>
-								<text class="ct_number" v-if="item.Type=='凭单机'">{{standAlone.length}}台</text>
-								<text class="ct_text" @tap="checkAttention">查看设备></text>
+								<text class="ct_number" v-if="item.Type=='2'">{{ticketMachine.length}}台</text>
+								<text class="ct_number" v-if="item.Type=='1'">{{ticketChecking.length}}台</text>
+								<text class="ct_number" v-if="item.Type=='0'">{{standAlone.length}}台</text>
+								<text class="ct_text" >查看设备></text>
 							</view>
 						</view>
 					</view>
@@ -44,30 +44,68 @@
 		<popup ref="popup" type="bottom">
 			<view class="boxView2">
 				<view class="titleView2">
-					<text class="Nb_text3">今点通凭单机</text>
+					<text class="Nb_text3">{{EquipmentName(popUpModule)}}</text>
 					<text class="Nb_text4 jdticon icon-fork" @click="close"></text>
 				</view>
 				<scroll-view class="noticeBox2" scroll-y="ture">
-					<view class="tv_title" v-for="(item,index) in equipmentMachinery" :key="index">
-						<view class="tt_txt">{{item.txt}}</view>
-						<view class="tt_equipmentContent" v-for="(item2,index2) in item.equipment" :key="index2">
-							<view>
-								<view class="ec_image">
-									<image class="ec_image2" :src="item2.image" mode="aspectFill"></image>
-								</view>
+					<view class="tv_title" v-if="popUpModule==0" v-for="(item,index) in standAlone" :key="index">
+						<!-- <view class="tt_txt">{{item.txt}}</view> -->
+						<view class="tt_equipmentContent" @click="Jump">
+							<view class="ec_image">
+								<image class="ec_image2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
 							</view>
-
 							<view class="ec_content">
-								<view class="ct_title">{{item2.name}}</view>
+								<view class="ct_title">{{item.WorkNumber}} - {{item.Remark}}</view>
 								<view class="ct_content">
-									<text class="ct_number">{{item2.model}}</text>
-									<text class="ct_state" v-if="item2.state==0">在线</text>
-									<text class="ct_state2" v-if="item2.state==1">离线</text>
-									<text class="ct_text" @click="Jump">查看设备></text>
+									<text class="ct_number">{{item.BreakNum}}次异常</text>
+									<text class="ct_state" style="color: #3CB96B;" v-if="item.Online==true">在线</text>
+									<text class="ct_state" style="color: #FF4444;" v-if="item.Online==false">离线</text>
+									<text class="ct_text">查看设备></text>
 								</view>
 							</view>
 						</view>
 					</view>
+					
+					<view class="tv_title" v-if="popUpModule==1" v-for="(item,index) in ticketChecking" :key="index">
+						<!-- <view class="tt_txt">{{item.txt}}</view> -->
+						<view class="tt_equipmentContent" @click="Jump">
+							<view class="ec_image">
+								<image class="ec_image2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
+							</view>
+							<view class="ec_content">
+								<view class="ct_title">{{item.WorkNumber}} - {{item.Remark}}</view>
+								<view class="ct_content">
+									<text class="ct_number">{{item.BreakNum}}次异常</text>
+									<text class="ct_state" style="color: #3CB96B;" v-if="item.Online==true">在线</text>
+									<text class="ct_state" style="color: #FF4444;" v-if="item.Online==false">离线</text>
+									<text class="ct_text">查看设备></text>
+								</view>
+							</view>
+						</view>
+					</view>
+					
+					<view class="tv_title" v-if="popUpModule==2" v-for="(item,index) in ticketMachine" :key="index">
+						<!-- <view class="tt_txt">{{item.txt}}</view> -->
+						<view class="tt_equipmentContent" @click="Jump">
+							<view class="ec_image">
+								<image class="ec_image2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
+							</view>
+							<view class="ec_content">
+								<view class="ct_title">{{item.WorkNumber}} - {{item.Remark}}</view>
+								<view class="ct_content">
+									<text class="ct_number">{{item.BreakNum}}次异常</text>
+									<text class="ct_state" style="color: #3CB96B;" v-if="item.Online==true">在线</text>
+									<text class="ct_state" style="color: #FF4444;" v-if="item.Online==false">离线</text>
+									<text class="ct_text">查看设备></text>
+								</view>
+							</view>
+						</view>
+					</view>
+					
+					
+					
+					
+					
 				</scroll-view>
 
 				<!-- 顶部点击跳转栏 -->
@@ -157,6 +195,7 @@
 				ticketChecking: [],
 				standAlone: [],
 				state: 0,
+				popUpModule : '',
 			}
 		},
 		onLoad: function() {
@@ -197,13 +236,13 @@
 							return item.Type !== '';
 						})
 						this.ticketMachine = res.data.filter(item => {
-							return item.Type == '售票机';
+							return item.Type == '2';
 						})
 						this.ticketChecking = res.data.filter(item => {
-							return item.Type == '检票机';
+							return item.Type == '1';
 						})
 						this.standAlone = res.data.filter(item => {
-							return item.Type == '凭单机';
+							return item.Type == '0';
 						})
 						console.log('获取所有的设备数据', this.DeviceData)
 						console.log('售票机', this.ticketMachine)
@@ -223,7 +262,9 @@
 			},
 
 			//-------------------------------查看须知-----------------------------
-			checkAttention() {
+			checkAttention:function(e) {
+				this.popUpModule = '';
+				this.popUpModule = e;
 				this.$refs.popup.open()
 			},
 			close() {
@@ -240,13 +281,35 @@
 			//-----------------tab事件---------------------------------------
 			click:function(e){
 				if (e == 1) {
-					this.type = 1;
+					if(this.type ==e){
+						this.type = 0;
+					}else{
+						this.type = 1;
+					}
 				} else if (e == 2) {
-					this.type = 2;
+					if(this.type ==e){
+						this.type = 0;
+					}else{
+						this.type = 2;
+					}
 				} else if (e == 3) {
-					this.type = 3;
+					if(this.type ==e){
+						this.type = 0;
+					}else{
+						this.type = 3;
+					}
 				}
 			},
+			EquipmentName:function(e){
+				if(e==0){
+					return '凭单机'
+				}else if(e==1){
+					return '检票机'
+				}else if(e==2){
+					return '售票机'
+				}
+			},
+			
 		}
 	}
 </script>
@@ -349,7 +412,7 @@
 						.ct_number {
 							position: absolute;
 							bottom: 0;
-							font-size: 30upx;
+							font-size: 28upx;
 							color: #999999;
 							padding-bottom: 30upx;
 						}
@@ -360,7 +423,7 @@
 							right: 0;
 							margin: 30upx;
 							padding: 10upx 20upx;
-							font-size: 26upx;
+							font-size: 24upx;
 							color: #999999;
 							border: 1px solid rgba(153, 153, 153, 1);
 							border-radius: 50upx;
@@ -415,6 +478,7 @@
 
 				.tt_equipmentContent {
 					display: flex;
+					margin-top: 16upx;
 					border-bottom: 1px solid #E7E7E7;
 
 					.ec_image {
@@ -437,6 +501,10 @@
 							font-size: 32upx;
 							font-weight: bold;
 							padding-top: 20upx;
+							text-overflow: ellipsis; //文章超出宽度隐藏并用...表示
+							white-space: nowrap;
+							overflow: hidden;
+							width: 480upx;
 						}
 
 						.ct_content {
@@ -453,28 +521,19 @@
 							.ct_state {
 								position: absolute;
 								bottom: 0;
-								font-size: 30upx;
-								color: #3CB96B;
+								font-size: 28upx;
 								padding-bottom: 40upx;
-								padding-left: 120upx;
+								padding-left: 172upx;
 							}
 
-							.ct_state2 {
-								position: absolute;
-								bottom: 0;
-								font-size: 30upx;
-								color: #FF4444;
-								padding-bottom: 40upx;
-								padding-left: 120upx;
-							}
 
 							.ct_text {
 								position: absolute;
-								bottom: 0;
+								bottom: -14upx;
 								right: 0;
 								margin: 40upx 20upx;
-								padding: 10upx 20upx;
-								font-size: 26upx;
+								padding: 8upx 24upx;
+								font-size: 22upx;
 								color: #999999;
 								border: 1px solid rgba(153, 153, 153, 1);
 								border-radius: 50upx;
