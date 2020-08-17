@@ -93,6 +93,11 @@
 				}]
 			}
 		},
+		onShow() {
+			//#ifdef H5
+				this.getCode();
+			//#endif
+		},
 		methods:{
 			//----------------------------操作-------------------------------
 			operation(title){
@@ -121,13 +126,112 @@
 						});
 						break;
 					case '设置':
+						uni.navigateTo({
+							url:'../../pages_GRZX/pages/set',
+						})
 						break;
 					case '帮助与反馈':
+						uni.navigateTo({
+							url:'../../pages_GRZX/pages/feedback',
+						})
 						break;
 					default:
 						return '';
 				}
 			},
+			
+			// #ifdef  H5
+			//----------------------------获取openid开始----------------------------
+			getCode() {
+				let that = this;
+				let Appid = that.$GrzxInter.appConfig.H5Config.H5AppId; //H5AppId
+				let AppSecret = that.$GrzxInter.appConfig.H5Config.H5AppSecret; //H5AppSecre
+				let code = this.getUrlParam('code'); //是否存在code
+				console.log(code);
+				let local = that.$GrzxInter.appConfig.local.url;
+				if (code == null || code === "") {
+					//不存在就打开上面的地址进行授权
+					window.location.href =
+						"https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
+						Appid +
+						"&redirect_uri=" +
+						encodeURIComponent(local) +
+						"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+				} else {
+					// 存在则通过code传向后台调用接口返回微信的个人信息
+					uni.request({
+						url: that.$GrzxInter.Interface.getWxUserinfo.value + '?code=' + code +
+							'&Appid=' + Appid + '&Appsecret=' + AppSecret,
+						header: {
+							'content-type': 'application/x-www-form-urlencoded'
+						},
+						method: that.$GrzxInter.Interface.getWxUserinfo.method,
+						success(res) {
+							console.log(res, "res")
+							uni.setStorageSync('wxuserInfo', res.data)
+							console.log(openid, "openid")
+							if (openid != "" && openid != null && openid != undefined) {
+								uni.request({
+									url: that.$GrzxInter.Interface.GetUserInfoByOpenId_wx.value,
+									data: {
+										openid: openid,
+										systemname:that.$GrzxInter.systemConfig.appName,//应用名称
+										openidtype:that.$GrzxInter.systemConfig.openidtype,//应用类型
+									},
+									method: that.$GrzxInter.Interface.GetUserInfoByOpenId_wx.method,
+									success(res1) {
+										console.log(res1, 'res1')
+										//判断是否有绑定手机号
+										if (res1.data.msg == "获取用户信息失败,不存在该openID用户信息") {
+											uni.showModal({
+												content: '您暂未绑定手机号，是否绑定',
+												confirmText: '去绑定',
+												cancelText: '暂不绑定',
+												success(res1) {
+													if (res1.confirm) {
+														uni.navigateTo({
+															url: '/pages/GRZX/bindPhone'
+														})
+													} else if (res1.cancel) {
+														uni.showToast({
+															title: '未绑定手机号，将会影响部分功能的正常运行',
+															icon: 'none'
+														})
+													}
+												}
+											})
+										}else if (openid != "" && res1.data.status) {
+											uni.setStorageSync('userInfo', res1.data.data)
+										}
+									}
+								})
+							}
+						},
+						fail(err) {
+							console.log(err)
+							uni.showToast({
+								title: "获取openid失败",
+								icon: 'none'
+							})
+						}
+					})
+				}
+			},
+			//判断code信息是否存在
+			getUrlParam(name) {
+				var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+				let url = window.location.href.split('#')[0]
+				let search = url.split('?')[1]
+				if (search) {
+					var r = search.substr(0).match(reg)
+					if (r !== null) return unescape(r[2])
+					return null
+				} else {
+					return null
+				}
+			},
+			//----------------------------获取openid结束----------------------------
+			//#endif
 		}
 	}
 </script>

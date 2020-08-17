@@ -17,6 +17,12 @@
 			"style": {
 				"navigationStyle": "custom"
 			}	
+		},
+		{	//绑定手机号
+			"path": "pages/GRZX/bindPhone",
+			"style": {
+				"navigationStyle": "custom"
+			}	
 		}
     ],
 	"subPackages": [
