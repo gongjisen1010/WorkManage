@@ -13,6 +13,7 @@
 </script>
 
 <style>
+	@import url("@/common/overallSituation.css");
 	/*每个页面公共css */
 	@import url("@/common/overallSituation.css");
 	/* #ifndef APP-NVUE */

@@ -124,31 +124,29 @@
 			</view> -->
 			
 			<!-- 按钮 -->
-			<view style="display: flex;">
+			<view>
 				<view class="ol_shutDown">
 					<image class="sd_icon" src="../static/guanji.png"></image>
 					<text class="sd_text">设备关机</text>
 				</view>
-				<view class="ol_restart">
+				<view class="ol_shutDown">
 					<image class="sd_icon" src="../static/chongqi.png"></image>
 					<text class="sd_text">设备重启</text>
 				</view>
-			</view>
-			<view style="display: flex;">
-				<view class="ol_selfInspection">
+				<view class="ol_shutDown">
 					<image class="sd_icon" src="../static/zijian.png"></image>
 					<text class="sd_text">设备自检</text>
 				</view>
-				<view class="ol_instructions">
+				<view class="ol_shutDown">
 					<image class="sd_icon" src="../static/ziling.png"></image>
 					<text class="sd_text">下达指令</text>
 				</view>
+				<view class="ol_register">
+					<text>保修登记</text>
+				</view>
 			</view>
 			
-			<!-- 保修登记 -->
-			<view class="ol_register">
-				<text class="ri_text">保修登记</text>
-			</view>
+			
 		</view>
 		
 		<!-- 查看须知popup -->
@@ -534,17 +532,15 @@
 	//设备关机
 	.ol_shutDown{
 		background: #FFFFFF;
-		margin-top: 20upx;
-		margin-left: 30upx;
-		margin-right: 30upx;
 		display: flex;
-		padding: 44upx 76upx;
-		border-radius:20upx;
-		width: 25%;
-		
+		float: left;
+		padding: 36upx 74upx;
+		margin-top: 24upx;
+		margin-left: 32upx;
+		border-radius: 24upx;
 		.sd_icon{
-			width: 38upx;
-			height: 38upx;
+			width: 36upx;
+			height: 36upx;
 		}
 		
 		.sd_text{
@@ -555,87 +551,17 @@
 		}
 	}
 	
-	//设备重启
-	.ol_restart{
-		background: #FFFFFF;
-		margin-top: 20upx;
-		margin-right: 30upx;
-		display: flex;
-		padding: 44upx 76upx;
-		border-radius:20upx;
-		
-		.sd_icon{
-			width: 44upx;
-			height: 36upx;
-		}
-		
-		.sd_text{
-			font-size: 32upx;
-			font-weight: bold;
-			line-height: 38upx;
-			padding-left: 10upx; 
-		}
-	}
-	
-	//设备自检
-	.ol_selfInspection{
-		background: #FFFFFF;
-		margin-top: 20upx;
-		margin-right: 30upx;
-		display: flex;
-		padding: 44upx 76upx;
-		border-radius:20upx;
-		margin-left: 30upx;
-		width: 25%;
-		
-		.sd_icon{
-			width: 36upx;
-			height: 36upx;
-		}
-		
-		.sd_text{
-			font-size: 32upx;
-			font-weight: bold;
-			line-height: 38upx;
-			padding-left: 16upx; 
-		}
-	}
-	
-	//下达指令
-	.ol_instructions{
-		background: #FFFFFF;
-		margin-top: 20upx;
-		margin-right: 30upx;
-		display: flex;
-		padding: 44upx 76upx;
-		border-radius:20upx;
-		
-		.sd_icon{
-			width: 44upx;
-			height: 36upx;
-		}
-		
-		.sd_text{
-			font-size: 32upx;
-			font-weight: bold;
-			line-height: 38upx;
-			padding-left: 10upx; 
-		}
-	}
-	
+	//保修登记
 	.ol_register{
-		position: relative;
-		text-align: center;
-		background: #FFFFFF;
-		border-radius:20upx;
-		margin: 20upx 30upx;
-		padding: 38upx;
-		
-		.ri_text{
-			font-size: 36upx;
-			font-weight: bold;
-		}
+		float: left;
+		border-radius: 24upx;
+		background: #FFFFFF; 
+		margin: 24upx 32upx;
+		padding: 32upx 279upx;
+		font-weight:bold;
+		margin-bottom: 64rpx;
 	}
+
 	
 	//途径点弹框
 	.boxView2 {
@@ -644,6 +570,7 @@
 		padding-bottom: 40upx;
 		background: #FFFFFF;
 		z-index: 999;
+		height: 800upx;
 	
 		.titleView2 {
 			margin-top: 24upx;
@@ -897,10 +824,10 @@
 	
 	.ol_equipmentStatus{
 		position: absolute;
-		width:118upx;
+		width:128upx;
 		text-align: center;
 		top: 50upx;
-		left: 100upx;
+		left: 88upx;
 		
 		.es_text{
 			font-size:30upx;
@@ -921,10 +848,10 @@
 	
 	.ol_networkStatus{
 		position: absolute;
-		width:118upx;
+		width:128upx;
 		text-align: center;
 		top: 230upx;
-		left: 100upx;
+		left: 88upx;
 		
 		.ns_text{
 			font-size:30upx;
@@ -949,7 +876,7 @@
 		width:180upx;
 		text-align: center;
 		top: 50upx;
-		right: 70upx;
+		right: 64upx;
 		
 		.tsa_text{
 			font-size:30upx;
@@ -974,8 +901,8 @@
 		position: absolute;
 		width:180upx;
 		text-align: center;
-		top: 150upx;
-		right: 70upx;
+		top: 160upx;
+		right: 56upx;
 		
 		.cc_text{
 			font-size:30upx;
@@ -1000,8 +927,8 @@
 		position: absolute;
 		width:180upx;
 		text-align: center;
-		top: 250upx;
-		right: 70upx;
+		top: 274upx;
+		right: 56upx;
 		
 		.c_text{
 			font-size:30upx;
