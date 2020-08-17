@@ -12,13 +12,13 @@
 			<text class="nameClass">{{userName}}</text>
 			<!-- 企业车站数 -->
 			<view class="stationBox commonBox">
-				<text class="numClass">{{equipmentNum}}<text class="fs">台</text></text>
-				<text class="fontClass">设备总台数</text>
+				<text class="numClass">{{typeNum}}<text class="fs">种</text></text>
+				<text class="fontClass">设备类型</text>
 			</view>
 			<!-- 企业设备数 -->
 			<view class="equipmentBox commonBox">
-				<text class="numClass">{{typeNum}}<text class="fs">种</text></text>
-				<text class="fontClass">设备分类数</text>
+				<text class="numClass">{{equipmentNum}}<text class="fs">台</text></text>
+				<text class="fontClass">设备总数</text>
 			</view>
 			<!-- 分隔线 -->
 			<view class="lineClass"></view>
