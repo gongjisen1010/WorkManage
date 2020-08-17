@@ -12,8 +12,6 @@
 				<text class="es_text3" v-if="parameter.Online==false">硬件离线</text>
 				<text class="es_text2" v-if="parameter.Online==true">软件正常</text>
 				<text class="es_text3" v-if="parameter.Online==false">软件异常</text>
-				<text class="es_text2" v-if="parameter.Online==true">网络正常</text>
-				<text class="es_text3" v-if="parameter.Online==false">网络异常</text>
 			</view>
 			
 			<view class="ol_networkStatus">
@@ -828,7 +826,13 @@
 	
 	.ol_seeMore{
 		text-align: center;
-		margin: 58upx 20upx 50upx 20upx;
+		/* #ifdef MP-WEIXIN */
+		margin: 64upx 20upx 56upx 20upx;
+		/* #endif */
+		/* #ifdef APP-PLUS */
+		margin: 72upx 20upx 48upx 20upx;
+		/* #endif */
+		
 		
 		.ct_text {
 			padding: 12upx 30upx;
@@ -848,7 +852,7 @@
 		top: 30upx;
 		/* #endif */
 		/* #ifdef MP-WEIXIN */
-		top: 50upx;
+		top: 60upx;
 		/* #endif */
 		left: 88upx;
 		
@@ -874,10 +878,10 @@
 		width:120upx;
 		text-align: center;
 		/* #ifdef APP-PLUS */
-		top: 250upx;
+		top: 210upx;
 		/* #endif */
 		/* #ifdef MP-WEIXIN */
-		top: 230upx;
+		top: 220upx;
 		/* #endif */
 		left: 88upx;
 		

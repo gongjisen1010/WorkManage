@@ -21,6 +21,14 @@ const SbjgInterface = {
 		method:'POST',
 		header: {'content-type': 'application/json'},
 	},
+	//--------------------------------------获取所有设备--------------------------------------
+	GetNumAll:{
+		Url: Url2 + '/Home/GetNumAll',
+		name:'获取所有设备',
+		method:'POST',
+		header: {'content-type': 'application/json'},
+	},
+	
 	
 	//--------------------------------------获取所有的设备数据--------------------------------------
 	GetSerialsByID:{

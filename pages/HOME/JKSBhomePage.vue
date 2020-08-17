@@ -8,34 +8,37 @@
 					<picker @change="godetail" :value="index" :range="selectBank" range-key="StationName">
 						<text class="tsnrText">{{selectBank[index].StationName}}</text>
 					</picker>
-					<text class="dn_text2">></text>
+					<text class="dn_text2" style="margin-top: 8upx;">></text>
 				</view>
 
 				<!-- 多少台设备 -->
-				<text class="hp_equipment">{{DeviceData.length}}台设备</text>
+				<text class="hp_equipment">{{equipment}}台设备</text>
 
 				<!-- 设备类型 -->
 				<view class="hp_equipmentType">
 					<text class="et_text">设备类型</text>
-					<view class="et_typeContent" v-for="(item,index) in DeviceData" :key="index" @tap="checkAttention(item.Type)">
+					
+					<!-- 凭单机 -->
+					<view class="et_typeContent" v-for="(item,index) in DeviceData" :key="index" @tap="checkAttention(item.name)">
 						<view>
 							<view class="tc_image">
-								<image class="tc_image2" v-if="item.Type=='2'" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
-								<image class="tc_image2" v-if="item.Type=='1'" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
-								<image class="tc_image2" v-if="item.Type=='0'" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
+								<image class="tc_image2" v-if="item.name=='售票机'" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
+								<image class="tc_image2" v-if="item.name=='检票机'" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
+								<image class="tc_image2" v-if="item.name=='凭单机'" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
 							</view>
 						</view>
 
 						<view class="et_content"  >
-							<view class="ct_title">{{EquipmentName(item.Type)}}</view>
+							<view class="ct_title">{{item.name}}</view>
 							<view class="ct_content">
-								<text class="ct_number" v-if="item.Type=='2'">{{ticketMachine.length}}台</text>
-								<text class="ct_number" v-if="item.Type=='1'">{{ticketChecking.length}}台</text>
-								<text class="ct_number" v-if="item.Type=='0'">{{standAlone.length}}台</text>
+								<text class="ct_number" v-if="item.name=='售票机'">{{item.num}}台</text>
+								<text class="ct_number" v-if="item.name=='检票机'">{{item.num}}台</text>
+								<text class="ct_number" v-if="item.name=='凭单机'">{{item.num}}台</text>
 								<text class="ct_text" >查看设备></text>
 							</view>
 						</view>
 					</view>
+					
 				</view>
 			</view>
 		</view>
@@ -48,11 +51,13 @@
 					<text class="Nb_text4 jdticon icon-fork" @click="close"></text>
 				</view>
 				<scroll-view class="noticeBox2" scroll-y="ture">
-					<view class="tv_title" v-if="popUpModule==0" v-for="(item,index) in standAlone" :key="index">
+					<view class="tv_title" v-for="(item,index) in standAlone" :key="index">
 						<!-- <view class="tt_txt">{{item.txt}}</view> -->
 						<view class="tt_equipmentContent" @click="Jump(item)">
 							<view class="ec_image">
-								<image class="ec_image2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
+								<image class="ec_image2" v-if="popUpModule == 2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
+								<image class="ec_image2" v-if="popUpModule == 1" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
+								<image class="ec_image2" v-if="popUpModule == 0" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
 							</view>
 							<view class="ec_content">
 								<view class="ct_title">{{item.WorkNumber}} - {{item.Remark}}</view>
@@ -65,46 +70,7 @@
 							</view>
 						</view>
 					</view>
-					
-					<view class="tv_title" v-if="popUpModule==1" v-for="(item,index) in ticketChecking" :key="index">
-						<!-- <view class="tt_txt">{{item.txt}}</view> -->
-						<view class="tt_equipmentContent" @click="Jump(item)">
-							<view class="ec_image">
-								<image class="ec_image2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
-							</view>
-							<view class="ec_content">
-								<view class="ct_title">{{item.WorkNumber}} - {{item.Remark}}</view>
-								<view class="ct_content">
-									<text class="ct_number">{{item.BreakNum}}次异常</text>
-									<text class="ct_state" style="color: #3CB96B;" v-if="item.Online==true">在线</text>
-									<text class="ct_state" style="color: #FF4444;" v-if="item.Online==false">离线</text>
-									<text class="ct_text">查看设备></text>
-								</view>
-							</view>
-						</view>
-					</view>
-					
-					<view class="tv_title" v-if="popUpModule==2" v-for="(item,index) in ticketMachine" :key="index">
-						<!-- <view class="tt_txt">{{item.txt}}</view> -->
-						<view class="tt_equipmentContent" @click="Jump(item)">
-							<view class="ec_image">
-								<image class="ec_image2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
-							</view>
-							<view class="ec_content">
-								<view class="ct_title">{{item.WorkNumber}} - {{item.Remark}}</view>
-								<view class="ct_content">
-									<text class="ct_number">{{item.BreakNum}}次异常</text>
-									<text class="ct_state" style="color: #3CB96B;" v-if="item.Online==true">在线</text>
-									<text class="ct_state" style="color: #FF4444;" v-if="item.Online==false">离线</text>
-									<text class="ct_text">查看设备></text>
-								</view>
-							</view>
-						</view>
-					</view>
-					
-					
-					
-					
+
 					
 				</scroll-view>
 
@@ -190,12 +156,11 @@
 				equipmentNumber: 122,
 				index: 0,
 				bankObject: '',
-				DeviceData: [],
-				ticketMachine: [],
-				ticketChecking: [],
-				standAlone: [],
+				DeviceData: [], //设备分类
+				standAlone: [], //设备列表
 				state: 0,
-				popUpModule : '',
+				popUpModule : '',//点击的设备编号
+				equipment : '',//设备总和
 			}
 		},
 		onLoad: function() {
@@ -210,6 +175,9 @@
 			//----------------------接口数据--------------------------------------
 			interfaceData: function() {
 				//获取所有的车站
+				uni.showLoading({
+					title:'获取车站信息中...'
+				})
 				uni.request({
 					url: $Sbjg.SbjgInterface.GetStarte.Url,
 					method: $Sbjg.SbjgInterface.GetStarte.method,
@@ -224,32 +192,43 @@
 				//获取所有的设备数据
 
 			},
+			
+			//获取设备分类
 			deviceData: function() {
+				uni.request({
+					url: $Sbjg.SbjgInterface.GetNumAll.Url,
+					method: $Sbjg.SbjgInterface.GetNumAll.method,
+					header:$Sbjg.SbjgInterface.GetNumAll.header,
+					data: {
+						CompanyName: this.bankObject,
+					},
+					success: (res) => {
+						console.log('获取所有的设备数据',res)
+						this.DeviceData =res.data;
+						uni.hideLoading()
+						this.totalEquipment();
+						
+					}
+				})
+			},
+			
+			//获取设备列表
+			getDeviceList: function() {
+				uni.showLoading({
+					title:'请求设备列表中...',
+				})
 				uni.request({
 					url: $Sbjg.SbjgInterface.GetSerialsByID.Url,
 					method: $Sbjg.SbjgInterface.GetSerialsByID.method,
 					header:$Sbjg.SbjgInterface.GetSerialsByID.header,
 					data: {
-						CompanyName: this.bankObject
+						CompanyName: this.bankObject,
+						type : this.popUpModule,
 					},
 					success: (res) => {
-						// console.log('获取所有的设备数据',res)
-						this.DeviceData = res.data.filter(item => {
-							return item.Type !== '';
-						})
-						this.ticketMachine = res.data.filter(item => {
-							return item.Type == '2';
-						})
-						this.ticketChecking = res.data.filter(item => {
-							return item.Type == '1';
-						})
-						this.standAlone = res.data.filter(item => {
-							return item.Type == '0';
-						})
-						console.log('获取所有的设备数据', this.DeviceData)
-						console.log('售票机', this.ticketMachine)
-						console.log('检票机', this.ticketChecking)
-						console.log('凭单机', this.standAlone)
+						console.log('获取所有的设备数据',res)
+						this.standAlone =res.data;
+						uni.hideLoading()
 					}
 				})
 			},
@@ -265,9 +244,23 @@
 
 			//-------------------------------查看须知-----------------------------
 			checkAttention:function(e) {
-				this.popUpModule = '';
-				this.popUpModule = e;
-				this.$refs.popup.open()
+				if(e == '凭单机'){
+					this.popUpModule = '';
+					this.popUpModule = 2;
+					this.getDeviceList();
+					this.$refs.popup.open()
+				}else if(e == '检票机'){
+					this.popUpModule = '';
+					this.popUpModule = 0;
+					this.getDeviceList();
+					this.$refs.popup.open()
+				}else if(e == '售票机'){
+					this.popUpModule = '';
+					this.popUpModule = 1;
+					this.getDeviceList();
+					this.$refs.popup.open()
+				}
+				
 			},
 			close() {
 				this.$refs.popup.close()
@@ -315,15 +308,28 @@
 					}
 				}
 			},
+			
+			//设备参数变更
 			EquipmentName:function(e){
-				if(e==0){
-					return '凭单机'
-				}else if(e==1){
-					return '检票机'
-				}else if(e==2){
-					return '售票机'
-				}
-			},
+			    if(e==0){
+			     return '检票机'
+			    }else if(e==1){
+			     return '售票机'
+			    }else if(e==2){
+			     return '凭单机'
+			    }
+			 },
+			 
+			 //设备总和
+			 totalEquipment:function(){
+				 var sum = 0;
+				 for(var i=0; i<this.DeviceData.length; i++){
+					 // console.log(this.DeviceData)
+					 sum += this.DeviceData[i].num
+					 console.log(sum)
+				 }
+				this.equipment = sum;
+			 }
 			
 		}
 	}
@@ -366,7 +372,7 @@
 
 				.tsnrText {
 					display: flex;
-					font-size: 36upx;
+					font-size: 40upx;
 					font-weight: bold;
 				}
 
