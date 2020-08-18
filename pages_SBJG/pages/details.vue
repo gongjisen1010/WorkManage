@@ -32,8 +32,8 @@
 			</view>
 			
 			<view class="ol_cpuConsumption">
-				<text class="cc_text" v-if="parameter.Online==true">78MB</text>
-				<text class="cc_text" v-if="parameter.Online==false">---</text>
+				<text class="cc_text" >{{freeMemory}}MB</text>
+				<!-- <text class="cc_text" v-if="parameter.Online==false">---</text> -->
 				<view style="display: flex;">
 					<image class="cc_icon"  src="../static/wendu.png" mode="aspectFit"></image>
 					<text class="cc_text2">可用内存</text>
@@ -41,8 +41,8 @@
 			</view>
 			
 			<view class="ol_cpuTemperature">
-				<text class="ct_text" v-if="parameter.Online==true">56°C</text>
-				<text class="ct_text" v-if="parameter.Online==false">---</text>
+				<text class="ct_text">{{shareConversion(cpuProportion)}}</text>
+				<!-- <text class="ct_text" v-if="parameter.Online==false">---</text> -->
 				<view style="display: flex;">
 					<image class="ct_icon" style="" src="../static/cpu.png" mode="aspectFit"></image>
 					<text class="ct_text2">CPU占用率</text>
@@ -140,7 +140,7 @@
 					<text class="sd_text">查看进程</text>
 				</view>
 				<view class="ol_shutDown" hover-class="ol_hover" style="margin-bottom: 56upx;" @click="notYetOpen">
-					<image class="sd_icon" style="width: 36upx;" src="../static/dengji.png" mode="aspectFit"></image>
+					<image class="sd_icon" style="width: 30upx;" src="../static/dengji.png" mode="aspectFit"></image>
 					<text class="sd_text">保修登记</text>
 				</view>
 				<!-- <view class="ol_register"></view> -->
@@ -267,14 +267,10 @@
 				money:2050,
 				lineData: {
 					//带百分比的图--折线图数据
-					categories: ['0时', '1时', '2时', '3时', '4时', '5时','6时','7时','8时','9时','10时','11时','12时','13时','14时','15时','16时','17时','18时','19时','20时','21时','22时','23时'],
+					categories: [],
 					series: [{ 
-						name: 'CPU利用率', 
-						data: [0.7, 0.4, 0.65, 0.1, 0.44, 0.98],
-					}, 
-					{ 
-						name: '内存占用量', 
-						data: [0.1, 0.8, 0.95, 0.15, 0.112, 0.132] ,
+						name: 'CPU占用率', 
+						data: [],
 					}]
 				},
 				lineData2: {
@@ -297,9 +293,11 @@
 				
 				parameter:'', //设备数据
 				sellTicketData : '', //售票数据
+				cpuMemory : '',//cpu占用率和剩余内存
 				timer : '',//定时器参数
 				ticketSum : '',//售票总数
 				moneySum : '',//金额总数
+				cpuProportion : '---',//CPU占比率				freeMemory : '---', //剩余内存
 			}
 		},
 		onLoad:function() {
@@ -322,9 +320,10 @@
 						AID : data.AID,
 					},
 					success: (res) => {
-						console.log(res)
+						console.log('设备参数',res)
 						this.parameter = res.data;
 						this.titleData();
+						//请求设备售出的票数接口
 						uni.request({
 							url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
 							method: $Sbjg.SbjgInterface.GetBySettingAID.method,
@@ -333,9 +332,8 @@
 								AID : that.parameter.AID,
 							},
 							success: (res) => {
-								console.log(res)
+								console.log('设备售票',res)
 								that.sellTicketData = res.data;
-								
 								//筛选数据，重组数组
 								if(res.data.length !== 0 ){
 									that.lineData2.categories = [];
@@ -366,7 +364,6 @@
 										});
 									}
 								}
-								
 								uni.hideLoading()
 							},
 							fail: () => {
@@ -376,6 +373,53 @@
 								})
 							}
 						})
+						//请求cpu占用率和剩余内存
+						uni.request({
+							url: $Sbjg.SbjgInterface.GetAllCpu.Url,
+							method: $Sbjg.SbjgInterface.GetAllCpu.method,
+							header:$Sbjg.SbjgInterface.GetAllCpu.header,
+							data: {
+								// AID : that.parameter.AID,
+								AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
+							},
+							success: (res) => {
+								console.log('cpu内存',res)
+								that.cpuMemory = res.data;
+								that.cpuProportion  = res.data[0].Score1;
+								that.freeMemory   = res.data[0].Score3;
+								//筛选数据，重组数组
+								if(res.data.length !== 0 ){
+									that.lineData.categories = [];
+									that.lineData.series[0].data = [];
+									that.ticketSum = 0 ;
+									that.moneySum = 0 ;
+									for(var i=0;i<res.data.length; i++){
+										//重组时段
+										var a = res.data[i].Time;
+										that.lineData.categories.push(a+'分')
+										// console.log(that.lineData2.categories) 
+										
+										//重组票数
+										var b = res.data[i].Score1.slice(0,4);
+										that.lineData.series[0].data.push(b);
+										// console.log(that.lineData2.series[0].data) 
+										
+										 //生成图形
+										 that.$nextTick(() => {
+										 	that.$refs['lineData1'].showCharts();
+										 });
+									}
+								}
+								uni.hideLoading()
+							},
+							fail: () => {
+								uni.showToast({
+									title:'服务器异常，请重试，重试后不行请联系客服',
+									icon:'none'
+								})
+							}
+						})
+						
 						this.getDeviceData(); //定时器刷新
 					},
 					fail: () => {
@@ -413,57 +457,102 @@
 							})
 						}
 					})
-					uni.request({
-						url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
-						method: $Sbjg.SbjgInterface.GetBySettingAID.method,
-						header:$Sbjg.SbjgInterface.GetBySettingAID.header,
-						data: {
-							AID : that.parameter.AID,
-						},
-						success: (res) => {
-							// console.log('设备售票数据',res)
-							that.sellTicketData = res.data
-							
-							//筛选数据，重组数组
-							if(res.data.length !== 0 ){
-								that.lineData2.categories = [];
-								that.lineData2.series[0].data = [];
-								that.ticketSum = 0 ;
-								that.moneySum = 0 ;
-								for(var i=0;i<res.data.length; i++){
-									//重组时段
-									var a = res.data[i].Time.slice(11);
-									that.lineData2.categories.push(a+'时')
-									// console.log(that.lineData2.categories) 
-									
-									//重组票数
-									var b = res.data[i].Score1;
-									that.lineData2.series[0].data.push(b);
-									// console.log(that.lineData2.series[0].data) 
-									
-									//累加票数
-									that.ticketSum += res.data[i].Score1;
-									// console.log('票数',that.ticketSum)
-									//累加金额
-									that.moneySum += res.data[i].Score2;
-									// console.log('金额',that.moneySum)
-							
-									 //生成图形
-									that.$nextTick(() => {
-										that.$refs['lineData2'].showCharts();
-									});
+					
+						//请求设备售出的票数接口
+						uni.request({
+							url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
+							method: $Sbjg.SbjgInterface.GetBySettingAID.method,
+							header:$Sbjg.SbjgInterface.GetBySettingAID.header,
+							data: {
+								AID : that.parameter.AID,
+							},
+							success: (res) => {
+								console.log('设备售票',res)
+								that.sellTicketData = res.data;
+								//筛选数据，重组数组
+								if(res.data.length !== 0 ){
+									that.lineData2.categories = [];
+									that.lineData2.series[0].data = [];
+									that.ticketSum = 0 ;
+									that.moneySum = 0 ;
+									for(var i=0;i<res.data.length; i++){
+										//重组时段
+										var a = res.data[i].Time.slice(11);
+										that.lineData2.categories.push(a+'时')
+										// console.log(that.lineData2.categories) 
+										
+										//重组票数
+										var b = res.data[i].Score1;
+										that.lineData2.series[0].data.push(b);
+										// console.log(that.lineData2.series[0].data) 
+										
+										//累加票数
+										that.ticketSum += res.data[i].Score1;
+										// console.log('票数',that.ticketSum)
+										//累加金额
+										that.moneySum += res.data[i].Score2;
+										// console.log('金额',that.moneySum)
+
+										 //生成图形
+										that.$nextTick(() => {
+											that.$refs['lineData2'].showCharts();
+										});
+									}
 								}
+								uni.hideLoading()
+							},
+							fail: () => {
+								uni.showToast({
+									title:'服务器异常，请重试，重试后不行请联系客服',
+									icon:'none'
+								})
 							}
-							
-							uni.hideLoading()
-						},
-						fail: () => {
-							uni.showToast({
-								title:'服务器异常，请重试，重试后不行请联系客服',
-								icon:'none'
-							})
-						}
-					})
+						})
+						//请求cpu占用率和剩余内存
+						uni.request({
+							url: $Sbjg.SbjgInterface.GetAllCpu.Url,
+							method: $Sbjg.SbjgInterface.GetAllCpu.method,
+							header:$Sbjg.SbjgInterface.GetAllCpu.header,
+							data: {
+								// AID : that.parameter.AID,
+								AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
+							},
+							success: (res) => {
+								console.log('cpu内存',res)
+								that.cpuMemory = res.data;
+								//筛选数据，重组数组
+								if(res.data.length !== 0 ){
+									that.lineData.categories = [];
+									that.lineData.series[0].data = [];
+									that.ticketSum = 0 ;
+									that.moneySum = 0 ;
+									for(var i=0;i<res.data.length; i++){
+										//重组时段
+										var a = res.data[i].Time;
+										that.lineData.categories.push(a+'分')
+										// console.log(that.lineData.categories) 
+										
+										//重组票数
+										var b = res.data[i].Score1.slice(0,4);
+										that.lineData.series[0].data.push(b);
+										// console.log(that.lineData.series[0].data) 
+										
+										 //生成图形
+										 that.$nextTick(() => {
+										 	that.$refs['lineData1'].showCharts();
+										 });
+									}
+								}
+								uni.hideLoading()
+							},
+							fail: () => {
+								uni.showToast({
+									title:'服务器异常，请重试，重试后不行请联系客服',
+									icon:'none'
+								})
+							}
+						})
+						
 				},15000)
 			},
 			//--------------------开头标题--------------------------
@@ -626,21 +715,13 @@
 				// #endif
 			},
 			
-			getServerData() {
-				setTimeout(() => {
-					//延迟模拟ajax嗲用后台数据
-					this.$refs['lineData1'].showCharts();
-				}, 1000);
+			//小数点转百分比 - CPU占比转换
+			shareConversion:function(e){
+				var str = Number(e*100).toFixed(1);
+				str+="%";
+				return str;
 			}
-		},
-		
-		created() {
-		   
-		   //ajax调用
-		   this.getServerData();
-		  }
-	
-		
+		}
 	}
 </script>
 
@@ -936,7 +1017,6 @@
 		padding-bottom: 40upx;
 		background: #FFFFFF;
 		z-index: 999;
-		height: 600upx;
 	
 		.titleView2 {
 			margin-top: 24upx;
@@ -960,7 +1040,7 @@
 	
 		.noticeBox2 {
 			line-height: 32upx;
-			height: 508upx;
+			height: 600upx;
 			margin-top: 8upx;
 	
 			.tv_title {
