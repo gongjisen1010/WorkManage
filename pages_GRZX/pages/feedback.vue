@@ -13,7 +13,7 @@
 			</view>
 		</view>
 		<view class="fb_view3">
-			<button class="fb_btn btn_background btn_fontColor" form-type="submit">提交</button>
+			<button class="fb_btn" form-type="submit">提交</button>
 		</view>
 		</form>
 	</view>
@@ -201,7 +201,7 @@
 			left: 3%;
 			.fb_btn{
 				border-radius:30px;
-				background: #FC4646;
+				background: #0055ff;
 				color: #FFFFFF;
 			}
 		}
