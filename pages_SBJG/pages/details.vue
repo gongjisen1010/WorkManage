@@ -35,7 +35,7 @@
 				</view>
 			</view>
 			
-			<view class="ol_ticketSalesAmount">
+			<view class="ol_ticketSalesAmount" v-if="parameter.Type == 3 || parameter.Type == 4 || parameter.Type == 5">
 				<text class="tsa_text" v-if="parameter.Online==true">1588次</text>
 				<text class="tsa_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
@@ -281,6 +281,7 @@
 					},
 					success: (res) => {
 						console.log('设备参数',res)
+						this.parameter = '';
 						this.parameter = res.data;
 						if(res.data.Type == 0 ){
 							this.lineData2.series[0].name = '检票数'
@@ -417,6 +418,7 @@
 						},
 						success: (res) => {
 							console.log('设备数据参数',res)
+							that.parameter = '';
 							that.parameter = res.data;
 							
 							if(res.data.Type == 0 ){
