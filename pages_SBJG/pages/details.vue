@@ -50,7 +50,7 @@
 			</view>
 			
 			<view class="ol_seeMore">
-				<text class="ct_text" @tap="checkAttention">查看更多></text>
+				<text class="ct_text" @click="checkAttention(1)">查看更多></text>
 			</view>
 			<!-- <view class="im_abnormal">
 				<image class="al_image" src="../../static/yicang.png" mode="aspectFill"></image>
@@ -135,9 +135,9 @@
 					<image class="sd_icon" style="width: 36upx;" src="../static/chongqi.png" mode="aspectFit"></image>
 					<text class="sd_text">设备重启</text>
 				</view>
-				<view class="ol_shutDown" hover-class="ol_hover" @click="notYetOpen">
+				<view class="ol_shutDown" hover-class="ol_hover" @click="checkAttention(2)">
 					<image class="sd_icon" style="width: 30upx;" src="../static/zijian.png" mode="aspectFit"></image>
-					<text class="sd_text">设备自检</text>
+					<text class="sd_text">查看进程</text>
 				</view>
 				<view class="ol_shutDown" hover-class="ol_hover" style="margin-bottom: 56upx;" @click="notYetOpen">
 					<image class="sd_icon" style="width: 36upx;" src="../static/dengji.png" mode="aspectFit"></image>
@@ -154,7 +154,7 @@
 			<view class="boxView2">
 				<view class="titleView2">
 					<text class="Nb_text3">设备位置</text>
-					<text class="Nb_text4 jdticon icon-fork" @click="close"></text>
+					<text class="Nb_text4 jdticon icon-fork" @click="close(1)"></text>
 				</view>
 				<scroll-view class="noticeBox2" scroll-y="ture">
 					<view class="tv_title">
@@ -222,6 +222,25 @@
 						<view class="tl_content">
 							<text class="ct_text">程序运行时间</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{time}}时</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+						</view>
+					</view>
+				</scroll-view>
+			</view>
+		</popup>
+		
+		<!-- 查看须知popup -->
+		<popup ref="popup2" type="bottom">
+			<view class="boxView2">
+				<view class="titleView2">
+					<text class="Nb_text3">设备位置</text>
+					<text class="Nb_text4 jdticon icon-fork" @click="close(2)"></text>
+				</view>
+				<scroll-view class="noticeBox2" scroll-y="ture">
+					<view class="tv_title">
+						<view class="tl_content">
+							<text class="ct_text">设备年限</text>
+							<text class="ct_text2" v-if="parameter.Online==true">5</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 					</view>
@@ -455,11 +474,19 @@
 			},
 			
 			//-------------------------------查看须知-----------------------------
-			checkAttention() {
-				this.$refs.popup.open()
+			checkAttention(e) {
+				if(e==1){
+					this.$refs.popup.open()
+				}else if(e==2){
+					this.$refs.popup2.open()
+				}
 			},
-			close() {
-				this.$refs.popup.close()
+			close(e) {
+				if(e==1){
+					this.$refs.popup.close()
+				}else if(e==2){
+					this.$refs.popup2.close()
+				}
 			},
 			// --------------------------------------设备关机------------------
 			equipmentShutDown:function(){
