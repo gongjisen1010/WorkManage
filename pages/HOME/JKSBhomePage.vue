@@ -22,6 +22,9 @@
 					<view class="et_typeContent" v-for="(item,index) in DeviceData" :key="index" @tap="checkAttention(item.name)">
 						<view>
 							<view class="tc_image">
+								<image class="tc_image2" v-if="item.name=='检票口班次信息屏'" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
+								<image class="tc_image2" v-if="item.name=='发车位显示屏'" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
+								<image class="tc_image2" v-if="item.name=='报班机'" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
 								<image class="tc_image2" v-if="item.name=='售票机'" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
 								<image class="tc_image2" v-if="item.name=='检票机'" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
 								<image class="tc_image2" v-if="item.name=='凭单机'" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
@@ -31,6 +34,9 @@
 						<view class="et_content"  >
 							<view class="ct_title">{{item.name}}</view>
 							<view class="ct_content">
+								<text class="ct_number" v-if="item.name=='检票口班次信息屏'">{{item.num}}台</text>
+								<text class="ct_number" v-if="item.name=='发车位显示屏'">{{item.num}}台</text>
+								<text class="ct_number" v-if="item.name=='报班机'">{{item.num}}台</text>
 								<text class="ct_number" v-if="item.name=='售票机'">{{item.num}}台</text>
 								<text class="ct_number" v-if="item.name=='检票机'">{{item.num}}台</text>
 								<text class="ct_number" v-if="item.name=='凭单机'">{{item.num}}台</text>
@@ -55,6 +61,9 @@
 						<!-- <view class="tt_txt">{{item.txt}}</view> -->
 						<view class="tt_equipmentContent" @click="Jump(item)">
 							<view class="ec_image">
+								<image class="ec_image2" v-if="popUpModule == 5" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
+								<image class="ec_image2" v-if="popUpModule == 4" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
+								<image class="ec_image2" v-if="popUpModule == 3" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
 								<image class="ec_image2" v-if="popUpModule == 2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
 								<image class="ec_image2" v-if="popUpModule == 1" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
 								<image class="ec_image2" v-if="popUpModule == 0" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
@@ -259,6 +268,21 @@
 					this.popUpModule = 1;
 					this.getDeviceList();
 					this.$refs.popup.open()
+				}else if(e == '报班机'){
+					this.popUpModule = '';
+					this.popUpModule = 3;
+					this.getDeviceList();
+					this.$refs.popup.open()
+				}else if(e == '发车位显示屏'){
+					this.popUpModule = '';
+					this.popUpModule = 4;
+					this.getDeviceList();
+					this.$refs.popup.open()
+				}else if(e == '检票口班次信息屏'){
+					this.popUpModule = '';
+					this.popUpModule = 5;
+					this.getDeviceList();
+					this.$refs.popup.open()
 				}
 				
 			},
@@ -317,6 +341,12 @@
 			     return '售票机'
 			    }else if(e==2){
 			     return '凭单机'
+			    }else if(e==3){
+			     return '报班机'
+			    }else if(e==4){
+			     return '发车位显示屏'
+			    }else if(e==5){
+			     return '检票口班次信息屏'
 			    }
 			 },
 			 
