@@ -19,38 +19,43 @@ const SbjgInterface = {
 		Url: Url2 + '/Home/GetStarte',
 		name:'获取所有的车站',
 		method:'POST',
-		header: {'content-type': 'application/json'},
+		header:{'content-type':'application/x-www-form-urlencoded'},
 	},
-	//--------------------------------------获取所有设备--------------------------------------
+	//--------------------------------------获取设备种类--------------------------------------
 	GetNumAll:{
 		Url: Url2 + '/Home/GetNumAll',
-		name:'获取所有设备',
+		name:'获取设备种类',
 		method:'POST',
-		header: {'content-type': 'application/json'},
+		header:{'content-type':'application/x-www-form-urlencoded'},
 	},
-	
-	
-	//--------------------------------------获取所有的设备数据--------------------------------------
+	//--------------------------------------获取对应种类设备--------------------------------------
 	GetSerialsByID:{
 		Url: Url2 + '/Home/GetSerialsByID',
-		name:'获取所有的设备数据',
+		name:'获取对应种类设备',
 		method:'POST',
-		header: {'content-type': 'application/json'},
+		header:{'content-type':'application/x-www-form-urlencoded'},
 	},
+	
 	//--------------------------------------设备关机/重启--------------------------------------
 	GetCommndAdd:{
 		Url: Url2 + '/Home/GetCommndAdd',
 		name:'设备关机/重启',
 		method:'POST',
-		header: {'content-type': 'application/json'},
+		header:{'content-type':'application/x-www-form-urlencoded'},
 	},
-	//--------------------------------------获取设备参数--------------------------------------
+	//--------------------------------------获取设备售票参数--------------------------------------
 	GetBySettingAID:{
 		Url: Url2 + '/Home/GetBySettingAID',
-		name:'获取设备参数',
+		name:'获取设备售票参数',
 		method:'POST',
-		header: {'content-type': 'application/json'},
-		
+		header:{'content-type':'application/x-www-form-urlencoded'},
+	},
+	//--------------------------------------获取设备参数--------------------------------------
+	GetSettingByID:{
+		Url: Url2 + '/Home/GetSettingByID',
+		name:'获取设备数据参数',
+		method:'POST',
+		header:{'content-type':'application/x-www-form-urlencoded'},
 	},
 }
 // 接口声明区

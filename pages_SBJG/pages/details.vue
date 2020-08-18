@@ -287,22 +287,78 @@
 			clearInterval(this.timer)
 		},
 		methods: {
+			// 页面第一次获取设备数据
 			RequestDeviceParameters:function(){
+				var that = this;
 				var data = uni.getStorageSync('equipmentParameters')
 				console.log(data)
-				this.parameter = data;
-				console.log(this.parameter)
-				this.titleData();
-				this.getDeviceData();
+				uni.request({
+					url: $Sbjg.SbjgInterface.GetSettingByID.Url,
+					method: $Sbjg.SbjgInterface.GetSettingByID.method,
+					header:$Sbjg.SbjgInterface.GetSettingByID.header,
+					data:{
+						AID : data.AID,
+					},
+					success: (res) => {
+						console.log(res)
+						this.parameter = res.data;
+						this.titleData();
+						uni.request({
+							url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
+							method: $Sbjg.SbjgInterface.GetBySettingAID.method,
+							header:$Sbjg.SbjgInterface.GetBySettingAID.header,
+							data: {
+								AID : that.parameter.AID,
+							},
+							success: (res) => {
+								console.log(res)
+								that.sellTicketData = res.data
+								uni.hideLoading()
+							},
+							fail: () => {
+								uni.showToast({
+									title:'服务器异常，请重试，重试后不行请联系客服',
+									icon:'none'
+								})
+							}
+						})
+						// this.getDeviceData(); //定时器刷新
+					},
+					fail: () => {
+						uni.showToast({
+							title:'服务器异常，请重试，重试后不行请联系客服',
+							icon:'none'
+						})
+					}
+				})
+				
 			},
-			//获取设备参数
+			//定时器 - 获取设备参数
 			getDeviceData:function(){
 				var that = this;
 				this.timer = setInterval(function(){
 					uni.showLoading({
 						title:'刷新设备数据中...',
 					})
-					// console.log('请求一次')
+					console.log('请求一次')
+					uni.request({
+						url: $Sbjg.SbjgInterface.GetSettingByID.Url,
+						method: $Sbjg.SbjgInterface.GetSettingByID.method,
+						header:$Sbjg.SbjgInterface.GetSettingByID.header,
+						data:{
+							AID : that.parameter.AID,
+						},
+						success: (res) => {
+							console.log('设备数据参数',res)
+							that.parameter = res.data;
+						},
+						fail: () => {
+							uni.showToast({
+								title:'服务器异常，请重试，重试后不行请联系客服',
+								icon:'none'
+							})
+						}
+					})
 					uni.request({
 						url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
 						method: $Sbjg.SbjgInterface.GetBySettingAID.method,
@@ -311,9 +367,15 @@
 							AID : that.parameter.AID,
 						},
 						success: (res) => {
-							console.log(res)
+							// console.log('设备售票数据',res)
 							that.sellTicketData = res.data
 							uni.hideLoading()
+						},
+						fail: () => {
+							uni.showToast({
+								title:'服务器异常，请重试，重试后不行请联系客服',
+								icon:'none'
+							})
 						}
 					})
 				},15000)
@@ -763,7 +825,7 @@
 		padding-bottom: 40upx;
 		background: #FFFFFF;
 		z-index: 999;
-		height: 800upx;
+		height: 600upx;
 	
 		.titleView2 {
 			margin-top: 24upx;
@@ -787,17 +849,18 @@
 	
 		.noticeBox2 {
 			line-height: 32upx;
-			height: 600upx;
+			height: 488upx;
+			margin-top: 8upx;
 	
 			.tv_title {
 				display: block;
 				width: 100%;
-				margin-bottom: 220upx;
+				// margin-bottom: 220upx;
 				
 				//售票次数
 				.tl_content{
 					position: relative;
-					padding-top: 60upx;
+					padding-top: 56upx;
 					width: 100%;
 					
 					.ct_text{
