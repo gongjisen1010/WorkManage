@@ -541,7 +541,7 @@
 							.ct_number {
 								position: absolute;
 								bottom: 0;
-								font-size: 30upx;
+								font-size: 28upx;
 								color: #999999;
 								padding-bottom: 40upx;
 							}
