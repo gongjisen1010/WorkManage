@@ -23,7 +23,7 @@
 			</view>
 			
 			<view class="ol_ticketSalesAmount">
-				<text class="tsa_text" v-if="parameter.Online==true">{{emptyTicketReset(sellTicketData.Score1)}}/{{emptyTicketReset(sellTicketData.Score2)}}</text>
+				<text class="tsa_text" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}/{{emptyTicketReset(moneySum)}}</text>
 				<text class="tsa_text" v-if="parameter.Online==false">---/---</text>
 				<view style="display: flex;">
 					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFill"></image>
@@ -260,10 +260,11 @@
 				},
 				lineData2: {
 					//数字的图--折线图数据
-					categories: ['0时', '1时', '2时', '3时', '4时', '5时','6时','7时','8时','9时','10时','11时','12时','13时','14时','15时','16时','17时','18时','19时','20时','21时','22时','23时'],
-					series: [
-						{ name: '售票数', data: [35, 8, 25, 37, 4, 20] },
-					]
+					categories: [],
+					series: [{
+							name: '售票数',
+							data: [] ,
+						}]
 				},
 				title: '今点通报班机OJ2988',
 				frequency:5,
@@ -278,6 +279,8 @@
 				parameter:'', //设备数据
 				sellTicketData : '', //售票数据
 				timer : '',//定时器参数
+				ticketSum : '',//售票总数
+				moneySum : '',//金额总数
 			}
 		},
 		onLoad:function() {
@@ -312,7 +315,39 @@
 							},
 							success: (res) => {
 								console.log(res)
-								that.sellTicketData = res.data
+								that.sellTicketData = res.data;
+								
+								//筛选数据，重组数组
+								if(res.data.length !== 0 ){
+									that.lineData2.categories = [];
+									that.lineData2.series[0].data = [];
+									that.ticketSum = 0 ;
+									that.moneySum = 0 ;
+									for(var i=0;i<res.data.length; i++){
+										//重组时段
+										var a = res.data[i].Time.slice(11);
+										that.lineData2.categories.push(a+'时')
+										// console.log(that.lineData2.categories) 
+										
+										//重组票数
+										var b = res.data[i].Score1;
+										that.lineData2.series[0].data.push(b);
+										// console.log(that.lineData2.series[0].data) 
+										
+										//累加票数
+										that.ticketSum += res.data[i].Score1;
+										// console.log('票数',that.ticketSum)
+										//累加金额
+										that.moneySum += res.data[i].Score2;
+										// console.log('金额',that.moneySum)
+
+										 //生成图形
+										that.$nextTick(() => {
+											that.$refs['lineData2'].showCharts();
+										});
+									}
+								}
+								
 								uni.hideLoading()
 							},
 							fail: () => {
@@ -369,6 +404,38 @@
 						success: (res) => {
 							// console.log('设备售票数据',res)
 							that.sellTicketData = res.data
+							
+							//筛选数据，重组数组
+							if(res.data.length !== 0 ){
+								that.lineData2.categories = [];
+								that.lineData2.series[0].data = [];
+								that.ticketSum = 0 ;
+								that.moneySum = 0 ;
+								for(var i=0;i<res.data.length; i++){
+									//重组时段
+									var a = res.data[i].Time.slice(11);
+									that.lineData2.categories.push(a+'时')
+									// console.log(that.lineData2.categories) 
+									
+									//重组票数
+									var b = res.data[i].Score1;
+									that.lineData2.series[0].data.push(b);
+									// console.log(that.lineData2.series[0].data) 
+									
+									//累加票数
+									that.ticketSum += res.data[i].Score1;
+									// console.log('票数',that.ticketSum)
+									//累加金额
+									that.moneySum += res.data[i].Score2;
+									// console.log('金额',that.moneySum)
+							
+									 //生成图形
+									that.$nextTick(() => {
+										that.$refs['lineData2'].showCharts();
+									});
+								}
+							}
+							
 							uni.hideLoading()
 						},
 						fail: () => {
@@ -505,7 +572,7 @@
 			
 			//售票参数重置
 			emptyTicketReset:function(e){
-				if(e==undefined){
+				if(e == ''){
 					return '---'
 				}else{
 					return e
@@ -521,10 +588,7 @@
 		},
 		
 		created() {
-		   this.$nextTick(() => {
-		    //折线图
-		    this.$refs['lineData2'].showCharts();
-		   });
+		   
 		   //ajax调用
 		   this.getServerData();
 		  }
@@ -849,7 +913,7 @@
 	
 		.noticeBox2 {
 			line-height: 32upx;
-			height: 488upx;
+			height: 508upx;
 			margin-top: 8upx;
 	
 			.tv_title {
