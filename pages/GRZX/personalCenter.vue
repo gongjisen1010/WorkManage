@@ -127,11 +127,15 @@
 				this.typeNum=0;
 				this.equipmentNum=0;
 				uni.getStorage({
-					key:'station',
+					key:'stationNum',
 					success:res=> {
 						this.typeNum=res.data.typeNum;
 						this.equipmentNum=res.data.equipmentNum;
 					},
+					fail() {
+						this.typeNum=0;
+						this.equipmentNum=0;
+					}
 				})
 			},
 			
