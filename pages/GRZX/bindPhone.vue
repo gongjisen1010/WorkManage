@@ -317,21 +317,7 @@
 			
 			//--------------------------------返回--------------------------
 			returnPage:function(){
-				var that=this;
-				// #ifdef H5
-					uni.navigateBack();
-				//#endif
-				// #ifndef H5
-					if (that.urlData == 2) {
-						that.$GrzxInter.navToOrderList();
-					} else if (that.urlData == 1) {
-						that.$GrzxInter.navToHome();//返回首页
-					} else {
-						uni.navigateBack({
-							delta:2,
-						})
-					}
-				//#endif
+				uni.navigateBack();
 			},
 			
 			//--------------------------------获取验证码--------------------------

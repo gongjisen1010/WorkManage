@@ -127,11 +127,15 @@
 				this.typeNum=0;
 				this.equipmentNum=0;
 				uni.getStorage({
-					key:'station',
+					key:'stationNum',
 					success:res=> {
 						this.typeNum=res.data.typeNum;
 						this.equipmentNum=res.data.equipmentNum;
 					},
+					fail() {
+						this.typeNum=0;
+						this.equipmentNum=0;
+					}
 				})
 			},
 			
@@ -237,7 +241,14 @@
 											})
 										}else if (res.data.openid != "" && res1.data.status) {
 											uni.setStorageSync('userInfo', res1.data.data)
+											that.loadData();//加载用户信息
 										}
+									},
+									fail() {
+										uni.showToast({
+											title: "获取用户信息失败",
+											icon: 'none'
+										})
 									}
 								})
 							}
