@@ -52,11 +52,3 @@
 	border: 4rpx solid #ff9012;
 	border-left-width: 20rpx;
 }
-
-/* 设备详情页面点击状态 */
-.ol_hover{
-	transition: all .3s;//过度
-	border-radius: 64upx;
-	opacity: 0.9;
-	background: #5694fb;
-}

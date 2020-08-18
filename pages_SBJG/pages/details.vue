@@ -3,7 +3,9 @@
 		<image class="top_image" src="../../static/HOME/beijin2.png" mode="aspectFill"></image>
 		<view class="tp_outerLayer">
 			<view class="ol_image">
-				<image class="im_image" src="../static/baobanji.png" mode="aspectFit"></image>
+				<image class="im_image" v-if="parameter.Type == 2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
+				<image class="im_image" v-if="parameter.Type == 1" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
+				<image class="im_image" style="height: 70%;" v-if="parameter.Type == 0" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
 			</view>
 			
 			<view class="ol_equipmentStatus">
@@ -23,39 +25,37 @@
 			</view>
 			
 			<view class="ol_ticketSalesAmount">
-				<text class="tsa_text" v-if="parameter.Online==true">{{emptyTicketReset(sellTicketData.Score1)}}/{{emptyTicketReset(sellTicketData.Score2)}}</text>
+				<text class="tsa_text" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}/{{emptyTicketReset(moneySum)}}</text>
 				<text class="tsa_text" v-if="parameter.Online==false">---/---</text>
 				<view style="display: flex;">
-					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFill"></image>
-					<text class="tsa_text2">售票数/金额</text>
+					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFit"></image>
+					<text class="tsa_text2" v-if="parameter.Type == 2" >开单数/金额</text>
+					<text class="tsa_text2" v-if="parameter.Type == 1" >售票数/金额</text>
+					<text class="tsa_text2" v-if="parameter.Type == 0" >检票数/金额</text>
 				</view>
 			</view>
 			
 			<view class="ol_cpuConsumption">
-				<text class="cc_text" v-if="parameter.Online==true">78%</text>
+				<text class="cc_text" v-if="parameter.Online==true">{{freeMemory}}MB</text>
 				<text class="cc_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
-					<image class="cc_icon" src="../static/cpu.png" mode="aspectFill"></image>
-					<text class="cc_text2">CPU利用率</text>
+					<image class="cc_icon"  src="../static/neicun.png" mode="aspectFit"></image>
+					<text class="cc_text2">可用内存</text>
 				</view>
 			</view>
 			
 			<view class="ol_cpuTemperature">
-				<text class="ct_text" v-if="parameter.Online==true">56°C</text>
+				<text class="ct_text" v-if="parameter.Online==true">{{shareConversion(cpuProportion)}}</text>
 				<text class="ct_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
-					<image class="ct_icon" src="../static/wendu.png" mode="aspectFill"></image>
-					<text class="ct_text2">CPU温度</text>
+					<image class="ct_icon" style="" src="../static/cpu.png" mode="aspectFit"></image>
+					<text class="ct_text2">CPU占用率</text>
 				</view>
 			</view>
 			
 			<view class="ol_seeMore">
 				<text class="ct_text" @click="checkAttention(1)">查看更多></text>
 			</view>
-			<!-- <view class="im_abnormal">
-				<image class="al_image" src="../../static/yicang.png" mode="aspectFill"></image>
-				<text class="al_text">设备异常</text>
-			</view> -->
 			
 			<!-- 现状图 -->
 			<view class="ol_LineChart">
@@ -81,50 +81,6 @@
 				
 			</view>
 			
-			<!-- 状态 -->
-			<!-- <view class="zl_click">
-				<view class="zl_topClick"> -->
-					<!-- 设备区域 -->
-					<!-- <view class="zl_independentTravel">
-						<text class="zl_itText">在线</text>
-					</view> -->
-					<!-- 在线状态	 -->
-					<!-- <view class="zl_independentTravel2">
-						<text class="zl_itText2">异常</text>
-						<text class="zl_stateText">网络状态</text>
-					</view> -->
-					<!-- 设备分布 -->
-					<!-- <view class="zl_independentTravel3">
-						<text class="zl_itText3">{{frequency}}次</text>
-						<text class="zl_stateText2">维修次数</text>
-					</view>
-				</view>
-			</view> -->
-			
-			<!-- cpu状态 -->
-			<!-- <view class="zl_click2">
-				<view class="zl_topClick2"> -->
-					<!-- 设备区域 -->
-					<!-- <view class="zl_independentTravel">
-						<text class="zl_itText">{{numberTickets}}张</text>
-						<text class="zl_stateText">售票数</text>
-					</view> -->
-					<!-- 在线状态	 -->
-					<!-- <view class="zl_independentTravel2">
-						<text class="zl_itText2">{{cpu}}</text>
-						<text class="zl_stateText2">CPU占用率</text>
-					</view> -->
-					<!-- 设备分布 -->
-					<!-- <view class="zl_independentTravel3">
-						<text class="zl_itText3">{{abnormalTimes}}次</text>
-						<text class="zl_stateText3">异常次数</text>
-					</view>
-				</view> -->
-				<!-- <view class="zl_bottomPopup">
-					<text class="bp_text" @tap="checkAttention">查看更多></text>
-				</view>
-			</view> -->
-			
 			<!-- 按钮 -->
 			<view>
 				<view class="ol_shutDown" hover-class="ol_hover"  @click="equipmentShutDown">
@@ -140,7 +96,7 @@
 					<text class="sd_text">查看进程</text>
 				</view>
 				<view class="ol_shutDown" hover-class="ol_hover" style="margin-bottom: 56upx;" @click="notYetOpen">
-					<image class="sd_icon" style="width: 36upx;" src="../static/dengji.png" mode="aspectFit"></image>
+					<image class="sd_icon" style="width: 30upx;" src="../static/dengji.png" mode="aspectFit"></image>
 					<text class="sd_text">保修登记</text>
 				</view>
 				<!-- <view class="ol_register"></view> -->
@@ -153,7 +109,7 @@
 		<popup ref="popup" type="bottom">
 			<view class="boxView2">
 				<view class="titleView2">
-					<text class="Nb_text3">设备位置</text>
+					<text class="Nb_text3">设备参数</text>
 					<text class="Nb_text4 jdticon icon-fork" @click="close(1)"></text>
 				</view>
 				<scroll-view class="noticeBox2" scroll-y="ture">
@@ -164,29 +120,32 @@
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">设备开机次数</text>
-							<text class="ct_text2" v-if="parameter.Online==true">52</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
-						</view>
-						<view class="tl_content">
 							<text class="ct_text">开机时间</text>
-							<text class="ct_text2" v-if="parameter.Online==true">5分钟</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{parameter.OpenTime}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">售票数量</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{sellTicketData.Score1}}</text>
+							<text class="ct_text">掉线时长</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{parameter.OnlineTime}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">售票金额</text>
-							<text class="ct_text2"></text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{sellTicketData.Score2}}</text>
+							<text class="ct_text" v-if="parameter.Type == 2">开单数量</text>
+							<text class="ct_text" v-if="parameter.Type == 1">售票数量</text>
+							<text class="ct_text" v-if="parameter.Type == 0">检票数量</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">异常次数</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{abnormalTimes}}</text>
+							<text class="ct_text" v-if="parameter.Type == 2">开单金额</text>
+							<text class="ct_text" v-if="parameter.Type == 1">售票金额</text>
+							<text class="ct_text" v-if="parameter.Type == 0">检票金额</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{emptyTicketReset(moneySum)}}</text>
+							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+						</view>
+						<view class="tl_content">
+							<text class="ct_text">掉线次数</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{parameter.BreakNum}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
@@ -206,15 +165,15 @@
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">CPU占用率</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{cpu}}</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{shareConversion(cpuProportion)}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">内存占用率</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{memory}}</text>
+							<text class="ct_text">可用内存</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{freeMemory}}MB</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_content">
+<!-- 						<view class="tl_content">
 							<text class="ct_text">当前运行程序</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{runFunction}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
@@ -223,7 +182,7 @@
 							<text class="ct_text">程序运行时间</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{time}}时</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
-						</view>
+						</view> -->
 					</view>
 				</scroll-view>
 			</view>
@@ -233,15 +192,15 @@
 		<popup ref="popup2" type="bottom">
 			<view class="boxView2">
 				<view class="titleView2">
-					<text class="Nb_text3">设备位置</text>
+					<text class="Nb_text3">运行进程</text>
 					<text class="Nb_text4 jdticon icon-fork" @click="close(2)"></text>
 				</view>
 				<scroll-view class="noticeBox2" scroll-y="ture">
 					<view class="tv_title">
-						<view class="tl_content">
-							<text class="ct_text">设备年限</text>
-							<text class="ct_text2" v-if="parameter.Online==true">5</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content" style="display: flex;" v-for="(item,index) in parameter.t" :key="index">
+							<text class="ct_text3">{{item.MainWindowTitle}}{{'('+item.ProgressName+')'}}</text>
+							<text class="ct_text4" >{{timestampConversion(item.StartTime)}}</text>
+							<!-- <text class="ct_text4" v-if="parameter.Online==false">--</text> -->
 						</view>
 					</view>
 				</scroll-view>
@@ -267,22 +226,19 @@
 				money:2050,
 				lineData: {
 					//带百分比的图--折线图数据
-					categories: ['0时', '1时', '2时', '3时', '4时', '5时','6时','7时','8时','9时','10时','11时','12时','13时','14时','15时','16时','17时','18时','19时','20时','21时','22时','23时'],
+					categories: [],
 					series: [{ 
-						name: 'CPU利用率', 
-						data: [0.7, 0.4, 0.65, 0.1, 0.44, 0.98],
-					}, 
-					{ 
-						name: '内存占用量', 
-						data: [0.1, 0.8, 0.95, 0.15, 0.112, 0.132] ,
+						name: 'CPU占用率', 
+						data: [],
 					}]
 				},
 				lineData2: {
 					//数字的图--折线图数据
-					categories: ['0时', '1时', '2时', '3时', '4时', '5时','6时','7时','8时','9时','10时','11时','12时','13时','14时','15时','16时','17时','18时','19时','20时','21时','22时','23时'],
-					series: [
-						{ name: '售票数', data: [35, 8, 25, 37, 4, 20] },
-					]
+					categories: [],
+					series: [{
+							name: '售票数',
+							data: [] ,
+						}]
 				},
 				title: '今点通报班机OJ2988',
 				frequency:5,
@@ -296,7 +252,11 @@
 				
 				parameter:'', //设备数据
 				sellTicketData : '', //售票数据
+				cpuMemory : '',//cpu占用率和剩余内存
 				timer : '',//定时器参数
+				ticketSum : '',//售票总数
+				moneySum : '',//金额总数
+				cpuProportion : '---',//CPU占比率				freeMemory : '---', //剩余内存
 			}
 		},
 		onLoad:function() {
@@ -319,9 +279,17 @@
 						AID : data.AID,
 					},
 					success: (res) => {
-						console.log(res)
+						console.log('设备参数',res)
 						this.parameter = res.data;
+						if(res.data.Type == 0 ){
+							this.lineData2.series[0].name = '检票数'
+						}else if(res.data.Type == 1 ){
+							this.lineData2.series[0].name = '售票数'
+						}else if(res.data.Type == 2 ){
+							this.lineData2.series[0].name = '开单数'
+						}
 						this.titleData();
+						//请求设备售出的票数接口
 						uni.request({
 							url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
 							method: $Sbjg.SbjgInterface.GetBySettingAID.method,
@@ -330,8 +298,38 @@
 								AID : that.parameter.AID,
 							},
 							success: (res) => {
-								console.log(res)
-								that.sellTicketData = res.data
+								console.log('设备售票',res)
+								that.sellTicketData = res.data;
+								//筛选数据，重组数组
+								if(res.data.length !== 0 ){
+									that.lineData2.categories = [];
+									that.lineData2.series[0].data = [];
+									that.ticketSum = 0 ;
+									that.moneySum = 0 ;
+									for(var i=0;i<res.data.length; i++){
+										//重组时段
+										var a = res.data[i].Time.slice(11);
+										that.lineData2.categories.push(a+'时')
+										// console.log(that.lineData2.categories) 
+										
+										//重组票数
+										var b = res.data[i].Score1;
+										that.lineData2.series[0].data.push(b);
+										// console.log(that.lineData2.series[0].data) 
+										
+										//累加票数
+										that.ticketSum += res.data[i].Score1;
+										// console.log('票数',that.ticketSum)
+										//累加金额
+										that.moneySum += res.data[i].Score2;
+										// console.log('金额',that.moneySum)
+
+										 //生成图形
+										that.$nextTick(() => {
+											that.$refs['lineData2'].showCharts();
+										});
+									}
+								}
 								uni.hideLoading()
 							},
 							fail: () => {
@@ -341,7 +339,54 @@
 								})
 							}
 						})
-						// this.getDeviceData(); //定时器刷新
+						//请求cpu占用率和剩余内存
+						uni.request({
+							url: $Sbjg.SbjgInterface.GetAllCpu.Url,
+							method: $Sbjg.SbjgInterface.GetAllCpu.method,
+							header:$Sbjg.SbjgInterface.GetAllCpu.header,
+							data: {
+								// AID : that.parameter.AID,
+								AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
+							},
+							success: (res) => {
+								console.log('cpu内存',res)
+								that.cpuMemory = res.data;
+								that.cpuProportion  = res.data[0].Score1;
+								that.freeMemory   = res.data[0].Score3;
+								//筛选数据，重组数组
+								if(res.data.length !== 0 ){
+									that.lineData.categories = [];
+									that.lineData.series[0].data = [];
+									that.ticketSum = 0 ;
+									that.moneySum = 0 ;
+									for(var i=0;i<res.data.length; i++){
+										//重组时段
+										var a = res.data[i].Time;
+										that.lineData.categories.push(a+'分')
+										// console.log(that.lineData2.categories) 
+										
+										//重组票数
+										var b = res.data[i].Score1.slice(0,4);
+										that.lineData.series[0].data.push(b);
+										// console.log(that.lineData2.series[0].data) 
+										
+										 //生成图形
+										 that.$nextTick(() => {
+										 	that.$refs['lineData1'].showCharts();
+										 });
+									}
+								}
+								uni.hideLoading()
+							},
+							fail: () => {
+								uni.showToast({
+									title:'服务器异常，请重试，重试后不行请联系客服',
+									icon:'none'
+								})
+							}
+						})
+						
+						this.getDeviceData(); //定时器刷新
 					},
 					fail: () => {
 						uni.showToast({
@@ -370,6 +415,13 @@
 						success: (res) => {
 							console.log('设备数据参数',res)
 							that.parameter = res.data;
+							if(res.data.Type == 0 ){
+								that.lineData2.series[0].name = '检票数'
+							}else if(res.data.Type == 1 ){
+								that.lineData2.series[0].name = '售票数'
+							}else if(res.data.Type == 2 ){
+								that.lineData2.series[0].name = '开单数'
+							}
 						},
 						fail: () => {
 							uni.showToast({
@@ -378,25 +430,102 @@
 							})
 						}
 					})
-					uni.request({
-						url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
-						method: $Sbjg.SbjgInterface.GetBySettingAID.method,
-						header:$Sbjg.SbjgInterface.GetBySettingAID.header,
-						data: {
-							AID : that.parameter.AID,
-						},
-						success: (res) => {
-							// console.log('设备售票数据',res)
-							that.sellTicketData = res.data
-							uni.hideLoading()
-						},
-						fail: () => {
-							uni.showToast({
-								title:'服务器异常，请重试，重试后不行请联系客服',
-								icon:'none'
-							})
-						}
-					})
+					
+						//请求设备售出的票数接口
+						uni.request({
+							url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
+							method: $Sbjg.SbjgInterface.GetBySettingAID.method,
+							header:$Sbjg.SbjgInterface.GetBySettingAID.header,
+							data: {
+								AID : that.parameter.AID,
+							},
+							success: (res) => {
+								console.log('设备售票',res)
+								that.sellTicketData = res.data;
+								//筛选数据，重组数组
+								if(res.data.length !== 0 ){
+									that.lineData2.categories = [];
+									that.lineData2.series[0].data = [];
+									that.ticketSum = 0 ;
+									that.moneySum = 0 ;
+									for(var i=0;i<res.data.length; i++){
+										//重组时段
+										var a = res.data[i].Time.slice(11);
+										that.lineData2.categories.push(a+'时')
+										// console.log(that.lineData2.categories) 
+										
+										//重组票数
+										var b = res.data[i].Score1;
+										that.lineData2.series[0].data.push(b);
+										// console.log(that.lineData2.series[0].data) 
+										
+										//累加票数
+										that.ticketSum += res.data[i].Score1;
+										// console.log('票数',that.ticketSum)
+										//累加金额
+										that.moneySum += res.data[i].Score2;
+										// console.log('金额',that.moneySum)
+
+										 //生成图形
+										that.$nextTick(() => {
+											that.$refs['lineData2'].showCharts();
+										});
+									}
+								}
+								uni.hideLoading()
+							},
+							fail: () => {
+								uni.showToast({
+									title:'服务器异常，请重试，重试后不行请联系客服',
+									icon:'none'
+								})
+							}
+						})
+						//请求cpu占用率和剩余内存
+						uni.request({
+							url: $Sbjg.SbjgInterface.GetAllCpu.Url,
+							method: $Sbjg.SbjgInterface.GetAllCpu.method,
+							header:$Sbjg.SbjgInterface.GetAllCpu.header,
+							data: {
+								// AID : that.parameter.AID,
+								AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
+							},
+							success: (res) => {
+								console.log('cpu内存',res)
+								that.cpuMemory = res.data;
+								//筛选数据，重组数组
+								if(res.data.length !== 0 ){
+									that.lineData.categories = [];
+									that.lineData.series[0].data = [];
+									that.ticketSum = 0 ;
+									that.moneySum = 0 ;
+									for(var i=0;i<res.data.length; i++){
+										//重组时段
+										var a = res.data[i].Time;
+										that.lineData.categories.push(a+'分')
+										// console.log(that.lineData.categories) 
+										
+										//重组票数
+										var b = res.data[i].Score1.slice(0,4);
+										that.lineData.series[0].data.push(b);
+										// console.log(that.lineData.series[0].data) 
+										
+										 //生成图形
+										 that.$nextTick(() => {
+										 	that.$refs['lineData1'].showCharts();
+										 });
+									}
+								}
+								uni.hideLoading()
+							},
+							fail: () => {
+								uni.showToast({
+									title:'服务器异常，请重试，重试后不行请联系客服',
+									icon:'none'
+								})
+							}
+						})
+						
 				},15000)
 			},
 			//--------------------开头标题--------------------------
@@ -424,7 +553,7 @@
 			// --------------------------------------设备关机------------------
 			equipmentShutDown:function(){
 				uni.showModal({
-					title:'您确认要把设备关机吗？',
+					title:'您确认要把设备 "关机" 吗？',
 					success: (res) => {
 						console.log(res)
 						if(res.confirm == true){
@@ -474,7 +603,7 @@
 			// --------------------------------------设备重启------------------
 			equipmentRestart:function(){
 				uni.showModal({
-					title:'您确认要把设备关机吗？',
+					title:'您确认要把设备 "重启" 吗？',
 					success: (res) => {
 						console.log(res)
 						if(res.confirm == true){
@@ -532,31 +661,40 @@
 			
 			//售票参数重置
 			emptyTicketReset:function(e){
-				if(e==undefined){
+				if(e == ''){
 					return '---'
 				}else{
 					return e
 				}
 			},
 			
-			getServerData() {
-				setTimeout(() => {
-					//延迟模拟ajax嗲用后台数据
-					this.$refs['lineData1'].showCharts();
-				}, 1000);
+			//时间戳转换
+			timestampConversion:function(e){
+				// #ifndef APP-PLUS
+				var a =  new Date(parseInt(e.slice(6,19)) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+				return a.slice(6)
+				// #endif
+				// #ifdef APP-PLUS
+				var date = new Date(parseInt(e.slice(6,19).replace("/Date(", "").replace(")/", ""), 10));
+				//月份为0-11，所以+1，月份小于10时补个0
+				var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+				var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+				var hour = date.getHours();
+				var minute = date.getMinutes();
+				var second = date.getSeconds();
+				var dd = date.getFullYear() + "-" + month + "-" + currentDate + " "+hour+":"+minute+":"+second;
+				// console.log(dd.slice(5))
+				return dd.slice(5)
+				// #endif
+			},
+			
+			//小数点转百分比 - CPU占比转换
+			shareConversion:function(e){
+				var str = Number(e*100).toFixed(1);
+				str+="%";
+				return str;
 			}
-		},
-		
-		created() {
-		   this.$nextTick(() => {
-		    //折线图
-		    this.$refs['lineData2'].showCharts();
-		   });
-		   //ajax调用
-		   this.getServerData();
-		  }
-	
-		
+		}
 	}
 </script>
 
@@ -852,7 +990,6 @@
 		padding-bottom: 40upx;
 		background: #FFFFFF;
 		z-index: 999;
-		height: 600upx;
 	
 		.titleView2 {
 			margin-top: 24upx;
@@ -876,7 +1013,7 @@
 	
 		.noticeBox2 {
 			line-height: 32upx;
-			height: 488upx;
+			height: 600upx;
 			margin-top: 8upx;
 	
 			.tv_title {
@@ -892,15 +1029,38 @@
 					
 					.ct_text{
 						left: 0;
-						font-size: 32upx;
+						font-size: 30upx;
 						padding-left: 20upx;
 					}
 					
 					.ct_text2{
 						position: absolute;
 						right: 0;
-						font-size: 32upx;
+						font-size: 28upx;
 						padding-right: 20upx;
+					}
+					
+					.ct_text3{
+						left: 0;
+						font-size: 28upx;
+						padding-left: 20upx;
+						display: flex;
+						text-overflow: ellipsis; //文章超出宽度隐藏并用...表示
+						white-space: nowrap;
+						overflow: hidden;
+						width: 360upx;
+					}
+					
+					.ct_text4{
+						position: absolute;
+						float: right;
+						right: 0;
+						color: #aaa;
+						font-size: 24upx;
+						text-overflow: ellipsis; //文章超出宽度隐藏并用...表示
+						white-space: nowrap;
+						overflow: hidden;
+						width: 200upx;
 					}
 				}
 			}
@@ -916,7 +1076,7 @@
 	
 	.ol_seeMore{
 		text-align: center;
-		/* #ifdef MP-WEIXIN */
+		/* #ifndef APP-PLUS */
 		margin: 64upx 20upx 56upx 20upx;
 		/* #endif */
 		/* #ifdef APP-PLUS */
@@ -938,13 +1098,8 @@
 		position: absolute;
 		width:120upx;
 		text-align: center;
-		/* #ifdef APP-PLUS */
-		top: 30upx;
-		/* #endif */
-		/* #ifdef MP-WEIXIN */
-		top: 60upx;
-		/* #endif */
-		left: 88upx;
+		top: 48upx;
+		left: 96upx;
 		
 		.es_text{
 			font-size:30upx;
@@ -970,10 +1125,10 @@
 		/* #ifdef APP-PLUS */
 		top: 210upx;
 		/* #endif */
-		/* #ifdef MP-WEIXIN */
-		top: 220upx;
+		/* #ifndef APP-PLUS */
+		top: 212upx;
 		/* #endif */
-		left: 88upx;
+		left: 96upx;
 		
 		.ns_text{
 			font-size:30upx;
@@ -998,7 +1153,7 @@
 		width:180upx;
 		text-align: center;
 		top: 50upx;
-		right: 64upx;
+		right: 48upx;
 		
 		.tsa_text{
 			font-size:30upx;
@@ -1007,10 +1162,10 @@
 		}
 		
 		.tsa_icon{
-			width: 28upx;
-			height: 24upx;
-			margin-top: 6upx;
-			margin-right: 10upx;
+			width: 26upx;
+			height: 22upx;
+			margin-top: 10upx;
+			margin-right: 8upx;
 		}
 		
 		.tsa_text2{
@@ -1024,7 +1179,7 @@
 		width:180upx;
 		text-align: center;
 		top: 160upx;
-		right: 56upx;
+		right: 48upx;
 		
 		.cc_text{
 			font-size:30upx;
@@ -1034,9 +1189,9 @@
 		
 		.cc_icon{
 			width: 24upx;
-			height: 24upx;
-			margin-top: 6upx;
-			margin-right: 10upx;
+			height: 26upx;
+			margin-top: 8upx;
+			margin-right: 12upx;
 		}
 		
 		.cc_text2{
@@ -1050,18 +1205,18 @@
 		width:180upx;
 		text-align: center;
 		top: 274upx;
-		right: 56upx;
+		right: 48upx;
 		
-		.c_text{
+		.ct_text{
 			font-size:30upx;
 			font-weight:500;
 			color:#212121;
 		}
 		
 		.ct_icon{
-			width: 20upx;
-			height: 32upx;
-			margin-right: 22upx;
+			width: 24upx;
+			height: 36upx; 
+			margin-right:12upx
 		}
 		
 		.ct_text2{
