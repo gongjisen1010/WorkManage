@@ -12,7 +12,7 @@
 				<text class="es_text">设备状态</text>
 				<text class="es_text2" v-if="parameter.Online==true">硬件在线</text>
 				<text class="es_text3" v-if="parameter.Online==false">硬件离线</text>
-				<text class="es_text2" v-if="parameter.Online==true">软件正常</text>
+				<text class="es_text2" v-if="parameter.Online==true">软件在线</text>
 				<text class="es_text3" v-if="parameter.Online==false">软件异常</text>
 			</view>
 			
@@ -32,6 +32,17 @@
 					<text class="tsa_text2" v-if="parameter.Type == 2" >开单数/金额</text>
 					<text class="tsa_text2" v-if="parameter.Type == 1" >售票数/金额</text>
 					<text class="tsa_text2" v-if="parameter.Type == 0" >检票数/金额</text>
+				</view>
+			</view>
+			
+			<view class="ol_ticketSalesAmount">
+				<text class="tsa_text" v-if="parameter.Online==true">1588次</text>
+				<text class="tsa_text" v-if="parameter.Online==false">---</text>
+				<view style="display: flex;">
+					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFit"></image>
+					<text class="tsa_text2" v-if="parameter.Type == 5" >班次数</text>
+					<text class="tsa_text2" v-if="parameter.Type == 4" >发车数</text>
+					<text class="tsa_text2" v-if="parameter.Type == 3" >报班数</text>
 				</view>
 			</view>
 			
@@ -60,7 +71,7 @@
 			<!-- 现状图 -->
 			<view class="ol_LineChart">
 				<!-- 折线Line纯数字-->
-				<view class="line">
+				<view class="line" :hidden="parameter.Type == 4 || parameter.Type == 5">
 					<line-chart ref="lineData2" canvasId="index_line_2" :dataAs="lineData2" />
 				</view>
 				<!-- 折线Line带百分比 -->
@@ -129,14 +140,14 @@
 							<text class="ct_text2" v-if="parameter.Online==true">{{parameter.OnlineTime}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_content">
+						<view class="tl_content" :hidden="parameter.Type == 3 || parameter.Type == 4 || parameter.Type == 5">
 							<text class="ct_text" v-if="parameter.Type == 2">开单数量</text>
 							<text class="ct_text" v-if="parameter.Type == 1">售票数量</text>
 							<text class="ct_text" v-if="parameter.Type == 0">检票数量</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_content">
+						<view class="tl_content" :hidden="parameter.Type == 3 || parameter.Type == 4 || parameter.Type == 5">
 							<text class="ct_text" v-if="parameter.Type == 2">开单金额</text>
 							<text class="ct_text" v-if="parameter.Type == 1">售票金额</text>
 							<text class="ct_text" v-if="parameter.Type == 0">检票金额</text>
@@ -173,16 +184,6 @@
 							<text class="ct_text2" v-if="parameter.Online==true">{{freeMemory}}MB</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-<!-- 						<view class="tl_content">
-							<text class="ct_text">当前运行程序</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{runFunction}}</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
-						</view>
-						<view class="tl_content">
-							<text class="ct_text">程序运行时间</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{time}}时</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
-						</view> -->
 					</view>
 				</scroll-view>
 			</view>
@@ -287,6 +288,8 @@
 							this.lineData2.series[0].name = '售票数'
 						}else if(res.data.Type == 2 ){
 							this.lineData2.series[0].name = '开单数'
+						}else if(res.data.Type == 3 ){
+							this.lineData2.series[0].name = '报班数'
 						}
 						this.titleData();
 						//请求设备售出的票数接口
@@ -345,8 +348,8 @@
 							method: $Sbjg.SbjgInterface.GetAllCpu.method,
 							header:$Sbjg.SbjgInterface.GetAllCpu.header,
 							data: {
-								// AID : that.parameter.AID,
-								AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
+								AID : that.parameter.AID,
+								// AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
 							},
 							success: (res) => {
 								console.log('cpu内存',res)
@@ -415,12 +418,15 @@
 						success: (res) => {
 							console.log('设备数据参数',res)
 							that.parameter = res.data;
+							
 							if(res.data.Type == 0 ){
-								that.lineData2.series[0].name = '检票数'
+								this.lineData2.series[0].name = '检票数'
 							}else if(res.data.Type == 1 ){
-								that.lineData2.series[0].name = '售票数'
+								this.lineData2.series[0].name = '售票数'
 							}else if(res.data.Type == 2 ){
-								that.lineData2.series[0].name = '开单数'
+								this.lineData2.series[0].name = '开单数'
+							}else if(res.data.Type == 3 ){
+								this.lineData2.series[0].name = '报班数'
 							}
 						},
 						fail: () => {
@@ -487,8 +493,8 @@
 							method: $Sbjg.SbjgInterface.GetAllCpu.method,
 							header:$Sbjg.SbjgInterface.GetAllCpu.header,
 							data: {
-								// AID : that.parameter.AID,
-								AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
+								AID : that.parameter.AID,
+								// AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
 							},
 							success: (res) => {
 								console.log('cpu内存',res)
