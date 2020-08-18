@@ -129,20 +129,8 @@
 				uni.getStorage({
 					key:'station',
 					success:res=> {
-						uni.request({
-							url: this.$GrzxInter.Interface.GetNumAll.value,
-							method: this.$GrzxInter.Interface.GetNumAll.method,
-							header:this.$GrzxInter.Interface.GetNumAll.header,
-							data: {
-								CompanyName: res.data,
-							},
-							success: (res) => {
-								this.typeNum=res.data.length;
-								for(let i=0;i<res.data.length;i++){
-									this.equipmentNum+=parseInt(res.data[i].num);
-								}
-							}
-						})
+						this.typeNum=res.data.typeNum;
+						this.equipmentNum=res.data.equipmentNum;
 					},
 				})
 			},

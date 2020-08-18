@@ -187,8 +187,6 @@
 						this.selectBank = res.data;
 						this.bankObject = res.data[0].StationName;
 						this.deviceData();
-						//缓存车站
-						uni.setStorageSync('station',this.bankObject);
 					}
 				})
 				//获取所有的设备数据
@@ -242,8 +240,6 @@
 				that.bankObject = that.selectBank[e.detail.value].StationName;
 				this.deviceData()
 				console.log('1', that.bankObject)
-				//缓存车站
-				uni.setStorageSync('station',that.bankObject);
 			},
 
 			//-------------------------------查看须知-----------------------------
@@ -333,6 +329,11 @@
 					 console.log(sum)
 				 }
 				this.equipment = sum;
+				//缓存设备类型和设备总数
+				uni.setStorageSync('stationNum',{
+					typeNum:this.DeviceData.length,
+					equipmentNum:this.equipment,
+				});
 			 }
 			
 		}
