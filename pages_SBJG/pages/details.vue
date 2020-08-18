@@ -29,7 +29,9 @@
 				<text class="tsa_text" v-if="parameter.Online==false">---/---</text>
 				<view style="display: flex;">
 					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFit"></image>
-					<text class="tsa_text2">售票数/金额</text>
+					<text class="tsa_text2" v-if="parameter.Type == 2" >开单数/金额</text>
+					<text class="tsa_text2" v-if="parameter.Type == 1" >售票数/金额</text>
+					<text class="tsa_text2" v-if="parameter.Type == 0" >检票数/金额</text>
 				</view>
 			</view>
 			
@@ -128,13 +130,16 @@
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">售票数量</text>
+							<text class="ct_text" v-if="parameter.Type == 2">开单数量</text>
+							<text class="ct_text" v-if="parameter.Type == 1">售票数量</text>
+							<text class="ct_text" v-if="parameter.Type == 0">检票数量</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">售票金额</text>
-							<text class="ct_text2"></text>
+							<text class="ct_text" v-if="parameter.Type == 2">开单金额</text>
+							<text class="ct_text" v-if="parameter.Type == 1">售票金额</text>
+							<text class="ct_text" v-if="parameter.Type == 0">检票金额</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{emptyTicketReset(moneySum)}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
@@ -276,6 +281,13 @@
 					success: (res) => {
 						console.log('设备参数',res)
 						this.parameter = res.data;
+						if(res.data.Type == 0 ){
+							this.lineData2.series[0].name = '检票数'
+						}else if(res.data.Type == 1 ){
+							this.lineData2.series[0].name = '售票数'
+						}else if(res.data.Type == 2 ){
+							this.lineData2.series[0].name = '开单数'
+						}
 						this.titleData();
 						//请求设备售出的票数接口
 						uni.request({
@@ -403,6 +415,13 @@
 						success: (res) => {
 							console.log('设备数据参数',res)
 							that.parameter = res.data;
+							if(res.data.Type == 0 ){
+								that.lineData2.series[0].name = '检票数'
+							}else if(res.data.Type == 1 ){
+								that.lineData2.series[0].name = '售票数'
+							}else if(res.data.Type == 2 ){
+								that.lineData2.series[0].name = '开单数'
+							}
 						},
 						fail: () => {
 							uni.showToast({
