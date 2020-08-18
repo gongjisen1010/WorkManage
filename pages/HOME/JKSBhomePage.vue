@@ -22,9 +22,9 @@
 					<view class="et_typeContent" v-for="(item,index) in DeviceData" :key="index" @tap="checkAttention(item.name)">
 						<view>
 							<view class="tc_image">
-								<image class="tc_image2" v-if="item.name=='检票口班次信息屏'" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
-								<image class="tc_image2" v-if="item.name=='发车位显示屏'" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
-								<image class="tc_image2" v-if="item.name=='报班机'" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
+								<image class="tc_image2" v-if="item.name=='检票口班次信息屏'" src="../../static/HOME/bancixinxiping.png" mode="aspectFit"></image>
+								<image class="tc_image2" v-if="item.name=='发车位显示屏'" src="../../static/HOME/fachewei.png" mode="aspectFit"></image>
+								<image class="tc_image2" v-if="item.name=='报班机'" src="../../static/HOME/baobanji.png" mode="aspectFit"></image>
 								<image class="tc_image2" v-if="item.name=='售票机'" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
 								<image class="tc_image2" v-if="item.name=='检票机'" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
 								<image class="tc_image2" v-if="item.name=='凭单机'" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
@@ -61,9 +61,9 @@
 						<!-- <view class="tt_txt">{{item.txt}}</view> -->
 						<view class="tt_equipmentContent" @click="Jump(item)">
 							<view class="ec_image">
-								<image class="ec_image2" v-if="popUpModule == 5" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
-								<image class="ec_image2" v-if="popUpModule == 4" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
-								<image class="ec_image2" v-if="popUpModule == 3" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
+								<image class="ec_image2" v-if="popUpModule == 5" src="../../static/HOME/bancixinxiping.png" mode="aspectFit"></image>
+								<image class="ec_image2" v-if="popUpModule == 4" src="../../static/HOME/fachewei.png" mode="aspectFit"></image>
+								<image class="ec_image2" v-if="popUpModule == 3" src="../../static/HOME/baobanji.png" mode="aspectFit"></image>
 								<image class="ec_image2" v-if="popUpModule == 2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
 								<image class="ec_image2" v-if="popUpModule == 1" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
 								<image class="ec_image2" v-if="popUpModule == 0" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
