@@ -35,7 +35,7 @@
 				<text class="cc_text" v-if="parameter.Online==true">78MB</text>
 				<text class="cc_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
-					<image class="cc_icon"  src="../static/wendu.png" mode="aspectFit"></image>
+					<image class="cc_icon"  src="../static/neicun.png" mode="aspectFit"></image>
 					<text class="cc_text2">可用内存</text>
 				</view>
 			</view>
@@ -1140,9 +1140,8 @@
 		}
 		
 		.cc_icon{
-			width: 24upx;
-			height: 26upx;
-			margin-top: 8upx;
+			width: 30upx;
+			height: 30upx;
 			margin-right: 12upx;
 		}
 		
