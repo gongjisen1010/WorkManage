@@ -1,6 +1,6 @@
 <template>
     <view class="content">
-		<image :src="bindPhoneImg" class="backClass"></image>
+		<!-- <image :src="bindPhoneImg" class="backClass"></image> -->
 		<text class="titleClass">手机绑定</text>
 		<view class="inputItem phoneNum">
 			<image src="../../static/GRZX/shouji.png" class="iconClass1"></image>
@@ -11,7 +11,7 @@
 			<input type="number" placeholder="输入验证码" maxlength="4" class="inputClass" data-key="captchaCode" @input="inputChange2" />
 			<view class="getCode style" @click="getCodeClick" id="Code">{{textCode}}</view>
 		</view>
-		<button type="warn" @click="bindPhone" class="btnClass">确定</button>
+		<button @click="bindPhone" class="btnClass">确定</button>
     </view>
 </template>
 
@@ -28,7 +28,7 @@
 	        }
 	    },
 	    onLoad(options) {	
-			this.loadImg();
+			// this.loadImg();
 			uni.showToast({
 				title: '首次授权需要绑定手机号',
 				icon: 'none',
@@ -389,32 +389,33 @@
 		width: 26upx;
 		height: 36upx;
 		top: 57upx;
-		left:2%;
+		left:5%;
 		position: absolute;
 	}
 	.iconClass2{	//验证码图标
 		width: 31upx;
 		height: 38upx;
 		top: 54upx;
-		left: 2%;
+		left: 5%;
 		position: absolute;
 	}
 	.inputItem{		//输入区域的样式
 		width: 87.6%;
 		height: 140upx;
-		border-bottom: 1upx solid #EAEAEA;
+		border: 1upx solid #EAEAEA;
 		position: relative;
 		margin-left: 6%;
+		border-radius: 20upx;
 	}
 	.phoneNum{
-		margin-top: 20upx;
+		margin-top: 50upx;
 	}
 	.Captcha{
-		margin-top: 20upx;
+		margin-top: 35upx;
 	}
 	.inputClass{	//输入框的位置
 		position: absolute;
-		left: 12%;
+		left: 14%;
 		top:51upx;
 		font-size: 32upx;
 		height: 30upx;
@@ -423,7 +424,7 @@
 	}
 	.getCode{  //获取验证码
 		position: absolute;
-		top:45upx;
+		top:40upx;
 		left: 64%;
 		width:30%;
 		font-size: 28upx;
@@ -433,13 +434,12 @@
 		height: 64upx;
 	}
 	.style{
-		border:1px solid #ED1C24;
-		color: #ED1C24;
+		border:1px solid #0055ff;
+		color: #0055ff;
 	}
 	.btnClass{
-		// position: absolute;
-		// top:495upx;
-		// left: 5%;
+		background-color: #0055ff;
+		color: #FFFFFF;
 		margin-top: 50upx;
 		margin-left: 5%;
 		width: 90%;
@@ -458,10 +458,13 @@
 		height: 350upx;
 	}
 	.titleClass{
-		color: #FC4646;
+		color: #0055ff;
 		font-size: 48upx;
-		margin-top:10upx;
+		margin-top:30upx;
 		margin-left: 6%;
+		/* #ifndef H5 */
+		margin-top:140upx;
+		/* #endif */
 	}
 </style>
 

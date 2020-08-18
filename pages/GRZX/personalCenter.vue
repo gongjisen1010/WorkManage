@@ -5,8 +5,9 @@
 			<image src="../../static/GRZX/backImg.png" class="backClass"></image>
 			<!-- 头像 -->
 			<view class="portraitBox">
-				<image :src="portrait" v-if="!login" class="portraitClass1"></image>
-				<image :src="portrait" v-if="login" class="portraitClass2"></image>
+				<!-- <image :src="portrait" v-if="!login" class="portraitClass1"></image>
+				<image :src="portrait" v-if="login" class="portraitClass2"></image> -->
+				<image :src="portrait|| '/static/GRZX/icon-jdt.png'" :class="login?'portraitClass2':'portraitClass1'"></image>
 			</view>
 			<!-- 公司名称 -->
 			<text class="nameClass">{{userName}}</text>
@@ -48,7 +49,7 @@
 		data(){
 			return{
 				userName:'', //公司名称
-				portrait:'../../static/GRZX/icon-jdt.png', //头像
+				portrait:'', //头像
 				equipmentNum:0,//设备总台数
 				typeNum:0,//设备分类数
 				login:false,
@@ -116,7 +117,7 @@
 					},
 					fail:err=> {
 						this.login=false;
-						this.portrait="../../static/GRZX/icon-jdt.png";
+						this.portrait="";
 						this.userName="立即登录";
 					}
 				})
