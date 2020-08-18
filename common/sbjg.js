@@ -57,6 +57,13 @@ const SbjgInterface = {
 		method:'POST',
 		header:{'content-type':'application/x-www-form-urlencoded'},
 	},
+	//--------------------------------------获取cpu占用率和剩余内存--------------------------------------
+	GetAllCpu:{
+		Url: Url2 + '/Home/GetAllCpu',
+		name:'获取cpu占用率和剩余内存',
+		method:'POST',
+		header:{'content-type':'application/x-www-form-urlencoded'},
+	},
 }
 // 接口声明区
 export default {
