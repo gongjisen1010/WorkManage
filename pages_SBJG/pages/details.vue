@@ -26,17 +26,17 @@
 				<text class="tsa_text" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}/{{emptyTicketReset(moneySum)}}</text>
 				<text class="tsa_text" v-if="parameter.Online==false">---/---</text>
 				<view style="display: flex;">
-					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFill"></image>
+					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFit"></image>
 					<text class="tsa_text2">售票数/金额</text>
 				</view>
 			</view>
 			
 			<view class="ol_cpuConsumption">
-				<text class="cc_text" v-if="parameter.Online==true">78%</text>
+				<text class="cc_text" v-if="parameter.Online==true">78MB</text>
 				<text class="cc_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
-					<image class="cc_icon" src="../static/cpu.png" mode="aspectFill"></image>
-					<text class="cc_text2">CPU利用率</text>
+					<image class="cc_icon"  src="../static/wendu.png" mode="aspectFit"></image>
+					<text class="cc_text2">可用内存</text>
 				</view>
 			</view>
 			
@@ -44,8 +44,8 @@
 				<text class="ct_text" v-if="parameter.Online==true">56°C</text>
 				<text class="ct_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
-					<image class="ct_icon" src="../static/wendu.png" mode="aspectFill"></image>
-					<text class="ct_text2">CPU温度</text>
+					<image class="ct_icon" style="" src="../static/cpu.png" mode="aspectFit"></image>
+					<text class="ct_text2">CPU占用率</text>
 				</view>
 			</view>
 			
@@ -153,7 +153,7 @@
 		<popup ref="popup" type="bottom">
 			<view class="boxView2">
 				<view class="titleView2">
-					<text class="Nb_text3">设备位置</text>
+					<text class="Nb_text3">设备参数</text>
 					<text class="Nb_text4 jdticon icon-fork" @click="close(1)"></text>
 				</view>
 				<scroll-view class="noticeBox2" scroll-y="ture">
@@ -164,24 +164,24 @@
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">设备开机次数</text>
+							<text class="ct_text">开机次数</text>
 							<text class="ct_text2" v-if="parameter.Online==true">52</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">开机时间</text>
-							<text class="ct_text2" v-if="parameter.Online==true">5分钟</text>
+							<text class="ct_text2" v-if="parameter.Online==true">175分钟</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">售票数量</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{sellTicketData.Score1}}</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">售票金额</text>
 							<text class="ct_text2"></text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{sellTicketData.Score2}}</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{emptyTicketReset(moneySum)}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
@@ -210,11 +210,11 @@
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">内存占用率</text>
+							<text class="ct_text">可用内存(MB)</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{memory}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
-						<view class="tl_content">
+<!-- 						<view class="tl_content">
 							<text class="ct_text">当前运行程序</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{runFunction}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
@@ -223,7 +223,7 @@
 							<text class="ct_text">程序运行时间</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{time}}时</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
-						</view>
+						</view> -->
 					</view>
 				</scroll-view>
 			</view>
@@ -233,15 +233,15 @@
 		<popup ref="popup2" type="bottom">
 			<view class="boxView2">
 				<view class="titleView2">
-					<text class="Nb_text3">设备位置</text>
+					<text class="Nb_text3">运行进程</text>
 					<text class="Nb_text4 jdticon icon-fork" @click="close(2)"></text>
 				</view>
 				<scroll-view class="noticeBox2" scroll-y="ture">
 					<view class="tv_title">
-						<view class="tl_content">
-							<text class="ct_text">设备年限</text>
-							<text class="ct_text2" v-if="parameter.Online==true">5</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+						<view class="tl_content" style="display: flex;" v-for="(item,index) in parameter.t" :key="index">
+							<text class="ct_text3">{{item.MainWindowTitle}}{{'('+item.ProgressName+')'}}</text>
+							<text class="ct_text4" >{{timestampConversion(item.StartTime)}}</text>
+							<!-- <text class="ct_text4" v-if="parameter.Online==false">--</text> -->
 						</view>
 					</view>
 				</scroll-view>
@@ -376,7 +376,7 @@
 								})
 							}
 						})
-						// this.getDeviceData(); //定时器刷新
+						this.getDeviceData(); //定时器刷新
 					},
 					fail: () => {
 						uni.showToast({
@@ -604,6 +604,26 @@
 				}else{
 					return e
 				}
+			},
+			
+			//时间戳转换
+			timestampConversion:function(e){
+				// #ifndef APP-PLUS
+				var a =  new Date(parseInt(e.slice(6,19)) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+				return a.slice(6)
+				// #endif
+				// #ifdef APP-PLUS
+				var date = new Date(parseInt(e.slice(6,19).replace("/Date(", "").replace(")/", ""), 10));
+				//月份为0-11，所以+1，月份小于10时补个0
+				var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+				var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+				var hour = date.getHours();
+				var minute = date.getMinutes();
+				var second = date.getSeconds();
+				var dd = date.getFullYear() + "-" + month + "-" + currentDate + " "+hour+":"+minute+":"+second;
+				// console.log(dd.slice(5))
+				return dd.slice(5)
+				// #endif
 			},
 			
 			getServerData() {
@@ -966,6 +986,29 @@
 						font-size: 32upx;
 						padding-right: 20upx;
 					}
+					
+					.ct_text3{
+						left: 0;
+						font-size: 28upx;
+						padding-left: 20upx;
+						display: flex;
+						text-overflow: ellipsis; //文章超出宽度隐藏并用...表示
+						white-space: nowrap;
+						overflow: hidden;
+						width: 360upx;
+					}
+					
+					.ct_text4{
+						position: absolute;
+						float: right;
+						right: 0;
+						color: #aaa;
+						font-size: 24upx;
+						text-overflow: ellipsis; //文章超出宽度隐藏并用...表示
+						white-space: nowrap;
+						overflow: hidden;
+						width: 200upx;
+					}
 				}
 			}
 		}
@@ -980,7 +1023,7 @@
 	
 	.ol_seeMore{
 		text-align: center;
-		/* #ifdef MP-WEIXIN */
+		/* #ifndef APP-PLUS */
 		margin: 64upx 20upx 56upx 20upx;
 		/* #endif */
 		/* #ifdef APP-PLUS */
@@ -1003,12 +1046,12 @@
 		width:120upx;
 		text-align: center;
 		/* #ifdef APP-PLUS */
-		top: 30upx;
+		top: 48upx;
 		/* #endif */
-		/* #ifdef MP-WEIXIN */
+		/* #ifndef APP-PLUS */
 		top: 60upx;
 		/* #endif */
-		left: 88upx;
+		left: 96upx;
 		
 		.es_text{
 			font-size:30upx;
@@ -1034,10 +1077,10 @@
 		/* #ifdef APP-PLUS */
 		top: 210upx;
 		/* #endif */
-		/* #ifdef MP-WEIXIN */
-		top: 220upx;
+		/* #ifndef APP-PLUS */
+		top: 212upx;
 		/* #endif */
-		left: 88upx;
+		left: 96upx;
 		
 		.ns_text{
 			font-size:30upx;
@@ -1062,7 +1105,7 @@
 		width:180upx;
 		text-align: center;
 		top: 50upx;
-		right: 64upx;
+		right: 48upx;
 		
 		.tsa_text{
 			font-size:30upx;
@@ -1071,10 +1114,10 @@
 		}
 		
 		.tsa_icon{
-			width: 28upx;
-			height: 24upx;
-			margin-top: 6upx;
-			margin-right: 10upx;
+			width: 26upx;
+			height: 22upx;
+			margin-top: 10upx;
+			margin-right: 8upx;
 		}
 		
 		.tsa_text2{
@@ -1088,7 +1131,7 @@
 		width:180upx;
 		text-align: center;
 		top: 160upx;
-		right: 56upx;
+		right: 48upx;
 		
 		.cc_text{
 			font-size:30upx;
@@ -1098,9 +1141,9 @@
 		
 		.cc_icon{
 			width: 24upx;
-			height: 24upx;
-			margin-top: 6upx;
-			margin-right: 10upx;
+			height: 26upx;
+			margin-top: 8upx;
+			margin-right: 12upx;
 		}
 		
 		.cc_text2{
@@ -1114,7 +1157,7 @@
 		width:180upx;
 		text-align: center;
 		top: 274upx;
-		right: 56upx;
+		right: 48upx;
 		
 		.c_text{
 			font-size:30upx;
@@ -1123,9 +1166,9 @@
 		}
 		
 		.ct_icon{
-			width: 20upx;
-			height: 32upx;
-			margin-right: 22upx;
+			width: 24upx;
+			height: 36upx; 
+			margin-right:12upx
 		}
 		
 		.ct_text2{
