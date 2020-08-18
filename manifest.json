@@ -120,8 +120,13 @@
             "base" : "/h5_sbjg/"
         },
         "devServer" : {
-            "https" : true
+            "https" : false
         },
-        "domain" : "http://zntc.145u.net"
+        "domain" : "http://zntc.145u.net",
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        }
     }
 }

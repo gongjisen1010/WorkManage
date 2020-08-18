@@ -363,7 +363,9 @@
 		.hp_outerLayer {
 			position: absolute;
 			z-index: 2;
+			/* #ifndef H5 */
 			padding-top: 114upx;
+			/* #endif */
 			// margin-top: 192upx;
 
 			.if_DriverNumber {
