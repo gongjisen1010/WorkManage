@@ -32,17 +32,17 @@
 			</view>
 			
 			<view class="ol_cpuConsumption">
-				<text class="cc_text" >{{freeMemory}}MB</text>
-				<!-- <text class="cc_text" v-if="parameter.Online==false">---</text> -->
+				<text class="cc_text" v-if="parameter.Online==true">{{freeMemory}}MB</text>
+				<text class="cc_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
-					<image class="cc_icon"  src="../static/wendu.png" mode="aspectFit"></image>
+					<image class="cc_icon"  src="../static/neicun.png" mode="aspectFit"></image>
 					<text class="cc_text2">可用内存</text>
 				</view>
 			</view>
 			
 			<view class="ol_cpuTemperature">
-				<text class="ct_text">{{shareConversion(cpuProportion)}}</text>
-				<!-- <text class="ct_text" v-if="parameter.Online==false">---</text> -->
+				<text class="ct_text" v-if="parameter.Online==true">{{shareConversion(cpuProportion)}}</text>
+				<text class="ct_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
 					<image class="ct_icon" style="" src="../static/cpu.png" mode="aspectFit"></image>
 					<text class="ct_text2">CPU占用率</text>
@@ -52,10 +52,6 @@
 			<view class="ol_seeMore">
 				<text class="ct_text" @click="checkAttention(1)">查看更多></text>
 			</view>
-			<!-- <view class="im_abnormal">
-				<image class="al_image" src="../../static/yicang.png" mode="aspectFill"></image>
-				<text class="al_text">设备异常</text>
-			</view> -->
 			
 			<!-- 现状图 -->
 			<view class="ol_LineChart">
@@ -80,50 +76,6 @@
 				
 				
 			</view>
-			
-			<!-- 状态 -->
-			<!-- <view class="zl_click">
-				<view class="zl_topClick"> -->
-					<!-- 设备区域 -->
-					<!-- <view class="zl_independentTravel">
-						<text class="zl_itText">在线</text>
-					</view> -->
-					<!-- 在线状态	 -->
-					<!-- <view class="zl_independentTravel2">
-						<text class="zl_itText2">异常</text>
-						<text class="zl_stateText">网络状态</text>
-					</view> -->
-					<!-- 设备分布 -->
-					<!-- <view class="zl_independentTravel3">
-						<text class="zl_itText3">{{frequency}}次</text>
-						<text class="zl_stateText2">维修次数</text>
-					</view>
-				</view>
-			</view> -->
-			
-			<!-- cpu状态 -->
-			<!-- <view class="zl_click2">
-				<view class="zl_topClick2"> -->
-					<!-- 设备区域 -->
-					<!-- <view class="zl_independentTravel">
-						<text class="zl_itText">{{numberTickets}}张</text>
-						<text class="zl_stateText">售票数</text>
-					</view> -->
-					<!-- 在线状态	 -->
-					<!-- <view class="zl_independentTravel2">
-						<text class="zl_itText2">{{cpu}}</text>
-						<text class="zl_stateText2">CPU占用率</text>
-					</view> -->
-					<!-- 设备分布 -->
-					<!-- <view class="zl_independentTravel3">
-						<text class="zl_itText3">{{abnormalTimes}}次</text>
-						<text class="zl_stateText3">异常次数</text>
-					</view>
-				</view> -->
-				<!-- <view class="zl_bottomPopup">
-					<text class="bp_text" @tap="checkAttention">查看更多></text>
-				</view>
-			</view> -->
 			
 			<!-- 按钮 -->
 			<view>
@@ -165,12 +117,12 @@
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">开机次数</text>
-							<text class="ct_text2" v-if="parameter.Online==true">52</text>
+							<text class="ct_text2" v-if="parameter.Online==true">529</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">开机时间</text>
-							<text class="ct_text2" v-if="parameter.Online==true">175分钟</text>
+							<text class="ct_text2" v-if="parameter.Online==true">189分钟</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
@@ -206,12 +158,12 @@
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">CPU占用率</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{cpu}}</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{shareConversion(cpuProportion)}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">可用内存(MB)</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{memory}}</text>
+							<text class="ct_text">可用内存</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{freeMemory}}MB</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 <!-- 						<view class="tl_content">
@@ -1056,7 +1008,6 @@
 					
 					.ct_text{
 						left: 0;
-						font-size: 32upx;
 						padding-left: 20upx;
 					}
 					
@@ -1239,7 +1190,7 @@
 		top: 274upx;
 		right: 48upx;
 		
-		.c_text{
+		.ct_text{
 			font-size:30upx;
 			font-weight:500;
 			color:#212121;
