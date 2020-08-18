@@ -62,7 +62,7 @@
 							<view class="ec_content">
 								<view class="ct_title">{{item.WorkNumber}} - {{item.Remark}}</view>
 								<view class="ct_content">
-									<text class="ct_number">{{item.BreakNum}}次异常</text>
+									<text class="ct_number">{{item.BreakNum}}次掉线</text>
 									<text class="ct_state" style="color: #3CB96B;" v-if="item.Online==true">在线</text>
 									<text class="ct_state" style="color: #FF4444;" v-if="item.Online==false">离线</text>
 									<text class="ct_text">查看设备></text>

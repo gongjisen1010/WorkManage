@@ -116,13 +116,13 @@
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">开机次数</text>
-							<text class="ct_text2" v-if="parameter.Online==true">529</text>
+							<text class="ct_text">开机时间</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{parameter.OpenTime}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">开机时间</text>
-							<text class="ct_text2" v-if="parameter.Online==true">189分钟</text>
+							<text class="ct_text">掉线时长</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{parameter.OnlineTime}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
@@ -137,8 +137,8 @@
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
-							<text class="ct_text">异常次数</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{abnormalTimes}}</text>
+							<text class="ct_text">掉线次数</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{parameter.BreakNum}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
@@ -532,7 +532,7 @@
 			// --------------------------------------设备关机------------------
 			equipmentShutDown:function(){
 				uni.showModal({
-					title:'您确认要把设备关机吗？',
+					title:'您确认要把设备 "关机" 吗？',
 					success: (res) => {
 						console.log(res)
 						if(res.confirm == true){
@@ -582,7 +582,7 @@
 			// --------------------------------------设备重启------------------
 			equipmentRestart:function(){
 				uni.showModal({
-					title:'您确认要把设备关机吗？',
+					title:'您确认要把设备 "重启" 吗？',
 					success: (res) => {
 						console.log(res)
 						if(res.confirm == true){
@@ -1008,13 +1008,14 @@
 					
 					.ct_text{
 						left: 0;
+						font-size: 30upx;
 						padding-left: 20upx;
 					}
 					
 					.ct_text2{
 						position: absolute;
 						right: 0;
-						font-size: 32upx;
+						font-size: 28upx;
 						padding-right: 20upx;
 					}
 					
@@ -1076,12 +1077,7 @@
 		position: absolute;
 		width:120upx;
 		text-align: center;
-		/* #ifdef APP-PLUS */
 		top: 48upx;
-		/* #endif */
-		/* #ifndef APP-PLUS */
-		top: 60upx;
-		/* #endif */
 		left: 96upx;
 		
 		.es_text{
