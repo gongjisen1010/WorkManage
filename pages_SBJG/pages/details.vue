@@ -3,7 +3,9 @@
 		<image class="top_image" src="../../static/HOME/beijin2.png" mode="aspectFill"></image>
 		<view class="tp_outerLayer">
 			<view class="ol_image">
-				<image class="im_image" src="../static/baobanji.png" mode="aspectFit"></image>
+				<image class="im_image" v-if="parameter.Type == 2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
+				<image class="im_image" v-if="parameter.Type == 1" src="../../static/HOME/shoupiaoji.png" mode="aspectFit"></image>
+				<image class="im_image" style="height: 70%;" v-if="parameter.Type == 0" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
 			</view>
 			
 			<view class="ol_equipmentStatus">
