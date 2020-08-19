@@ -16,6 +16,8 @@
 	@import url("@/common/overallSituation.css");
 	/*每个页面公共css */
 	@import url("@/common/overallSituation.css");
+	/*每个页面公共css动画 */
+	@import url("@/common/animate.min.css");
 	/* #ifndef APP-NVUE */
 	@font-face {
 		font-family: jdticon;

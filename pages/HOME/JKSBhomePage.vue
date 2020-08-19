@@ -121,13 +121,6 @@
 		data() {
 			return {
 				type: 0,
-				// selectBank: [{
-				// 		txt: '客运中心站',
-				// 	},
-				// 	{
-				// 		txt: '泉州汽车站',
-				// 	}
-				// ],
 				selectBank: [{
 					AID: '',
 					CompanyID: '',
