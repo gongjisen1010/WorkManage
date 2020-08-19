@@ -69,7 +69,7 @@
 								<image class="ec_image2" v-if="popUpModule == 0" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
 							</view>
 							<view class="ec_content">
-								<view class="ct_title">{{item.WorkNumber}} - {{item.Remark}}</view>
+								<view class="ct_title">{{item.WorkNumber}} - {{item.Code}}</view>
 								<view class="ct_content">
 									<text class="ct_number">{{item.BreakNum}}次掉线</text>
 									<text class="ct_state" style="color: #3CB96B;" v-if="item.Online==true">在线</text>
@@ -173,11 +173,11 @@
 			}
 		},
 		onLoad: function() {
-			
+			this.interfaceData();
 		},
 
 		onShow:function() {
-			this.interfaceData();
+			this.deviceData();
 		},
 
 		methods: {
