@@ -6,7 +6,7 @@
 				<!-- 选择车站 -->
 				<view class="if_DriverNumber">
 					<picker @change="godetail" :value="index" :range="selectBank" range-key="StationName">
-						<text class="tsnrText">{{bankObject}}</text>
+						<text class="tsnrText animated flash">{{bankObject}}</text>
 					</picker>
 					<text class="dn_text2" style="margin-top: 8upx;">></text>
 				</view>

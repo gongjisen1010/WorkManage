@@ -15,9 +15,9 @@
 			<view class="ol_equipmentStatus">
 				<text class="es_text">设备状态</text>
 				<text class="es_text2" v-if="parameter.Online==true">硬件在线</text>
-				<text class="es_text3" v-if="parameter.Online==false">硬件离线</text>
+				<text class="es_text3 animated flash" v-if="parameter.Online==false">硬件离线</text>
 				<text class="es_text2" v-if="parameter.Online==true">软件在线</text>
-				<text class="es_text3" v-if="parameter.Online==false">软件异常</text>
+				<text class="es_text3 animated flash" v-if="parameter.Online==false">软件异常</text>
 			</view>
 
 			<view class="ol_networkStatus">
@@ -25,12 +25,12 @@
 				<!-- <text class="ns_text2" v-if="parameter.Online==true">外网正常</text>
 				<text class="ns_text3" v-if="parameter.Online==false">外网异常</text> -->
 				<text class="ns_text2" v-if="parameter.Online==true">内网正常</text>
-				<text class="ns_text3" v-if="parameter.Online==false">内网异常</text>
+				<text class="ns_text3 animated flash" v-if="parameter.Online==false">内网异常</text>
 			</view>
 
 			<view class="ol_ticketSalesAmount" v-if="parameter.Type == 0 || parameter.Type == 1 || parameter.Type == 2">
 				<text class="tsa_text" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}/{{emptyTicketReset(moneySum)}}</text>
-				<text class="tsa_text" v-if="parameter.Online==false">---/---</text>
+				<text class="tsa_text animated flash" v-if="parameter.Online==false">---/---</text>
 				<view style="display: flex;">
 					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFit"></image>
 					<text class="tsa_text2" v-if="parameter.Type == 2">开单数/金额</text>
@@ -41,7 +41,7 @@
 
 			<view class="ol_ticketSalesAmount" v-if="parameter.Type == 3 || parameter.Type == 4 || parameter.Type == 5">
 				<text class="tsa_text" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}</text>
-				<text class="tsa_text" v-if="parameter.Online==false">---</text>
+				<text class="tsa_text animated flash" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
 					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFit"></image>
 					<text class="tsa_text2" v-if="parameter.Type == 5">班次数</text>
@@ -52,7 +52,7 @@
 
 			<view class="ol_cpuConsumption">
 				<text class="cc_text" v-if="parameter.Online==true">{{memoryConversion(freeMemory)}}</text>
-				<text class="cc_text" v-if="parameter.Online==false">---</text>
+				<text class="cc_text animated flash" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
 					<image class="cc_icon" src="../static/neicun.png" mode="aspectFit"></image>
 					<text class="cc_text2">可用内存</text>
@@ -61,7 +61,7 @@
 
 			<view class="ol_cpuTemperature">
 				<text class="ct_text" v-if="parameter.Online==true">{{shareConversion(cpuProportion)}}</text>
-				<text class="ct_text" v-if="parameter.Online==false">---</text>
+				<text class="ct_text animated flash" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
 					<image class="ct_icon" style="" src="../static/cpu.png" mode="aspectFit"></image>
 					<text class="ct_text2">CPU占用率</text>
@@ -125,61 +125,61 @@
 						<view class="tl_content">
 							<text class="ct_text">设备年限</text>
 							<text class="ct_text2" v-if="parameter.Online==true">5</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+							<text class="ct_text2 animated flash" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">开机时间</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{parameter.OpenTime}}</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+							<text class="ct_text2 animated flash" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">掉线时长</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{parameter.OnlineTime}}</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+							<text class="ct_text2 animated flash" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content" :hidden="parameter.Type == 3 || parameter.Type == 4 || parameter.Type == 5">
 							<text class="ct_text" v-if="parameter.Type == 2">开单数量</text>
 							<text class="ct_text" v-if="parameter.Type == 1">售票数量</text>
 							<text class="ct_text" v-if="parameter.Type == 0">检票数量</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+							<text class="ct_text2 animated flash" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content" :hidden="parameter.Type == 3 || parameter.Type == 4 || parameter.Type == 5">
 							<text class="ct_text" v-if="parameter.Type == 2">开单金额</text>
 							<text class="ct_text" v-if="parameter.Type == 1">售票金额</text>
 							<text class="ct_text" v-if="parameter.Type == 0">检票金额</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{emptyTicketReset(moneySum)}}</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+							<text class="ct_text2 animated flash" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">掉线次数</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{parameter.BreakNum}}</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+							<text class="ct_text2 animated flash" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">维修次数</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{frequency}}</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+							<text class="ct_text2 animated flash" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">设备状态</text>
 							<text class="ct_text2" style="color: #3CB96B;" v-if="parameter.Online==true">在线</text>
-							<text class="ct_text2" style="color: #FF6969;" v-if="parameter.Online==false">离线</text>
+							<text class="ct_text2 animated flash" style="color: #FF6969;" v-if="parameter.Online==false">离线</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">网络状态</text>
 							<text class="ct_text2" style="color: #3CB96B;" v-if="parameter.Online==true">正常</text>
-							<text class="ct_text2" style="color: #FF6969;" v-if="parameter.Online==false">异常</text>
+							<text class="ct_text2 animated flash" style="color: #FF6969;" v-if="parameter.Online==false">异常</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">CPU占用率</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{shareConversion(cpuProportion)}}</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+							<text class="ct_text2 animated flash" v-if="parameter.Online==false">--</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">可用内存</text>
 							<text class="ct_text2" v-if="parameter.Online==true">{{memoryConversion(freeMemory)}}</text>
-							<text class="ct_text2" v-if="parameter.Online==false">--</text>
+							<text class="ct_text2 animated flash" v-if="parameter.Online==false">--</text>
 						</view>
 					</view>
 				</scroll-view>
@@ -1045,10 +1045,10 @@
 		width: 120upx;
 		text-align: center;
 		/* #ifdef APP-PLUS */
-		top: 210upx;
+		top: 262upx;
 		/* #endif */
 		/* #ifndef APP-PLUS */
-		top: 212upx;
+		top: 264upx;
 		/* #endif */
 		left: 96upx;
 
