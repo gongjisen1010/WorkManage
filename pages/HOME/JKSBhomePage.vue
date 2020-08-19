@@ -283,7 +283,6 @@
 					this.getDeviceList();
 					this.$refs.popup.open()
 				}
-				
 			},
 			close() {
 				this.$refs.popup.close()
@@ -498,6 +497,10 @@
 		padding-bottom: 40upx;
 		background: #FFFFFF;
 		z-index: 999;
+		/* #ifdef H5 */
+		margin-bottom: 96upx;
+		/* #endif */
+		
 
 		.titleView2 {
 			margin-top: 24upx;
@@ -607,7 +610,7 @@
 			.zl_topClick {
 				display: flex;
 				padding-top: 20upx;
-
+				
 				// 设备区域
 				.zl_independentTravel {
 					position: relative;
