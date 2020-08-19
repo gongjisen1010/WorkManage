@@ -3,14 +3,15 @@
 		<image class="top_image" src="../../static/HOME/beijin2.png" mode="aspectFill"></image>
 		<view class="tp_outerLayer">
 			<view class="ol_image">
-				<image class="im_image" style="height: 58%;" v-if="parameter.Type == 5" src="../../static/HOME/bancixinxiping.png" mode="aspectFit"></image>
+				<image class="im_image" style="height: 58%;" v-if="parameter.Type == 5" src="../../static/HOME/bancixinxiping.png"
+				 mode="aspectFit"></image>
 				<image class="im_image" style="height: 58%;" v-if="parameter.Type == 4" src="../../static/HOME/fachewei.png" mode="aspectFit"></image>
 				<image class="im_image" v-if="parameter.Type == 3" src="../static/baobanji.png" mode="aspectFit"></image>
 				<image class="im_image" v-if="parameter.Type == 2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
 				<image class="im_image" v-if="parameter.Type == 1" src="../static/shoupiaoji.png" mode="aspectFit"></image>
 				<image class="im_image" style="height: 70%;" v-if="parameter.Type == 0" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
 			</view>
-			
+
 			<view class="ol_equipmentStatus">
 				<text class="es_text">设备状态</text>
 				<text class="es_text2" v-if="parameter.Online==true">硬件在线</text>
@@ -18,46 +19,46 @@
 				<text class="es_text2" v-if="parameter.Online==true">软件在线</text>
 				<text class="es_text3" v-if="parameter.Online==false">软件异常</text>
 			</view>
-			
+
 			<view class="ol_networkStatus">
-				<text class="ns_text">设备状态</text>
-				<text class="ns_text2" v-if="parameter.Online==true">外网正常</text>
-				<text class="ns_text3" v-if="parameter.Online==false">外网异常</text>
+				<text class="ns_text">网络状态</text>
+				<!-- <text class="ns_text2" v-if="parameter.Online==true">外网正常</text>
+				<text class="ns_text3" v-if="parameter.Online==false">外网异常</text> -->
 				<text class="ns_text2" v-if="parameter.Online==true">内网正常</text>
 				<text class="ns_text3" v-if="parameter.Online==false">内网异常</text>
 			</view>
-			
+
 			<view class="ol_ticketSalesAmount" v-if="parameter.Type == 0 || parameter.Type == 1 || parameter.Type == 2">
 				<text class="tsa_text" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}/{{emptyTicketReset(moneySum)}}</text>
 				<text class="tsa_text" v-if="parameter.Online==false">---/---</text>
 				<view style="display: flex;">
 					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFit"></image>
-					<text class="tsa_text2" v-if="parameter.Type == 2" >开单数/金额</text>
-					<text class="tsa_text2" v-if="parameter.Type == 1" >售票数/金额</text>
-					<text class="tsa_text2" v-if="parameter.Type == 0" >检票数/金额</text>
+					<text class="tsa_text2" v-if="parameter.Type == 2">开单数/金额</text>
+					<text class="tsa_text2" v-if="parameter.Type == 1">售票数/金额</text>
+					<text class="tsa_text2" v-if="parameter.Type == 0">检票数/金额</text>
 				</view>
 			</view>
-			
+
 			<view class="ol_ticketSalesAmount" v-if="parameter.Type == 3 || parameter.Type == 4 || parameter.Type == 5">
-				<text class="tsa_text" v-if="parameter.Online==true">1588次</text>
+				<text class="tsa_text" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}</text>
 				<text class="tsa_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
 					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFit"></image>
-					<text class="tsa_text2" v-if="parameter.Type == 5" >班次数</text>
-					<text class="tsa_text2" style="margin-left: 4upx;" v-if="parameter.Type == 4" >发车数</text>
-					<text class="tsa_text2" v-if="parameter.Type == 3" >报班数</text>
+					<text class="tsa_text2" v-if="parameter.Type == 5">班次数</text>
+					<text class="tsa_text2" style="margin-left: 4upx;" v-if="parameter.Type == 4">发车数</text>
+					<text class="tsa_text2" v-if="parameter.Type == 3">报班数</text>
 				</view>
 			</view>
-			
+
 			<view class="ol_cpuConsumption">
 				<text class="cc_text" v-if="parameter.Online==true">{{memoryConversion(freeMemory)}}</text>
 				<text class="cc_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
-					<image class="cc_icon"  src="../static/neicun.png" mode="aspectFit"></image>
+					<image class="cc_icon" src="../static/neicun.png" mode="aspectFit"></image>
 					<text class="cc_text2">可用内存</text>
 				</view>
 			</view>
-			
+
 			<view class="ol_cpuTemperature">
 				<text class="ct_text" v-if="parameter.Online==true">{{shareConversion(cpuProportion)}}</text>
 				<text class="ct_text" v-if="parameter.Online==false">---</text>
@@ -66,36 +67,31 @@
 					<text class="ct_text2">CPU占用率</text>
 				</view>
 			</view>
-			
+
 			<view class="ol_seeMore">
 				<text class="ct_text" @click="checkAttention(1)">查看更多></text>
 			</view>
-			
+
 			<!-- 现状图 -->
-			<view class="ol_LineChart" :hidden="sellTicketDataIndex == 0 && cpuMemoryIndex == 0" >
+			<view class="ol_LineChart" :hidden="sellTicketDataIndex == 0 && cpuMemoryIndex == 0">
 				<!-- 折线Line纯数字-->
-				<view class="line" :hidden="sellTicketDataIndex == 0">
+				<view class="line" :hidden="sellTicketDataIndex == 0 && cpuMemoryIndex == 0">
 					<line-chart ref="lineData2" canvasId="index_line_2" :dataAs="lineData2" />
 				</view>
 				<!-- 折线Line带百分比 -->
-				<view class="line" :hidden="cpuMemoryIndex == 0" >
-					<line-chart
-						canvasId="index_line_1"
-						ref="lineData1"
-						:dataAs="lineData"
-						:yAxisAs="{
+				<!-- <view class="line" :hidden="cpuMemoryIndex == 0">
+					<line-chart canvasId="index_line_1" ref="lineData1" :dataAs="lineData" :yAxisAs="{
 							formatter: {
 								type: 'percent', //type:number percent String,额外参数:fixed:NUmber,name:String
 								fixed: 2
 							}
-						}"
-					/>
-				</view>
+						}" />
+				</view> -->
 			</view>
-			
+
 			<!-- 按钮 -->
 			<view>
-				<view class="ol_shutDown" hover-class="ol_hover"  @click="equipmentShutDown">
+				<view class="ol_shutDown" hover-class="ol_hover" @click="equipmentShutDown">
 					<image class="sd_icon" style="width: 30upx;" src="../static/guanji.png" mode="aspectFit"></image>
 					<text class="sd_text">设备关机</text>
 				</view>
@@ -113,10 +109,10 @@
 				</view>
 				<!-- <view class="ol_register"></view> -->
 			</view>
-			
-			
+
+
 		</view>
-		
+
 		<!-- 查看须知popup -->
 		<popup ref="popup" type="bottom">
 			<view class="boxView2">
@@ -189,7 +185,7 @@
 				</scroll-view>
 			</view>
 		</popup>
-		
+
 		<!-- 查看须知popup -->
 		<popup ref="popup2" type="bottom">
 			<view class="boxView2">
@@ -201,7 +197,7 @@
 					<view class="tv_title">
 						<view class="tl_content" style="display: flex;" v-for="(item,index) in parameter.t" :key="index">
 							<text class="ct_text3">{{item.MainWindowTitle}}{{'('+item.ProgressName+')'}}</text>
-							<text class="ct_text4" >{{timestampConversion(item.StartTime)}}</text>
+							<text class="ct_text4">{{timestampConversion(item.StartTime)}}</text>
 							<!-- <text class="ct_text4" v-if="parameter.Online==false">--</text> -->
 						</view>
 					</view>
@@ -222,118 +218,195 @@
 		},
 		data() {
 			return {
-				equipmentStatus:0,
-				networkStatus:0,
-				sellTicket:177,
-				money:2050,
+				equipmentStatus: 0,
+				networkStatus: 0,
+				sellTicket: 177,
+				money: 2050,
 				lineData: {
 					//带百分比的图--折线图数据
 					categories: [],
-					series: [{ 
-						name: 'CPU占用率', 
+					series: [{
+						name: 'CPU占用率',
 						data: [],
 					}]
 				},
 				lineData2: {
 					//数字的图--折线图数据
 					categories: [],
-					series: [{
-							name: '售票数',
-							data: [] ,
-						}]
+					series: []
 				},
 				title: '今点通报班机OJ2988',
-				frequency:5,
-				numberTickets:175,
-				cpu:'56%',
-				memory:'60%',
-				abnormalTimes:15,
-				state:0,
-				runFunction:"联网售票系统",
-				time:240,
-				
-				parameter:'', //设备数据
-				sellTicketData : '', //售票数据
-				sellTicketDataIndex : 0, // 售票统计图默认值
-				cpuMemory : '',//cpu占用率和剩余内存
-				cpuMemoryIndex : 0, //cpu统计图默认值
-				timer : '',//定时器参数
-				ticketSum : '',//售票总数
-				moneySum : '',//金额总数
-				cpuProportion : '---',//CPU占比率				freeMemory : '---', //剩余内存
+				frequency: 5,
+				numberTickets: 175,
+				cpu: '56%',
+				memory: '60%',
+				abnormalTimes: 15,
+				state: 0,
+				runFunction: "联网售票系统",
+				time: 240,
+
+				parameter: '', //设备数据
+				sellTicketData: '', //售票数据
+				sellTicketDataIndex: 0, // 售票统计图默认值
+				cpuMemory: '', //cpu占用率和剩余内存
+				cpuMemoryIndex: 0, //cpu统计图默认值
+				timer: '', //定时器参数
+				ticketSum: '', //售票总数
+				moneySum: '', //金额总数
+				cpuProportion: '---', //CPU占比率
+				freeMemory: '---', //剩余内存
 			}
 		},
-		onLoad:function() {
+		onLoad: function() {
 			this.RequestDeviceParameters();
 		},
-		onUnload:function(){
+		onUnload: function() {
 			clearInterval(this.timer)
 		},
 		methods: {
 			// 页面第一次获取设备数据
-			RequestDeviceParameters:function(){
+			RequestDeviceParameters: function() {
 				var that = this;
 				var data = uni.getStorageSync('equipmentParameters')
 				console.log(data)
 				uni.request({
 					url: $Sbjg.SbjgInterface.GetSettingByID.Url,
 					method: $Sbjg.SbjgInterface.GetSettingByID.method,
-					header:$Sbjg.SbjgInterface.GetSettingByID.header,
-					data:{
-						AID : data.AID,
+					header: $Sbjg.SbjgInterface.GetSettingByID.header,
+					data: {
+						AID: data.AID,
 					},
 					success: (res) => {
-						console.log('设备参数',res)
+						console.log('设备参数', res)
 						this.parameter = '';
 						this.parameter = res.data;
-						if(res.data.Type == 0 ){
-							this.lineData2.series[0].name = '检票数'
-						}else if(res.data.Type == 1 ){
-							this.lineData2.series[0].name = '售票数'
-						}else if(res.data.Type == 2 ){
-							this.lineData2.series[0].name = '开单数'
-						}else if(res.data.Type == 3 ){
-							this.lineData2.series[0].name = '报班数'
-						}
 						this.titleData();
+						that.lineData2.categories = []; //清空X轴数据
+						this.lineData2.series = []; //清空Y轴数据
+
 						//请求设备售出的票数接口
 						uni.request({
 							url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
 							method: $Sbjg.SbjgInterface.GetBySettingAID.method,
-							header:$Sbjg.SbjgInterface.GetBySettingAID.header,
+							header: $Sbjg.SbjgInterface.GetBySettingAID.header,
 							data: {
-								AID : that.parameter.AID,
+								AID: that.parameter.AID,
 							},
 							success: (res) => {
-								console.log('设备售票',res)
+								console.log('设备售票', res)
 								that.sellTicketData = res.data;
 								that.sellTicketDataIndex = res.data.length;
-								console.log(that.sellTicketData)
+								that.ticketSum = 0;
+								that.moneySum = 0;
 								//筛选数据，重组数组
-								if(res.data.length !== 0 ){
-									that.lineData2.categories = [];
-									that.lineData2.series[0].data = [];
-									that.ticketSum = 0 ;
-									that.moneySum = 0 ;
-									for(var i=0;i<res.data.length; i++){
+								if (res.data.length !== 0) {
+									var ticketSales = {
+										name: '',
+										data: [],
+									}
+									if (that.parameter.Type == 0) {
+										ticketSales.name = '检票数';
+									} else if (that.parameter.Type == 1) {
+										ticketSales.name = '售票数';
+									} else if (that.parameter.Type == 2) {
+										ticketSales.name = '开单数';
+									} else if (that.parameter.Type == 3) {
+										ticketSales.name = '报班数';
+									}
+
+									for (var i = 0; i < res.data.length; i++) {
 										//重组时段
 										var a = res.data[i].Time.slice(11);
-										that.lineData2.categories.push(a+'时')
+										that.lineData2.categories.push(a + '时')
 										// console.log(that.lineData2.categories) 
-										
+
 										//重组票数
 										var b = res.data[i].Score1;
-										that.lineData2.series[0].data.push(b);
-										// console.log(that.lineData2.series[0].data) 
-										
+										ticketSales.data.push(b);
+										// console.log(ticketSales.data) 
+
 										//累加票数
 										that.ticketSum += res.data[i].Score1;
 										// console.log('票数',that.ticketSum)
 										//累加金额
 										that.moneySum += res.data[i].Score2;
 										// console.log('金额',that.moneySum)
+									}
+									that.lineData2.series.push(ticketSales)
+									//生成图形
+									that.$nextTick(() => {
+										that.$refs['lineData2'].showCharts();
+									});
+								}
+								uni.hideLoading()
+							},
+							fail: () => {
+								uni.showToast({
+									title: '服务器异常，请重试，重试后不行请联系客服',
+									icon: 'none'
+								})
+							}
+						})
 
-										 //生成图形
+						//请求cpu占用率和剩余内存
+						uni.request({
+							url: $Sbjg.SbjgInterface.GetAllCpu.Url,
+							method: $Sbjg.SbjgInterface.GetAllCpu.method,
+							header: $Sbjg.SbjgInterface.GetAllCpu.header,
+							data: {
+								AID: that.parameter.AID,
+								// AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
+							},
+							success: (res) => {
+								console.log('cpu内存', res)
+								that.cpuMemory = res.data;
+								that.cpuMemoryIndex = res.data.length;
+
+
+								//筛选数据，重组数组
+								if (res.data.length !== 0) {
+									that.cpuProportion = res.data[res.data.length-1].Score1; //获取数组最后一个为cpu占用率
+									that.freeMemory = res.data[res.data.length-1].Score3; //获取数组最后一个为剩余内存
+									
+									var cpuObject = {
+										name: 'cpu占用率',
+										data: [],
+									}
+									
+									if (that.sellTicketDataIndex !== 0) {
+										var a1 = that.lineData2.series[0].data.concat(that.lineData2.series[0].data);
+										var b2 = a1.sort((a, b) => b - a)
+										for (var i = 0; i < res.data.length; i++) {
+											//重组票数
+											// console.log(b2)
+											var e = res.data[i].Score1 * b2[0];
+											// console.log(e)
+											if( e == 0){
+												cpuObject.data.push(e2);
+											}else{
+												var e2 = e.toFixed(2);
+												cpuObject.data.push(e2);
+											}
+										}
+										that.lineData2.series.push(cpuObject)
+										//生成图形
+										that.$nextTick(() => {
+											that.$refs['lineData2'].showCharts();
+										});
+									} else {
+										for (var i = 0; i < res.data.length; i++) {
+											//重组时段
+											var a = res.data[i].Time;
+											that.lineData2.categories.push(a + '时')
+											// console.log(that.lineData2.categories) 
+
+											//重组票数
+											var d = res.data[i].Score1;
+											var d2 = d.slice(0,6);
+											cpuObject.data.push(d2);
+										}
+										that.lineData2.series.push(cpuObject)
+										//生成图形
 										that.$nextTick(() => {
 											that.$refs['lineData2'].showCharts();
 										});
@@ -343,390 +416,204 @@
 							},
 							fail: () => {
 								uni.showToast({
-									title:'服务器异常，请重试，重试后不行请联系客服',
-									icon:'none'
+									title: '服务器异常，请重试，重试后不行请联系客服',
+									icon: 'none'
 								})
 							}
 						})
-						//请求cpu占用率和剩余内存
-						uni.request({
-							url: $Sbjg.SbjgInterface.GetAllCpu.Url,
-							method: $Sbjg.SbjgInterface.GetAllCpu.method,
-							header:$Sbjg.SbjgInterface.GetAllCpu.header,
-							data: {
-								AID : that.parameter.AID,
-								// AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
-							},
-							success: (res) => {
-								console.log('cpu内存',res)
-								that.cpuMemory = res.data;
-								that.cpuMemoryIndex = res.data.length;
-								if(res.data.length !== 0){
-									that.cpuProportion  = res.data[0].Score1;
-									that.freeMemory   = res.data[0].Score3;
-								}
-								console.log(that.cpuMemory)
-								//筛选数据，重组数组
-								if(res.data.length !== 0 ){
-									that.lineData.categories = [];
-									that.lineData.series[0].data = [];
-									that.ticketSum = 0 ;
-									that.moneySum = 0 ;
-									for(var i=0;i<res.data.length; i++){
-										//重组时段
-										var a = res.data[i].Time;
-										that.lineData.categories.push(a+'分')
-										// console.log(that.lineData2.categories) 
-										
-										//重组票数
-										var b = res.data[i].Score1.slice(0,5);
-										that.lineData.series[0].data.push(b);
-										console.log(that.lineData2.series[0].data) 
-										
-										 //生成图形
-										 that.$nextTick(() => {
-										 	that.$refs['lineData1'].showCharts();
-										 });
-									}
-								}
-								uni.hideLoading()
-							},
-							fail: () => {
-								uni.showToast({
-									title:'服务器异常，请重试，重试后不行请联系客服',
-									icon:'none'
-								})
-							}
-						})
-						
-						this.getDeviceData(); //定时器刷新
+
 					},
 					fail: () => {
 						uni.showToast({
-							title:'服务器异常，请重试，重试后不行请联系客服',
-							icon:'none'
+							title: '服务器异常，请重试，重试后不行请联系客服',
+							icon: 'none'
 						})
 					}
 				})
-				
-			},
-			//定时器 - 获取设备参数
-			getDeviceData:function(){
-				var that = this;
-				this.timer = setInterval(function(){
-					uni.showLoading({
-						title:'刷新设备数据中...',
-					})
-					console.log('请求一次')
-					uni.request({
-						url: $Sbjg.SbjgInterface.GetSettingByID.Url,
-						method: $Sbjg.SbjgInterface.GetSettingByID.method,
-						header:$Sbjg.SbjgInterface.GetSettingByID.header,
-						data:{
-							AID : that.parameter.AID,
-						},
-						success: (res) => {
-							console.log('设备数据参数',res)
-							that.parameter = '';
-							that.parameter = res.data;
-							
-							if(res.data.Type == 0 ){
-								this.lineData2.series[0].name = '检票数'
-							}else if(res.data.Type == 1 ){
-								this.lineData2.series[0].name = '售票数'
-							}else if(res.data.Type == 2 ){
-								this.lineData2.series[0].name = '开单数'
-							}else if(res.data.Type == 3 ){
-								this.lineData2.series[0].name = '报班数'
-							}
-						},
-						fail: () => {
-							uni.showToast({
-								title:'服务器异常，请重试，重试后不行请联系客服',
-								icon:'none'
-							})
-						}
-					})
-					
-						//请求设备售出的票数接口
-						uni.request({
-							url: $Sbjg.SbjgInterface.GetBySettingAID.Url,
-							method: $Sbjg.SbjgInterface.GetBySettingAID.method,
-							header:$Sbjg.SbjgInterface.GetBySettingAID.header,
-							data: {
-								AID : that.parameter.AID,
-							},
-							success: (res) => {
-								console.log('设备售票',res)
-								that.sellTicketData = res.data;
-								that.sellTicketDataIndex = res.data.length;
-								//筛选数据，重组数组
-								if(res.data.length !== 0 ){
-									that.lineData2.categories = [];
-									that.lineData2.series[0].data = [];
-									that.ticketSum = 0 ;
-									that.moneySum = 0 ;
-									for(var i=0;i<res.data.length; i++){
-										//重组时段
-										var a = res.data[i].Time.slice(11);
-										that.lineData2.categories.push(a+'时')
-										// console.log(that.lineData2.categories) 
-										
-										//重组票数
-										var b = res.data[i].Score1;
-										that.lineData2.series[0].data.push(b);
-										// console.log(that.lineData2.series[0].data) 
-										
-										//累加票数
-										that.ticketSum += res.data[i].Score1;
-										// console.log('票数',that.ticketSum)
-										//累加金额
-										that.moneySum += res.data[i].Score2;
-										// console.log('金额',that.moneySum)
 
-										 //生成图形
-										that.$nextTick(() => {
-											that.$refs['lineData2'].showCharts();
-										});
-									}
-								}
-								uni.hideLoading()
-							},
-							fail: () => {
-								uni.showToast({
-									title:'服务器异常，请重试，重试后不行请联系客服',
-									icon:'none'
-								})
-							}
-						})
-						//请求cpu占用率和剩余内存
-						uni.request({
-							url: $Sbjg.SbjgInterface.GetAllCpu.Url,
-							method: $Sbjg.SbjgInterface.GetAllCpu.method,
-							header:$Sbjg.SbjgInterface.GetAllCpu.header,
-							data: {
-								AID : that.parameter.AID,
-								// AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
-							},
-							success: (res) => {
-								console.log('cpu内存',res)
-								that.cpuMemory = res.data;
-								that.cpuMemoryIndex = res.data.length;
-								//筛选数据，重组数组
-								if(res.data.length !== 0 ){
-									that.lineData.categories = [];
-									that.lineData.series[0].data = [];
-									that.ticketSum = 0 ;
-									that.moneySum = 0 ;
-									for(var i=0;i<res.data.length; i++){
-										//重组时段
-										var a = res.data[i].Time;
-										that.lineData.categories.push(a+'分')
-										// console.log(that.lineData.categories) 
-										
-										//重组票数
-										var b = res.data[i].Score1.slice(0,5);
-										that.lineData.series[0].data.push(b);
-										console.log(that.lineData2.series[0].data) 
-										
-										 //生成图形
-										 that.$nextTick(() => {
-										 	that.$refs['lineData1'].showCharts();
-										 });
-									}
-								}
-								uni.hideLoading()
-							},
-							fail: () => {
-								uni.showToast({
-									title:'服务器异常，请重试，重试后不行请联系客服',
-									icon:'none'
-								})
-							}
-						})
-						
-				},15000)
 			},
+
+
 			//--------------------开头标题--------------------------
 			titleData: function() {
 				uni.setNavigationBarTitle({
-					title: this.parameter.WorkNumber
+					title: this.parameter.Remark + '-' + this.parameter.Code
 				})
 			},
-			
+
 			//-------------------------------查看须知-----------------------------
 			checkAttention(e) {
-				if(e==1){
+				if (e == 1) {
 					this.$refs.popup.open()
-				}else if(e==2){
+				} else if (e == 2) {
 					this.$refs.popup2.open()
 				}
 			},
 			close(e) {
-				if(e==1){
+				if (e == 1) {
 					this.$refs.popup.close()
-				}else if(e==2){
+				} else if (e == 2) {
 					this.$refs.popup2.close()
 				}
 			},
 			// --------------------------------------设备关机------------------
-			equipmentShutDown:function(){
+			equipmentShutDown: function() {
 				uni.showModal({
-					title:'您确认要把设备 "关机" 吗？',
+					title: '您确认要把设备 "关机" 吗？',
 					success: (res) => {
 						console.log(res)
-						if(res.confirm == true){
+						if (res.confirm == true) {
 							console.log(this.parameter.AID)
 							uni.showLoading({
-								title:'正在请求关机'
+								title: '正在请求关机'
 							})
 							uni.request({
 								url: $Sbjg.SbjgInterface.GetCommndAdd.Url,
 								method: $Sbjg.SbjgInterface.GetCommndAdd.method,
-								header:$Sbjg.SbjgInterface.GetCommndAdd.header,
+								header: $Sbjg.SbjgInterface.GetCommndAdd.header,
 								data: {
-									SettingAID : this.parameter.AID,
-									Msg : '关机',
+									SettingAID: this.parameter.AID,
+									Msg: '关机',
 								},
 								success: (res) => {
 									console.log(res)
-									if(res.data == '指令发送成功'){
+									if (res.data == '指令发送成功') {
 										uni.hideLoading()
 										uni.showToast({
-											title:'关机成功',
-											icon:'success'
+											title: '关机成功',
+											icon: 'success'
 										})
-									}else{
+									} else {
 										uni.hideLoading()
 										uni.showToast({
-											title:'关机失败，请重试',
-											icon:'success'
+											title: '关机失败，请重试',
+											icon: 'success'
 										})
 									}
-									
+
 								},
 								fail: () => {
 									uni.hideLoading()
 									uni.showToast({
-										title:'服务器异常，请重试',
-										icon:'success'
+										title: '服务器异常，请重试',
+										icon: 'success'
 									})
 								}
 							})
-						}else{
-							
+						} else {
+
 						}
 					}
 				})
 			},
 			// --------------------------------------设备重启------------------
-			equipmentRestart:function(){
+			equipmentRestart: function() {
 				uni.showModal({
-					title:'您确认要把设备 "重启" 吗？',
+					title: '您确认要把设备 "重启" 吗？',
 					success: (res) => {
 						console.log(res)
-						if(res.confirm == true){
+						if (res.confirm == true) {
 							console.log(this.parameter.AID)
 							uni.showLoading({
-								title:'正在请求重启'
+								title: '正在请求重启'
 							})
 							uni.request({
 								url: $Sbjg.SbjgInterface.GetCommndAdd.Url,
 								method: $Sbjg.SbjgInterface.GetCommndAdd.method,
-								header:$Sbjg.SbjgInterface.GetCommndAdd.header,
+								header: $Sbjg.SbjgInterface.GetCommndAdd.header,
 								data: {
-									SettingAID : this.parameter.AID,
-									Msg : '重启',
+									SettingAID: this.parameter.AID,
+									Msg: '重启',
 								},
 								success: (res) => {
 									console.log(res)
-									if(res.data == '指令发送成功'){
+									if (res.data == '指令发送成功') {
 										uni.hideLoading()
 										uni.showToast({
-											title:'重启成功',
-											icon:'success'
+											title: '重启成功',
+											icon: 'success'
 										})
-									}else{
+									} else {
 										uni.hideLoading()
 										uni.showToast({
-											title:'重启失败，请重试',
-											icon:'success'
+											title: '重启失败，请重试',
+											icon: 'success'
 										})
 									}
-									
+
 								},
 								fail: () => {
 									uni.hideLoading()
 									uni.showToast({
-										title:'服务器异常，请重试',
-										icon:'success'
+										title: '服务器异常，请重试',
+										icon: 'success'
 									})
 								}
 							})
-						}else{
-							
+						} else {
+
 						}
 					}
 				})
 			},
-			
+
 			//------------------------暂未开放----------------------------
-			notYetOpen:function(){
+			notYetOpen: function() {
 				uni.showToast({
-					title:'暂未开放',
-					icon:'none'
+					title: '暂未开放',
+					icon: 'none'
 				})
 			},
-			
+
 			//售票参数重置
-			emptyTicketReset:function(e){
-				if(e == ''){
+			emptyTicketReset: function(e) {
+				if (e == '') {
 					return '---'
-				}else{
+				} else {
 					return e
 				}
 			},
-			
+
 			//时间戳转换
-			timestampConversion:function(e){
+			timestampConversion: function(e) {
 				// #ifndef APP-PLUS
-				var a =  new Date(parseInt(e.slice(6,19)) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+				var a = new Date(parseInt(e.slice(6, 19)) * 1000).toLocaleString().replace(/:\d{1,2}$/, ' ');
 				return a.slice(6)
 				// #endif
 				// #ifdef APP-PLUS
-				var date = new Date(parseInt(e.slice(6,19).replace("/Date(", "").replace(")/", ""), 10));
+				var date = new Date(parseInt(e.slice(6, 19).replace("/Date(", "").replace(")/", ""), 10));
 				//月份为0-11，所以+1，月份小于10时补个0
 				var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
 				var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
 				var hour = date.getHours();
 				var minute = date.getMinutes();
 				var second = date.getSeconds();
-				var dd = date.getFullYear() + "-" + month + "-" + currentDate + " "+hour+":"+minute+":"+second;
+				var dd = date.getFullYear() + "-" + month + "-" + currentDate + " " + hour + ":" + minute + ":" + second;
 				// console.log(dd.slice(5))
 				return dd.slice(5)
 				// #endif
 			},
-			
+
 			//小数点转百分比 - CPU占比转换
-			shareConversion:function(e){
-				var str = Number(e*100).toFixed(1);
+			shareConversion: function(e) {
+				var str = Number(e * 100).toFixed(1);
 				// console.log(str)
-				if(str !== 'NaN'){
-					str+="%";
+				if (str !== 'NaN') {
+					str += "%";
 					return str;
-				}else{
+				} else {
 					return '---';
 				}
 			},
-			
+
 			//小数点转百分比 - CPU占比转换
-			memoryConversion:function(e){
-				if(e !== '---'){
+			memoryConversion: function(e) {
+				if (e !== '---') {
 					return e + 'MB';
-				}else{
+				} else {
 					return e;
 				}
-				
+
 			}
 		}
 	}
@@ -769,19 +656,19 @@
 
 				}
 			}
-			
-			.im_abnormal{
+
+			.im_abnormal {
 				position: absolute;
 				display: flex;
 				top: 100upx;
 				left: 476upx;
-				
-				.al_image{
+
+				.al_image {
 					width: 41upx;
 					height: 33upx;
 				}
-				
-				.al_text{
+
+				.al_text {
 					color: #FF6969;
 					font-size: 28upx;
 					padding-left: 16upx;
@@ -789,86 +676,86 @@
 			}
 		}
 	}
-	
+
 	//状态
 	.zl_click {
 		background: #FFFFFF;
-		border-radius:20upx;
+		border-radius: 20upx;
 		margin: 20upx 30upx 0 30upx;
 		padding: 30upx;
-		
+
 		.zl_topClick {
 			display: flex;
-	
+
 			// 设备区域
 			.zl_independentTravel {
 				position: relative;
 				width: 33%;
 				text-align: center;
-	
+
 				.zl_itImage {
 					position: absolute;
 					width: 35upx;
 					height: 40upx;
 					top: 8upx;
 				}
-	
+
 				.zl_itText {
 					font-size: 34upx;
 					color: #3CB96B;
-					font-weight:bold;
+					font-weight: bold;
 					line-height: 84upx;
-					font-family:Source Han Sans SC;
+					font-family: Source Han Sans SC;
 				}
 			}
-			
+
 			// 在线状态
 			.zl_independentTravel2 {
 				position: relative;
 				width: 33%;
 				text-align: center;
-			
+
 				.zl_itImage2 {
 					position: absolute;
 					width: 38upx;
 					height: 34upx;
 					top: 14upx;
 				}
-			
+
 				.zl_itText2 {
 					font-size: 34upx;
 					color: #FF6969;
-					font-weight:bold;
-					font-family:Source Han Sans SC;
+					font-weight: bold;
+					font-family: Source Han Sans SC;
 				}
-				
-				.zl_stateText{
+
+				.zl_stateText {
 					display: block;
 					font-size: 26upx;
 					padding-top: 6upx;
 					color: #666666;
 				}
 			}
-			
+
 			// 设备分布
 			.zl_independentTravel3 {
 				position: relative;
 				width: 33%;
 				text-align: center;
-			
+
 				.zl_itImage3 {
 					position: absolute;
 					width: 38upx;
 					height: 38upx;
 					top: 12upx;
 				}
-			
+
 				.zl_itText3 {
 					font-size: 34upx;
 					font-weight: bold;
 				}
-				
-				.zl_stateText2{
+
+				.zl_stateText2 {
 					display: block;
 					font-size: 26upx;
 					padding-top: 6upx;
@@ -877,90 +764,90 @@
 			}
 		}
 	}
-	
+
 	//状态
 	.zl_click2 {
 		background: #FFFFFF;
-		border-radius:20upx;
+		border-radius: 20upx;
 		margin: 20upx 30upx 0 30upx;
 		padding: 30upx;
-		
+
 		.zl_topClick2 {
 			display: flex;
-	
+
 			// 设备区域
 			.zl_independentTravel {
 				position: relative;
 				width: 33%;
 				text-align: center;
-	
+
 				.zl_itImage {
 					position: absolute;
 					width: 35upx;
 					height: 40upx;
 					top: 8upx;
 				}
-	
+
 				.zl_itText {
 					font-size: 34upx;
-					font-weight:bold;
-					font-family:Source Han Sans SC;
+					font-weight: bold;
+					font-family: Source Han Sans SC;
 				}
-				
-				.zl_stateText{
+
+				.zl_stateText {
 					display: block;
 					font-size: 26upx;
 					padding-top: 6upx;
 					color: #666666;
 				}
 			}
-			
+
 			// 在线状态
 			.zl_independentTravel2 {
 				position: relative;
 				width: 33%;
 				text-align: center;
-			
+
 				.zl_itImage2 {
 					position: absolute;
 					width: 38upx;
 					height: 34upx;
 					top: 14upx;
 				}
-			
+
 				.zl_itText2 {
 					font-size: 34upx;
-					font-weight:bold;
-					font-family:Source Han Sans SC;
+					font-weight: bold;
+					font-family: Source Han Sans SC;
 				}
-				
-				.zl_stateText2{
+
+				.zl_stateText2 {
 					display: block;
 					font-size: 26upx;
 					padding-top: 6upx;
 					color: #666666;
 				}
 			}
-			
+
 			// 设备分布
 			.zl_independentTravel3 {
 				position: relative;
 				width: 33%;
 				text-align: center;
-			
+
 				.zl_itImage3 {
 					position: absolute;
 					width: 38upx;
 					height: 38upx;
 					top: 12upx;
 				}
-			
+
 				.zl_itText3 {
 					font-size: 34upx;
 					font-weight: bold;
 				}
-				
-				.zl_stateText3{
+
+				.zl_stateText3 {
 					display: block;
 					font-size: 26upx;
 					padding-top: 6upx;
@@ -968,22 +855,22 @@
 				}
 			}
 		}
-		
-		.zl_bottomPopup{
+
+		.zl_bottomPopup {
 			position: relative;
 			width: 100%;
 			text-align: center;
 			padding-top: 26upx;
-			
-			.bp_text{
+
+			.bp_text {
 				color: #999999;
 				font-size: 26upx;
 			}
 		}
 	}
-	
+
 	//设备关机
-	.ol_shutDown{
+	.ol_shutDown {
 		background: #FFFFFF;
 		display: flex;
 		float: left;
@@ -992,31 +879,32 @@
 		margin-top: 24upx;
 		margin-left: 32upx;
 		border-radius: 24upx;
-		.sd_icon{
+
+		.sd_icon {
 			// width: 36upx;
 			height: 36upx;
 		}
-		
-		.sd_text{
+
+		.sd_text {
 			font-size: 30upx;
 			font-weight: bold;
 			line-height: 38upx;
 			padding-left: 16upx;
 		}
 	}
-	
+
 	//保修登记
-	.ol_register{
+	.ol_register {
 		font-size: 30upx;
 		float: left;
 		border-radius: 24upx;
 		margin: 24upx 32upx;
 		padding: 32upx 279upx;
-		font-weight:bold;
+		font-weight: bold;
 		margin-bottom: 64rpx;
 	}
 
-	
+
 	//途径点弹框
 	.boxView2 {
 		width: 90%;
@@ -1024,10 +912,10 @@
 		padding-bottom: 40upx;
 		background: #FFFFFF;
 		z-index: 999;
-	
+
 		.titleView2 {
 			margin-top: 24upx;
-	
+
 			//弹框标题
 			.Nb_text3 {
 				position: relative;
@@ -1035,7 +923,7 @@
 				font-weight: bold;
 				top: 8upx;
 			}
-	
+
 			//弹框关闭按钮
 			.Nb_text4 {
 				margin-top: 8upx;
@@ -1044,37 +932,37 @@
 				font-size: 32upx;
 			}
 		}
-	
+
 		.noticeBox2 {
 			line-height: 32upx;
 			height: 600upx;
 			margin-top: 8upx;
-	
+
 			.tv_title {
 				display: block;
 				width: 100%;
 				// margin-bottom: 220upx;
-				
+
 				//售票次数
-				.tl_content{
+				.tl_content {
 					position: relative;
 					padding-top: 56upx;
 					width: 100%;
-					
-					.ct_text{
+
+					.ct_text {
 						left: 0;
 						font-size: 30upx;
 						padding-left: 20upx;
 					}
-					
-					.ct_text2{
+
+					.ct_text2 {
 						position: absolute;
 						right: 0;
 						font-size: 28upx;
 						padding-right: 20upx;
 					}
-					
-					.ct_text3{
+
+					.ct_text3 {
 						left: 0;
 						font-size: 28upx;
 						padding-left: 20upx;
@@ -1084,8 +972,8 @@
 						overflow: hidden;
 						width: 360upx;
 					}
-					
-					.ct_text4{
+
+					.ct_text4 {
 						position: absolute;
 						float: right;
 						right: 0;
@@ -1100,15 +988,15 @@
 			}
 		}
 	}
-	
-	.ol_LineChart{
+
+	.ol_LineChart {
 		background: #FFFFFF;
-		border-radius:20upx;
+		border-radius: 20upx;
 		margin: 0 30upx 0 30upx;
 		padding-bottom: 30upx;
 	}
-	
-	.ol_seeMore{
+
+	.ol_seeMore {
 		text-align: center;
 		/* #ifndef APP-PLUS */
 		margin: 64upx 20upx 56upx 20upx;
@@ -1116,8 +1004,8 @@
 		/* #ifdef APP-PLUS */
 		margin: 72upx 20upx 48upx 20upx;
 		/* #endif */
-		
-		
+
+
 		.ct_text {
 			padding: 12upx 30upx;
 			font-size: 24upx;
@@ -1127,34 +1015,34 @@
 			border-radius: 50upx;
 		}
 	}
-	
-	.ol_equipmentStatus{
+
+	.ol_equipmentStatus {
 		position: absolute;
-		width:120upx;
+		width: 120upx;
 		text-align: center;
 		top: 48upx;
 		left: 96upx;
-		
-		.es_text{
-			font-size:30upx;
-			font-weight:500;
-			color:#212121;
+
+		.es_text {
+			font-size: 30upx;
+			font-weight: 500;
+			color: #212121;
 		}
-		
-		.es_text2{
-			font-size:26upx;
-			color:#3CB96B;
+
+		.es_text2 {
+			font-size: 26upx;
+			color: #3CB96B;
 		}
-		
-		.es_text3{
-			font-size:26upx;
-			color:#FF6969;
+
+		.es_text3 {
+			font-size: 26upx;
+			color: #FF6969;
 		}
 	}
-	
-	.ol_networkStatus{
+
+	.ol_networkStatus {
 		position: absolute;
-		width:120upx;
+		width: 120upx;
 		text-align: center;
 		/* #ifdef APP-PLUS */
 		top: 210upx;
@@ -1163,108 +1051,108 @@
 		top: 212upx;
 		/* #endif */
 		left: 96upx;
-		
-		.ns_text{
-			font-size:30upx;
-			font-weight:500;
-			color:#212121;
+
+		.ns_text {
+			font-size: 30upx;
+			font-weight: 500;
+			color: #212121;
 		}
-		
-		.ns_text2{
-			font-size:26upx;
-			color:#3CB96B;
+
+		.ns_text2 {
+			font-size: 26upx;
+			color: #3CB96B;
 		}
-		
-		.ns_text3{
-			font-size:26upx;
-			color:#FF6969;
+
+		.ns_text3 {
+			font-size: 26upx;
+			color: #FF6969;
 		}
 	}
-	
-	
-	.ol_ticketSalesAmount{
+
+
+	.ol_ticketSalesAmount {
 		position: absolute;
-		width:180upx;
+		width: 180upx;
 		text-align: center;
 		top: 50upx;
 		right: 48upx;
-		
-		.tsa_text{
-			font-size:30upx;
-			font-weight:500;
-			color:#212121;
+
+		.tsa_text {
+			font-size: 30upx;
+			font-weight: 500;
+			color: #212121;
 		}
-		
-		.tsa_icon{
+
+		.tsa_icon {
 			width: 26upx;
 			height: 22upx;
 			margin-top: 10upx;
 			margin-right: 8upx;
 		}
-		
-		.tsa_text2{
-			font-size:26upx;
-			color:#666666;
+
+		.tsa_text2 {
+			font-size: 26upx;
+			color: #666666;
 		}
 	}
-	
-	.ol_cpuConsumption{
+
+	.ol_cpuConsumption {
 		position: absolute;
-		width:180upx;
+		width: 180upx;
 		text-align: center;
 		top: 160upx;
 		right: 48upx;
-		
-		.cc_text{
-			font-size:30upx;
-			font-weight:500;
-			color:#212121;
+
+		.cc_text {
+			font-size: 30upx;
+			font-weight: 500;
+			color: #212121;
 		}
-		
-		.cc_icon{
+
+		.cc_icon {
 			width: 24upx;
 			height: 26upx;
 			margin-top: 8upx;
 			margin-right: 12upx;
 		}
-		
-		.cc_text2{
-			font-size:26upx;
-			color:#666666;
+
+		.cc_text2 {
+			font-size: 26upx;
+			color: #666666;
 		}
 	}
-	
-	.ol_cpuTemperature{
+
+	.ol_cpuTemperature {
 		position: absolute;
-		width:180upx;
+		width: 180upx;
 		text-align: center;
 		top: 274upx;
 		right: 48upx;
-		
-		.ct_text{
-			font-size:30upx;
-			font-weight:500;
-			color:#212121;
+
+		.ct_text {
+			font-size: 30upx;
+			font-weight: 500;
+			color: #212121;
 		}
-		
-		.ct_icon{
+
+		.ct_icon {
 			width: 24upx;
-			height: 36upx; 
-			margin-right:12upx
+			height: 36upx;
+			margin-right: 12upx
 		}
-		
-		.ct_text2{
-			font-size:26upx;
-			color:#666666;
+
+		.ct_text2 {
+			font-size: 26upx;
+			color: #666666;
 		}
 	}
-	
+
 	//设备详情页面点击状态
-	 .ol_hover{
-	  transition: all .3s;//过度
-	  border-radius: 24upx;
-	  opacity: 0.1;
-	  color: #FFFFFF;
-	  background: #5694fb;
-	 }
+	.ol_hover {
+		transition: all .3s; //过度
+		border-radius: 24upx;
+		opacity: 0.1;
+		color: #FFFFFF;
+		background: #5694fb;
+	}
 </style>
