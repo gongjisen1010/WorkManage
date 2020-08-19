@@ -17,7 +17,7 @@
 				<!-- 设备类型 -->
 				<view class="hp_equipmentType">
 					<text class="et_text">设备类型</text>
-					
+
 					<!-- 凭单机 -->
 					<view class="et_typeContent" v-for="(item,index) in DeviceData" :key="index" @tap="checkAttention(item.name)">
 						<view>
@@ -31,7 +31,7 @@
 							</view>
 						</view>
 
-						<view class="et_content"  >
+						<view class="et_content">
 							<view class="ct_title">{{item.name}}</view>
 							<view class="ct_content">
 								<text class="ct_number" v-if="item.name=='检票口班次信息屏'">{{item.num}}台</text>
@@ -40,11 +40,11 @@
 								<text class="ct_number" v-if="item.name=='售票机'">{{item.num}}台</text>
 								<text class="ct_number" v-if="item.name=='检票机'">{{item.num}}台</text>
 								<text class="ct_number" v-if="item.name=='凭单机'">{{item.num}}台</text>
-								<text class="ct_text" >查看设备></text>
+								<text class="ct_text">查看设备></text>
 							</view>
 						</view>
 					</view>
-					
+
 				</view>
 			</view>
 		</view>
@@ -79,30 +79,28 @@
 							</view>
 						</view>
 					</view>
-
-					
 				</scroll-view>
 
 				<!-- 顶部点击跳转栏 -->
 				<view class="zl_click">
 					<view class="zl_topClick">
 						<!-- 设备区域 -->
-						<view class="zl_independentTravel" @click="click(1)">
+						<!-- <view class="zl_independentTravel" @click="click(1)">
 							<image class="zl_itImage" :hidden="type==1" src="../../static/HOME/shebeiquyu.png" mode="aspectFit"></image>
 							<image class="zl_itImage" v-if="type==1" src="../../static/HOME/shebeiquyu2.png" mode="aspectFit"></image>
 							<text class="zl_itText" :class="{current:type===1}">设备区域</text>
-						</view>
+						</view> -->
 						<!-- 在线状态	 -->
 						<view class="zl_independentTravel2" @click="click(2)">
-							<image class="zl_itImage2" :hidden="type==2"  src="../../static/HOME/zaixianzhuangtai.png" mode="aspectFit"></image>
+							<image class="zl_itImage2" :hidden="type==2" src="../../static/HOME/zaixianzhuangtai.png" mode="aspectFit"></image>
 							<image class="zl_itImage2" v-if="type==2" src="../../static/HOME/zaixianzhuangtai2.png" mode="aspectFit"></image>
 							<text class="zl_itText2" :class="{current:type===2}">在线状态</text>
 						</view>
 						<!-- 设备分布 -->
 						<view class="zl_independentTravel3" @click="click(3)">
-							<image class="zl_itImage3" :hidden="type==3"  src="../../static/HOME/shebeifenbu.png" mode="aspectFit"></image>
-							<image class="zl_itImage3" v-if="type===3" src="../../static/HOME/shebeifenbu2.png" mode="aspectFit"></image>
-							<text class="zl_itText3" :class="{current:type===3}">设备分布</text>
+							<image class="zl_itImage3" style="top: 14upx;" :hidden="type==3" src="../../static/HOME/yichang.png" mode="aspectFit"></image>
+							<image class="zl_itImage3" style="top: 14upx;" v-if="type===3" src="../../static/HOME/yichang2.png" mode="aspectFit"></image>
+							<text class="zl_itText3" :class="{current:type===3}">掉线次数</text>
 						</view>
 					</view>
 				</view>
@@ -167,16 +165,17 @@
 				bankObject: '',
 				DeviceData: [], //设备分类
 				standAlone: [], //设备列表
+				standAloneTest : [],//设备列表临时参数
 				state: 0,
-				popUpModule : '',//点击的设备编号
-				equipment : '',//设备总和
+				popUpModule: '', //点击的设备编号
+				equipment: '', //设备总和
 			}
 		},
 		onLoad: function() {
-			
+
 		},
 
-		onShow:function() {
+		onShow: function() {
 			this.interfaceData();
 		},
 
@@ -185,12 +184,12 @@
 			interfaceData: function() {
 				//获取所有的车站
 				uni.showLoading({
-					title:'获取车站信息中...'
+					title: '获取车站信息中...'
 				})
 				uni.request({
 					url: $Sbjg.SbjgInterface.GetStarte.Url,
 					method: $Sbjg.SbjgInterface.GetStarte.method,
-					header:$Sbjg.SbjgInterface.GetStarte.header,
+					header: $Sbjg.SbjgInterface.GetStarte.header,
 					success: (res) => {
 						console.log('获取所有的车站', res)
 						this.selectBank = res.data;
@@ -201,42 +200,42 @@
 				//获取所有的设备数据
 
 			},
-			
+
 			//获取设备分类
 			deviceData: function() {
 				uni.request({
 					url: $Sbjg.SbjgInterface.GetNumAll.Url,
 					method: $Sbjg.SbjgInterface.GetNumAll.method,
-					header:$Sbjg.SbjgInterface.GetNumAll.header,
+					header: $Sbjg.SbjgInterface.GetNumAll.header,
 					data: {
 						CompanyName: this.bankObject,
 					},
 					success: (res) => {
-						console.log('获取所有的设备数据',res)
-						this.DeviceData =res.data;
+						console.log('获取所有的设备数据', res)
+						this.DeviceData = res.data;
 						uni.hideLoading()
 						this.totalEquipment();
-						
+
 					}
 				})
 			},
-			
+
 			//获取设备列表
 			getDeviceList: function() {
 				uni.showLoading({
-					title:'请求设备列表中...',
+					title: '请求设备列表中...',
 				})
 				uni.request({
 					url: $Sbjg.SbjgInterface.GetSerialsByID.Url,
 					method: $Sbjg.SbjgInterface.GetSerialsByID.method,
-					header:$Sbjg.SbjgInterface.GetSerialsByID.header,
+					header: $Sbjg.SbjgInterface.GetSerialsByID.header,
 					data: {
 						CompanyName: this.bankObject,
-						type : this.popUpModule,
+						type: this.popUpModule,
 					},
 					success: (res) => {
-						console.log('获取所有的设备数据',res)
-						this.standAlone =res.data;
+						console.log('获取所有的设备数据', res)
+						this.standAlone = res.data;
 						uni.hideLoading()
 					}
 				})
@@ -251,39 +250,39 @@
 			},
 
 			//-------------------------------查看须知-----------------------------
-			checkAttention:function(e) {
-				if(e == '凭单机'){
+			checkAttention: function(e) {
+				if (e == '凭单机') {
 					this.popUpModule = '';
 					this.popUpModule = 2;
 					this.getDeviceList();
 					this.$refs.popup.open()
-				}else if(e == '检票机'){
+				} else if (e == '检票机') {
 					this.popUpModule = '';
 					this.popUpModule = 0;
 					this.getDeviceList();
 					this.$refs.popup.open()
-				}else if(e == '售票机'){
+				} else if (e == '售票机') {
 					this.popUpModule = '';
 					this.popUpModule = 1;
 					this.getDeviceList();
 					this.$refs.popup.open()
-				}else if(e == '报班机'){
+				} else if (e == '报班机') {
 					this.popUpModule = '';
 					this.popUpModule = 3;
 					this.getDeviceList();
 					this.$refs.popup.open()
-				}else if(e == '发车位显示屏'){
+				} else if (e == '发车位显示屏') {
 					this.popUpModule = '';
 					this.popUpModule = 4;
 					this.getDeviceList();
 					this.$refs.popup.open()
-				}else if(e == '检票口班次信息屏'){
+				} else if (e == '检票口班次信息屏') {
 					this.popUpModule = '';
 					this.popUpModule = 5;
 					this.getDeviceList();
 					this.$refs.popup.open()
 				}
-				
+
 			},
 			close() {
 				this.$refs.popup.close()
@@ -292,79 +291,106 @@
 			//-------------------------------跳转---------------------------------
 			Jump(item) {
 				uni.setStorage({
-					key:'equipmentParameters',
-					data:item,
-					success:function(){
+					key: 'equipmentParameters',
+					data: item,
+					success: function() {
 						uni.navigateTo({
 							url: '../../pages_SBJG/pages/details'
 						})
 					},
-					fail:function(){
+					fail: function() {
 						uni.showToast({
-							title:'获取设备参数异常，请关闭弹框重新点击',
-							icon:'none'
+							title: '获取设备参数异常，请关闭弹框重新点击',
+							icon: 'none'
 						})
 					}
 				})
-				
+
 			},
 
 			//-----------------tab事件---------------------------------------
-			click:function(e){
+			click: function(e) {
+				var sc = this.standAlone;
 				if (e == 1) {
-					if(this.type ==e){
+					if (this.type == e) {
 						this.type = 0;
-					}else{
+					} else {
 						this.type = 1;
 					}
 				} else if (e == 2) {
-					if(this.type ==e){
+					if (this.type == e) {
 						this.type = 0;
-					}else{
+						this.getDeviceList();
+					} else {
 						this.type = 2;
+						uni.showLoading({
+							title: '正在排序中...'
+						})
+						this.standAlone = [];
+						sc.sort((a, b) => b.Online - a.Online)
+						uni.hideLoading()
 					}
 				} else if (e == 3) {
-					if(this.type ==e){
+					if (this.type == e) {
 						this.type = 0;
-					}else{
+						this.getDeviceList();
+					} else {
 						this.type = 3;
+						uni.showLoading({
+							title: '正在排序中...'
+						})
+						this.standAlone = [];
+						sc.sort((a, b) => b.BreakNum - a.BreakNum)
+						uni.hideLoading()
 					}
 				}
+				this.standAlone = this.standAlone.concat(sc);
+				// this.clickSork();
 			},
-			
+
 			//设备参数变更
-			EquipmentName:function(e){
-			    if(e==0){
-			     return '检票机'
-			    }else if(e==1){
-			     return '售票机'
-			    }else if(e==2){
-			     return '凭单机'
-			    }else if(e==3){
-			     return '报班机'
-			    }else if(e==4){
-			     return '发车位显示屏'
-			    }else if(e==5){
-			     return '检票口班次信息屏'
-			    }
-			 },
-			 
-			 //设备总和
-			 totalEquipment:function(){
-				 var sum = 0;
-				 for(var i=0; i<this.DeviceData.length; i++){
-					 // console.log(this.DeviceData)
-					 sum += this.DeviceData[i].num
-					 console.log(sum)
-				 }
+			EquipmentName: function(e) {
+				if (e == 0) {
+					return '检票机'
+				} else if (e == 1) {
+					return '售票机'
+				} else if (e == 2) {
+					return '凭单机'
+				} else if (e == 3) {
+					return '报班机'
+				} else if (e == 4) {
+					return '发车位显示屏'
+				} else if (e == 5) {
+					return '检票口班次信息屏'
+				}
+			},
+
+			//设备总和
+			totalEquipment: function() {
+				var sum = 0;
+				for (var i = 0; i < this.DeviceData.length; i++) {
+					// console.log(this.DeviceData)
+					sum += this.DeviceData[i].num
+					console.log(sum)
+				}
 				this.equipment = sum;
 				//缓存设备类型和设备总数
-				uni.setStorageSync('stationNum',{
-					typeNum:this.DeviceData.length,
-					equipmentNum:this.equipment,
+				uni.setStorageSync('stationNum', {
+					typeNum: this.DeviceData.length,
+					equipmentNum: this.equipment,
 				});
-			 }
-			
+			},
+
+			//点击排序
+			clickSork: function() {
+				var sc = this.standAlone;
+				// this.standAlone = [];
+				//筛选，数据直接前端筛选了
+				if (this.type == 2) {
+					sc.sort((a, b) => b.Online - a.Online)
+				}
+			},
+
 		}
 	}
 </script>
@@ -428,6 +454,7 @@
 				margin-left: 30upx;
 				margin-top: 70upx;
 				margin-right: 30upx;
+				margin-bottom: 144upx;
 
 				.et_text {
 					font-weight: bold;
@@ -637,8 +664,8 @@
 				// 在线状态
 				.zl_independentTravel2 {
 					position: relative;
-					border-left: 1px solid #E7E7E7;
-					width: 33%;
+					// border-left: 1px solid #E7E7E7;
+					width: 50%;
 					text-align: center;
 
 					.zl_itImage2 {
@@ -664,7 +691,7 @@
 				.zl_independentTravel3 {
 					position: relative;
 					border-left: 1px solid #E7E7E7;
-					width: 33%;
+					width: 50%;
 					text-align: center;
 
 					.zl_itImage3 {
