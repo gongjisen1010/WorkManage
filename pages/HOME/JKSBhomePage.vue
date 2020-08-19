@@ -243,12 +243,11 @@
 			},
 			//----------------------选择车站--------------------------------------
 			godetail: function(e) {
-				var that = this;
 				console.log(e)
-				that.index = e.detail.value;
-				that.bankObject = that.selectBank[e.detail.value].StationName;
+				this.index = e.detail.value;
+				this.bankObject = this.selectBank[e.detail.value].StationName;
 				this.deviceData()
-				console.log('1', that.bankObject)
+				console.log('1', this.bankObject)
 			},
 
 			//-------------------------------查看须知-----------------------------

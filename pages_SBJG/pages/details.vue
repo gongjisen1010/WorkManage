@@ -27,7 +27,7 @@
 				<text class="ns_text3" v-if="parameter.Online==false">内网异常</text>
 			</view>
 			
-			<view class="ol_ticketSalesAmount">
+			<view class="ol_ticketSalesAmount" v-if="parameter.Type == 0 || parameter.Type == 1 || parameter.Type == 2">
 				<text class="tsa_text" v-if="parameter.Online==true">{{emptyTicketReset(ticketSum)}}/{{emptyTicketReset(moneySum)}}</text>
 				<text class="tsa_text" v-if="parameter.Online==false">---/---</text>
 				<view style="display: flex;">
@@ -44,7 +44,7 @@
 				<view style="display: flex;">
 					<image class="tsa_icon" src="../static/shoupiao.png" mode="aspectFit"></image>
 					<text class="tsa_text2" v-if="parameter.Type == 5" >班次数</text>
-					<text class="tsa_text2" v-if="parameter.Type == 4" >发车数</text>
+					<text class="tsa_text2" style="margin-left: 4upx;" v-if="parameter.Type == 4" >发车数</text>
 					<text class="tsa_text2" v-if="parameter.Type == 3" >报班数</text>
 				</view>
 			</view>
