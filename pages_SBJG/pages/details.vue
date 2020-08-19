@@ -50,7 +50,7 @@
 			</view>
 			
 			<view class="ol_cpuConsumption">
-				<text class="cc_text" v-if="parameter.Online==true">{{freeMemory}}MB</text>
+				<text class="cc_text" v-if="parameter.Online==true">{{memoryConversion(freeMemory)}}</text>
 				<text class="cc_text" v-if="parameter.Online==false">---</text>
 				<view style="display: flex;">
 					<image class="cc_icon"  src="../static/neicun.png" mode="aspectFit"></image>
@@ -72,13 +72,13 @@
 			</view>
 			
 			<!-- 现状图 -->
-			<view class="ol_LineChart">
+			<view class="ol_LineChart" :hidden="sellTicketDataIndex == 0 && cpuMemoryIndex == 0" >
 				<!-- 折线Line纯数字-->
-				<view class="line" :hidden="parameter.Type == 4 || parameter.Type == 5">
+				<view class="line" :hidden="sellTicketDataIndex == 0">
 					<line-chart ref="lineData2" canvasId="index_line_2" :dataAs="lineData2" />
 				</view>
 				<!-- 折线Line带百分比 -->
-				<view class="line">
+				<view class="line" :hidden="cpuMemoryIndex == 0" >
 					<line-chart
 						canvasId="index_line_1"
 						ref="lineData1"
@@ -91,8 +91,6 @@
 						}"
 					/>
 				</view>
-				
-				
 			</view>
 			
 			<!-- 按钮 -->
@@ -184,7 +182,7 @@
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">可用内存</text>
-							<text class="ct_text2" v-if="parameter.Online==true">{{freeMemory}}MB</text>
+							<text class="ct_text2" v-if="parameter.Online==true">{{memoryConversion(freeMemory)}}</text>
 							<text class="ct_text2" v-if="parameter.Online==false">--</text>
 						</view>
 					</view>
@@ -256,7 +254,9 @@
 				
 				parameter:'', //设备数据
 				sellTicketData : '', //售票数据
+				sellTicketDataIndex : 0, // 售票统计图默认值
 				cpuMemory : '',//cpu占用率和剩余内存
+				cpuMemoryIndex : 0, //cpu统计图默认值
 				timer : '',//定时器参数
 				ticketSum : '',//售票总数
 				moneySum : '',//金额总数
@@ -307,6 +307,8 @@
 							success: (res) => {
 								console.log('设备售票',res)
 								that.sellTicketData = res.data;
+								that.sellTicketDataIndex = res.data.length;
+								console.log(that.sellTicketData)
 								//筛选数据，重组数组
 								if(res.data.length !== 0 ){
 									that.lineData2.categories = [];
@@ -358,8 +360,12 @@
 							success: (res) => {
 								console.log('cpu内存',res)
 								that.cpuMemory = res.data;
-								that.cpuProportion  = res.data[0].Score1;
-								that.freeMemory   = res.data[0].Score3;
+								that.cpuMemoryIndex = res.data.length;
+								if(res.data.length !== 0){
+									that.cpuProportion  = res.data[0].Score1;
+									that.freeMemory   = res.data[0].Score3;
+								}
+								console.log(that.cpuMemory)
 								//筛选数据，重组数组
 								if(res.data.length !== 0 ){
 									that.lineData.categories = [];
@@ -373,9 +379,9 @@
 										// console.log(that.lineData2.categories) 
 										
 										//重组票数
-										var b = res.data[i].Score1.slice(0,4);
+										var b = res.data[i].Score1.slice(0,5);
 										that.lineData.series[0].data.push(b);
-										// console.log(that.lineData2.series[0].data) 
+										console.log(that.lineData2.series[0].data) 
 										
 										 //生成图形
 										 that.$nextTick(() => {
@@ -453,6 +459,7 @@
 							success: (res) => {
 								console.log('设备售票',res)
 								that.sellTicketData = res.data;
+								that.sellTicketDataIndex = res.data.length;
 								//筛选数据，重组数组
 								if(res.data.length !== 0 ){
 									that.lineData2.categories = [];
@@ -504,6 +511,7 @@
 							success: (res) => {
 								console.log('cpu内存',res)
 								that.cpuMemory = res.data;
+								that.cpuMemoryIndex = res.data.length;
 								//筛选数据，重组数组
 								if(res.data.length !== 0 ){
 									that.lineData.categories = [];
@@ -517,9 +525,9 @@
 										// console.log(that.lineData.categories) 
 										
 										//重组票数
-										var b = res.data[i].Score1.slice(0,4);
+										var b = res.data[i].Score1.slice(0,5);
 										that.lineData.series[0].data.push(b);
-										// console.log(that.lineData.series[0].data) 
+										console.log(that.lineData2.series[0].data) 
 										
 										 //生成图形
 										 that.$nextTick(() => {
@@ -702,8 +710,23 @@
 			//小数点转百分比 - CPU占比转换
 			shareConversion:function(e){
 				var str = Number(e*100).toFixed(1);
-				str+="%";
-				return str;
+				// console.log(str)
+				if(str !== 'NaN'){
+					str+="%";
+					return str;
+				}else{
+					return '---';
+				}
+			},
+			
+			//小数点转百分比 - CPU占比转换
+			memoryConversion:function(e){
+				if(e !== '---'){
+					return e + 'MB';
+				}else{
+					return e;
+				}
+				
 			}
 		}
 	}

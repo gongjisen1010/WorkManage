@@ -69,7 +69,7 @@
 								<image class="ec_image2" v-if="popUpModule == 0" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
 							</view>
 							<view class="ec_content">
-								<view class="ct_title">{{item.WorkNumber}} - {{item.Remark}}</view>
+								<view class="ct_title">{{item.WorkNumber}} - {{item.Code}}</view>
 								<view class="ct_content">
 									<text class="ct_number">{{item.BreakNum}}次掉线</text>
 									<text class="ct_state" style="color: #3CB96B;" v-if="item.Online==true">在线</text>
@@ -79,6 +79,8 @@
 							</view>
 						</view>
 					</view>
+
+
 				</scroll-view>
 
 				<!-- 顶部点击跳转栏 -->
@@ -86,11 +88,11 @@
 					<view class="zl_topClick">
 						<!-- 设备区域 -->
 						<!-- <view class="zl_independentTravel" @click="click(1)">
-							<image class="zl_itImage" :hidden="type==1" src="../../static/HOME/shebeiquyu.png" mode="aspectFit"></image>
-							<image class="zl_itImage" v-if="type==1" src="../../static/HOME/shebeiquyu2.png" mode="aspectFit"></image>
-							<text class="zl_itText" :class="{current:type===1}">设备区域</text>
-						</view> -->
-						<!-- 在线状态	 -->
+				       <image class="zl_itImage" :hidden="type==1" src="../../static/HOME/shebeiquyu.png" mode="aspectFit"></image>
+				       <image class="zl_itImage" v-if="type==1" src="../../static/HOME/shebeiquyu2.png" mode="aspectFit"></image>
+				       <text class="zl_itText" :class="{current:type===1}">设备区域</text>
+				      </view> -->
+						<!-- 在线状态  -->
 						<view class="zl_independentTravel2" @click="click(2)">
 							<image class="zl_itImage2" :hidden="type==2" src="../../static/HOME/zaixianzhuangtai.png" mode="aspectFit"></image>
 							<image class="zl_itImage2" v-if="type==2" src="../../static/HOME/zaixianzhuangtai2.png" mode="aspectFit"></image>
@@ -165,18 +167,17 @@
 				bankObject: '',
 				DeviceData: [], //设备分类
 				standAlone: [], //设备列表
-				standAloneTest : [],//设备列表临时参数
 				state: 0,
 				popUpModule: '', //点击的设备编号
 				equipment: '', //设备总和
 			}
 		},
 		onLoad: function() {
-
+			this.interfaceData();
 		},
 
 		onShow: function() {
-			this.interfaceData();
+			this.deviceData();
 		},
 
 		methods: {
@@ -379,17 +380,7 @@
 					typeNum: this.DeviceData.length,
 					equipmentNum: this.equipment,
 				});
-			},
-
-			//点击排序
-			clickSork: function() {
-				var sc = this.standAlone;
-				// this.standAlone = [];
-				//筛选，数据直接前端筛选了
-				if (this.type == 2) {
-					sc.sort((a, b) => b.Online - a.Online)
-				}
-			},
+			}
 
 		}
 	}
