@@ -3,6 +3,9 @@
 		<image class="top_image" src="../../static/HOME/beijin2.png" mode="aspectFill"></image>
 		<view class="tp_outerLayer">
 			<view class="ol_image">
+				<image class="im_image" style="height: 58%;" v-if="parameter.Type == 5" src="../../static/HOME/bancixinxiping.png" mode="aspectFit"></image>
+				<image class="im_image" style="height: 58%;" v-if="parameter.Type == 4" src="../../static/HOME/fachewei.png" mode="aspectFit"></image>
+				<image class="im_image" v-if="parameter.Type == 3" src="../static/baobanji.png" mode="aspectFit"></image>
 				<image class="im_image" v-if="parameter.Type == 2" src="../../static/HOME/pindanji.png" mode="aspectFit"></image>
 				<image class="im_image" v-if="parameter.Type == 1" src="../static/shoupiaoji.png" mode="aspectFit"></image>
 				<image class="im_image" style="height: 70%;" v-if="parameter.Type == 0" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
