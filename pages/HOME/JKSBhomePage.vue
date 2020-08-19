@@ -6,7 +6,7 @@
 				<!-- 选择车站 -->
 				<view class="if_DriverNumber">
 					<picker @change="godetail" :value="index" :range="selectBank" range-key="StationName">
-						<text class="tsnrText">{{selectBank[index].StationName}}</text>
+						<text class="tsnrText">{{bankObject}}</text>
 					</picker>
 					<text class="dn_text2" style="margin-top: 8upx;">></text>
 				</view>
@@ -69,7 +69,7 @@
 								<image class="ec_image2" v-if="popUpModule == 0" src="../../static/HOME/jianpiaoji.png" mode="aspectFit"></image>
 							</view>
 							<view class="ec_content">
-								<view class="ct_title">{{item.WorkNumber}} - {{item.Code}}</view>
+								<view class="ct_title">{{item.Code}}</view>
 								<view class="ct_content">
 									<text class="ct_number">{{item.BreakNum}}次掉线</text>
 									<text class="ct_state" style="color: #3CB96B;" v-if="item.Online==true">在线</text>
@@ -158,7 +158,25 @@
 				equipmentNumber: 122,
 				index: 0,
 				bankObject: '',
-				DeviceData: [], //设备分类
+				DeviceData: [{
+					"name": "检票机",
+					"num": 0
+				},{
+					"name": "售票机",
+					"num": 0
+				},{
+					"name": "凭单机",
+					"num": 0
+				},{
+					"name": "报班机",
+					"num": 0
+				},{
+					"name": "发车位显示屏",
+					"num": 0
+				},{
+					"name": "检票口班次信息屏",
+					"num": 0
+				}], //设备分类
 				standAlone: [], //设备列表
 				state: 0,
 				popUpModule: '', //点击的设备编号
@@ -176,6 +194,7 @@
 		methods: {
 			//----------------------接口数据--------------------------------------
 			interfaceData: function() {
+				var that = this;
 				//获取所有的车站
 				uni.showLoading({
 					title: '获取车站信息中...'
@@ -187,7 +206,17 @@
 					success: (res) => {
 						console.log('获取所有的车站', res)
 						this.selectBank = res.data;
-						this.bankObject = res.data[0].StationName;
+						var a = uni.getStorageSync('stationName')
+						if(a == ''){
+							that.bankObject = res.data[0].StationName;
+							uni.setStorage({
+								key:'stationName',
+								data: res.data[0].StationName
+							})
+						}else{
+							that.bankObject = a;
+						}
+						
 						this.deviceData();
 					}
 				})
@@ -236,11 +265,15 @@
 			},
 			//----------------------选择车站--------------------------------------
 			godetail: function(e) {
-				console.log(e)
+				// console.log(e)
 				this.index = e.detail.value;
 				this.bankObject = this.selectBank[e.detail.value].StationName;
+				uni.setStorage({
+					key:'stationName',
+					data: this.selectBank[e.detail.value].StationName
+				})
 				this.deviceData()
-				console.log('1', this.bankObject)
+				// console.log('1', this.bankObject)
 			},
 
 			//-------------------------------查看须知-----------------------------
@@ -365,7 +398,7 @@
 				for (var i = 0; i < this.DeviceData.length; i++) {
 					// console.log(this.DeviceData)
 					sum += this.DeviceData[i].num
-					console.log(sum)
+					// console.log(sum)
 				}
 				this.equipment = sum;
 				//缓存设备类型和设备总数
@@ -438,7 +471,9 @@
 				margin-left: 30upx;
 				margin-top: 70upx;
 				margin-right: 30upx;
+				/* #ifdef H5 */
 				margin-bottom: 144upx;
+				/* #endif */
 
 				.et_text {
 					font-weight: bold;
@@ -509,6 +544,9 @@
 		padding-bottom: 40upx;
 		background: #FFFFFF;
 		z-index: 999;
+		/* #ifdef H5 */
+		margin-bottom: 96upx;
+		/* #endif */
 
 		.titleView2 {
 			margin-top: 24upx;
