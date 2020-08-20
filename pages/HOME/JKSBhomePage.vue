@@ -6,7 +6,7 @@
 				<!-- 选择车站 -->
 				<view class="if_DriverNumber">
 					<picker @change="godetail" :value="index" :range="selectBank" range-key="StationName">
-						<text class="tsnrText animated flash">{{bankObject}}</text>
+						<text class="tsnrText">{{bankObject}}</text>
 					</picker>
 					<text class="dn_text2" style="margin-top: 8upx;">></text>
 				</view>
@@ -32,14 +32,14 @@
 						</view>
 
 						<view class="et_content">
-							<view class="ct_title">{{item.name}}</view>
+							<view class="ct_title ">{{item.name}}</view>
 							<view class="ct_content">
-								<text class="ct_number" v-if="item.name=='检票口班次信息屏'">{{item.num}}台</text>
-								<text class="ct_number" v-if="item.name=='发车位显示屏'">{{item.num}}台</text>
-								<text class="ct_number" v-if="item.name=='报班机'">{{item.num}}台</text>
-								<text class="ct_number" v-if="item.name=='售票机'">{{item.num}}台</text>
-								<text class="ct_number" v-if="item.name=='检票机'">{{item.num}}台</text>
-								<text class="ct_number" v-if="item.name=='凭单机'">{{item.num}}台</text>
+								<text class="ct_number animated flash" v-if="item.name=='检票口班次信息屏'">{{item.num}}台</text>
+								<text class="ct_number animated flash" v-if="item.name=='发车位显示屏'">{{item.num}}台</text>
+								<text class="ct_number animated flash" v-if="item.name=='报班机'">{{item.num}}台</text>
+								<text class="ct_number animated flash" v-if="item.name=='售票机'">{{item.num}}台</text>
+								<text class="ct_number animated flash" v-if="item.name=='检票机'">{{item.num}}台</text>
+								<text class="ct_number animated flash" v-if="item.name=='凭单机'">{{item.num}}台</text>
 								<text class="ct_text">查看设备></text>
 							</view>
 						</view>
@@ -471,9 +471,7 @@
 				margin-left: 30upx;
 				margin-top: 70upx;
 				margin-right: 30upx;
-				/* #ifdef H5 */
 				margin-bottom: 144upx;
-				/* #endif */
 
 				.et_text {
 					font-weight: bold;

@@ -379,7 +379,7 @@
 										for (var i = 0; i < res.data.length; i++) {
 											//重组票数
 											// console.log(b2)
-											var e = res.data[i].Score1 * b2[0];
+											var e = res.data[i].Score1 * b2[0] / 100;
 											// console.log(e)
 											if( e == 0){
 												cpuObject.data.push(e2);
@@ -602,7 +602,7 @@
 
 			//小数点转百分比 - CPU占比转换
 			shareConversion: function(e) {
-				var str = Number(e * 100).toFixed(1);
+				var str = Number(e).toFixed(1);
 				// console.log(str)
 				if (str !== 'NaN') {
 					str += "%";
