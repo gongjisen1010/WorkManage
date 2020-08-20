@@ -64,6 +64,13 @@ const SbjgInterface = {
 		method:'POST',
 		header:{'content-type':'application/x-www-form-urlencoded'},
 	},
+	//--------------------------------------获取cpu占用率和剩余内存--------------------------------------
+	AddStateBy:{
+		Url: Url2 + '/Home/AddStateBy',
+		name:'保修接口',
+		method:'POST',
+		header:{'content-type':'application/x-www-form-urlencoded'},
+	},
 }
 // 接口声明区
 export default {

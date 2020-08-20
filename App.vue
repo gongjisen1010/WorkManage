@@ -34,6 +34,14 @@
 		-moz-osx-font-smoothing: grayscale;
 	}
 	
+	.jdticon {
+		font-family: "jdticon" !important;
+		font-size: 16px;
+		font-style: normal;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	
 	.icon-yiguoqi1:before {
 		content: "\e700";
 	}
