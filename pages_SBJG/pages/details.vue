@@ -13,7 +13,7 @@
 			</view>
 
 			<view class="ol_equipmentStatus">
-				<text class="es_text">设备状态</text>
+				<text class="es_text animated">设备状态</text>
 				<text class="es_text2" v-if="parameter.Online==true">硬件在线</text>
 				<text class="es_text3 animated flash" v-if="parameter.Online==false">硬件离线</text>
 				<text class="es_text2" v-if="parameter.Online==true">软件在线</text>
@@ -562,6 +562,12 @@
 				uni.showToast({
 					title: '暂未开放',
 					icon: 'none'
+				})
+			},
+			
+			guarantee:function(){
+				uni.navigateTo({
+					url:'./complaint?AID=' + this.parameter.AID + '&Remark=' + this.parameter.Remark + '&Code=' + this.parameter.Code
 				})
 			},
 
