@@ -233,7 +233,7 @@
 				lineData2: {
 					//数字的图--折线图数据
 					categories: [],
-					series: []
+					series: [],
 				},
 				title: '今点通报班机OJ2988',
 				frequency: 5,
@@ -347,80 +347,83 @@
 								})
 							}
 						})
-
-						//请求cpu占用率和剩余内存
-						uni.request({
-							url: $Sbjg.SbjgInterface.GetAllCpu.Url,
-							method: $Sbjg.SbjgInterface.GetAllCpu.method,
-							header: $Sbjg.SbjgInterface.GetAllCpu.header,
-							data: {
-								AID: that.parameter.AID,
-								// AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
-							},
-							success: (res) => {
-								console.log('cpu内存', res)
-								that.cpuMemory = res.data;
-								that.cpuMemoryIndex = res.data.length;
-
-
-								//筛选数据，重组数组
-								if (res.data.length !== 0) {
-									that.cpuProportion = res.data[res.data.length-1].Score1; //获取数组最后一个为cpu占用率
-									that.freeMemory = res.data[res.data.length-1].Score3; //获取数组最后一个为剩余内存
-									
-									var cpuObject = {
-										name: 'cpu占用率',
-										data: [],
-									}
-									
-									if (that.sellTicketDataIndex !== 0) {
-										var a1 = that.lineData2.series[0].data.concat(that.lineData2.series[0].data);
-										var b2 = a1.sort((a, b) => b - a)
-										for (var i = 0; i < res.data.length; i++) {
-											//重组票数
-											// console.log(b2)
-											var e = res.data[i].Score1 * b2[0] / 100;
-											// console.log(e)
-											if( e == 0){
-												cpuObject.data.push(e2);
-											}else{
-												var e2 = e.toFixed(2);
-												cpuObject.data.push(e2);
+						
+						setTimeout(function(){
+							//请求cpu占用率和剩余内存
+							uni.request({
+								url: $Sbjg.SbjgInterface.GetAllCpu.Url,
+								method: $Sbjg.SbjgInterface.GetAllCpu.method,
+								header: $Sbjg.SbjgInterface.GetAllCpu.header,
+								data: {
+									AID: that.parameter.AID,
+									// AID: '2020-08-17-46621d8a-4e64-4b78-bb05-ae24a89342a9',
+								},
+								success: (res) => {
+									console.log('cpu内存', res)
+									that.cpuMemory = res.data;
+									that.cpuMemoryIndex = res.data.length;
+							
+							
+									//筛选数据，重组数组
+									if (res.data.length !== 0) {
+										that.cpuProportion = res.data[res.data.length-1].Score1; //获取数组最后一个为cpu占用率
+										that.freeMemory = res.data[res.data.length-1].Score3; //获取数组最后一个为剩余内存
+										
+										var cpuObject = {
+											name: 'cpu占用率',
+											data: [],
+										}
+										
+										if (that.sellTicketDataIndex !== 0) {
+											var a1 = that.lineData2.series[0].data.concat(that.lineData2.series[0].data);
+											var b2 = a1.sort((a, b) => b - a)
+											for (var i = 0; i < res.data.length; i++) {
+												//重组票数
+												// console.log(b2)
+												var e = res.data[i].Score1 * b2[0] / 100;
+												// console.log(e)
+												if( e == 0){
+													cpuObject.data.push(e2);
+												}else{
+													var e2 = e.toFixed(2);
+													cpuObject.data.push(e2);
+												}
 											}
+											that.lineData2.series.push(cpuObject)
+											//生成图形
+											that.$nextTick(() => {
+												that.$refs['lineData2'].showCharts();
+											});
+										} else {
+											for (var i = 0; i < res.data.length; i++) {
+												//重组时段
+												var a = res.data[i].Time;
+												that.lineData2.categories.push(a + '时')
+												// console.log(that.lineData2.categories) 
+							
+												//重组票数
+												var d = res.data[i].Score1;
+												var d2 = d.slice(0,6);
+												cpuObject.data.push(d2);
+											}
+											that.lineData2.series.push(cpuObject)
+											//生成图形
+											that.$nextTick(() => {
+												that.$refs['lineData2'].showCharts();
+											});
 										}
-										that.lineData2.series.push(cpuObject)
-										//生成图形
-										that.$nextTick(() => {
-											that.$refs['lineData2'].showCharts();
-										});
-									} else {
-										for (var i = 0; i < res.data.length; i++) {
-											//重组时段
-											var a = res.data[i].Time;
-											that.lineData2.categories.push(a + '时')
-											// console.log(that.lineData2.categories) 
-
-											//重组票数
-											var d = res.data[i].Score1;
-											var d2 = d.slice(0,6);
-											cpuObject.data.push(d2);
-										}
-										that.lineData2.series.push(cpuObject)
-										//生成图形
-										that.$nextTick(() => {
-											that.$refs['lineData2'].showCharts();
-										});
 									}
+									uni.hideLoading()
+								},
+								fail: () => {
+									uni.showToast({
+										title: '服务器异常，请重试，重试后不行请联系客服',
+										icon: 'none'
+									})
 								}
-								uni.hideLoading()
-							},
-							fail: () => {
-								uni.showToast({
-									title: '服务器异常，请重试，重试后不行请联系客服',
-									icon: 'none'
-								})
-							}
-						})
+							})
+						},1000)
+						
 
 					},
 					fail: () => {

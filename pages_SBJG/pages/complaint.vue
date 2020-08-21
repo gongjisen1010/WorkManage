@@ -44,10 +44,10 @@
 				</view>
 				<view class="jiantou1">
 					<view v-if="!openType2" class="shangjiantou1" @click="openList(2)">
-					<image src="../static/shangjiantou.png" class="jiantou"></image>
+					<image src="../static/xiajiantou.png" class="jiantou"></image>
 				</view>
 				<view v-if="openType2" class="shangjiantou1" @click="closeList(2)">
-					<image src="../static/xiajiantou.png" class="jiantou"></image>
+					<image src="../static/shangjiantou.png" class="jiantou"></image>
 				</view>
 				</view>
 			</view>
@@ -125,7 +125,13 @@
 				//类型文字
 				Typetext:[
 					{
-						text:'零件故障',
+						text:'硬件故障',
+						checked:false,//判断是否选中
+						btncheck:false,//判断提交是否变色
+						check:true//判断是否显示
+					},
+					{
+						text:'软件故障',
 						checked:false,//判断是否选中
 						btncheck:false,//判断提交是否变色
 						check:true//判断是否显示
@@ -137,37 +143,19 @@
 						check:true//判断是否显示
 					},
 					{
-						text:'系统问题',
-						checked:false,//判断是否选中
-						btncheck:false,//判断提交是否变色
-						check:true//判断是否显示
-					},
-					{
-						text:'线路问题',
+						text:'电源故障',
 						checked:false,//判断是否选中
 						btncheck:false,//判断提交是否变色
 						check:false//判断是否显示
 					},
 					{
-						text:'外部电源',
+						text:'屏幕故障',
 						checked:false,//判断是否选中
 						btncheck:false,//判断提交是否变色
 						check:false//判断是否显示
 					},
 					{
 						text:'内存问题',
-						checked:false,//判断是否选中
-						btncheck:false,//判断提交是否变色
-						check:false//判断是否显示
-					},
-					{
-						text:'显卡问题',
-						checked:false,//判断是否选中
-						btncheck:false,//判断提交是否变色
-						check:false//判断是否显示
-					},
-					{
-						text:'启动故障',
 						checked:false,//判断是否选中
 						btncheck:false,//判断提交是否变色
 						check:false//判断是否显示
