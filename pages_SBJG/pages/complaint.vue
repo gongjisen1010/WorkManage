@@ -59,7 +59,7 @@
 			</view>
 			<!-- 建议描述文本域 -->
 			<view class="problem-textare-view">
-				<textarea v-model="complaintInfo" class="problem-textare" placeholder="请描述问题，让达小弟更快帮您解决问题" maxlength="500" @input="Inputtext" />
+				<textarea v-model="complaintInfo" class="problem-textare" placeholder="请描述问题，让维修人员更快帮您解决问题" maxlength="500" @input="Inputtext" />
 				</view>
 			<!-- 字数统计 -->
 			<view class="top-view-bottomtext">
@@ -438,7 +438,7 @@
 	.problem-textare{
 		width: 634upx;
 		height: 160upx;
-		font-size: 32upx;
+		font-size: 28upx;
 	}
 	.top-view-bottomtext{
 		font-size: 28upx;
