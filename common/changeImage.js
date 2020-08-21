@@ -17,6 +17,8 @@ async function GetImage(systemName,type) {
 		model=5;
 	}else if(systemName=="漳州达达通"){
 		model=11;
+	}else if(systemName=="设备管理"){
+		model=13;
 	}
 	
 	if(model==-1){

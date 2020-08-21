@@ -18,6 +18,12 @@
 			"style": {
 				"navigationStyle": "custom"
 			}	
+		},
+		{	//app登录
+			"path": "pages/GRZX/appLogin",
+			"style": {
+				"navigationStyle": "custom"
+			}	
 		}
     ],
 	"subPackages": [

@@ -4,13 +4,11 @@
 			<!-- 背景图 -->
 			<image src="../../static/GRZX/backImg.png" class="backClass"></image>
 			<!-- 头像 -->
-			<view class="portraitBox">
-				<!-- <image :src="portrait" v-if="!login" class="portraitClass1"></image>
-				<image :src="portrait" v-if="login" class="portraitClass2"></image> -->
+			<view class="portraitBox" @click="checkLogin">
 				<image :src="portrait|| '/static/GRZX/icon-jdt.png'" :class="login?'portraitClass2':'portraitClass1'"></image>
 			</view>
 			<!-- 公司名称 -->
-			<text class="nameClass">{{userName}}</text>
+			<text class="nameClass" @click="checkLogin">{{userName}}</text>
 			<!-- 企业车站数 -->
 			<view class="stationBox commonBox">
 				<text class="numClass">{{typeNum}}<text class="fs">种</text></text>
@@ -52,7 +50,7 @@
 				portrait:'', //头像
 				equipmentNum:0,//设备总台数
 				typeNum:0,//设备分类数
-				login:false,
+				login:false, //是否登录
 				
 				modularList:[{  //企业车辆，企业设备，智慧中心功能
 					title:'企业车辆',
@@ -179,6 +177,26 @@
 					default:
 						return '';
 				}
+			},
+			
+			//----------------------------检查是否登录-------------------------------
+			checkLogin(){
+				uni.getStorage({
+					key:'userInfo',
+					fail() {
+						uni.showToast({
+							title:'暂未登录，即将跳转登录',
+							icon:'none'
+						})
+						// #ifdef APP-PLUS 
+							setTimeout(function() {
+								uni.navigateTo({
+									url: '/pages/GRZX/appLogin',
+								})
+							}, 500);
+						//#endif
+					}
+				})
 			},
 			
 			// #ifdef  H5

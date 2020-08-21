@@ -45,14 +45,6 @@
 				});
 			},
 			
-			//--------------------------------返回个人中心--------------------------
-			returnClick:function(){		
-				uni.switchTab({
-					// url:'/pages/GRZX/user',
-					url:theSelf.$GrzxInter.Route.user.url,
-				})
-			},
-			
 			//--------------------------------只能输入数字--------------------------
 			judgeNum:function(val){  
 				var regPos = /^\d+(\.\d+)?$/; //非负浮点数
