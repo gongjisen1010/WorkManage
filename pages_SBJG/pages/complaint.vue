@@ -164,12 +164,14 @@
 				AID:'',
 				Remark:'',
 				Code:'',
+				datestring:'',
 			}
 		},
 		onLoad(param) {
 			this.AID = param.AID;
 			this.Remark = param.Remark;
 			this.Code = param.Code;
+			this.currentTime();
 		},
 		methods: {
 			openList:function(e){
@@ -272,6 +274,24 @@
 					icon: 'none'
 				})
 			},
+			
+			//------------------------获取当前时间----------------------------
+			currentTime:function(){
+				
+				//获取当前时间
+				var date = new Date();
+				var year = date.getFullYear();
+				var month = date.getMonth() + 1;
+				var day = date.getDate() + 2;
+				var hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+				var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+				month >= 1 && month <= 9 ? (month = "0" + month) : "";
+				day >= 0 && day <= 9 ? (day = "0" + day) : "";
+				var timer = year + '-' + month + '-' + day; //当前年月日时分
+				this.datestring = timer; //截取日期
+				console.log('获取当前时间',this.datestring)
+			},
+			
 			//------------------------提交数据----------------------------
 			successClick:function(){
 				uni.showLoading({
@@ -283,7 +303,7 @@
 					header: $Sbjg.SbjgInterface.AddStateBy.header,
 					data: {
 						SettingAID: this.AID,
-						// OperationTime: ,
+						OperationTime: this.datestring,
 						// OperationUser: ,
 						// State: ,
 						// Repairer:,
