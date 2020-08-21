@@ -44,11 +44,11 @@
 				</view>
 				<view class="jiantou1">
 					<view v-if="!openType2" class="shangjiantou1" @click="openList(2)">
-					<image src="../static/xiajiantou.png" class="jiantou"></image>
-				</view>
-				<view v-if="openType2" class="shangjiantou1" @click="closeList(2)">
-					<image src="../static/shangjiantou.png" class="jiantou"></image>
-				</view>
+						<image src="../static/xiajiantou.png" class="jiantou"></image>
+					</view>
+					<view v-if="openType2" class="shangjiantou1" @click="closeList(2)">
+						<image src="../static/shangjiantou.png" class="jiantou"></image>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -358,7 +358,8 @@
 		font-size: 28upx;
 		color: #555555;
 		margin-left: 30upx;
-		padding-bottom: 30upx;
+		padding: 40upx 0;
+		padding-top: 16rpx;
 		width: 630upx;
 		text-overflow: ellipsis; //文章超出宽度隐藏并用...表示
 		white-space: nowrap;
@@ -475,9 +476,7 @@
 		padding-bottom: 20upx;
 	}
 	.jiantou1{
-		margin-top: 10upx;
-		// margin-left: 325upx;
-		padding-bottom: 10upx;
+		padding: 24upx 0;
 		width: 100%;
 		text-align: center;
 	}
