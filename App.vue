@@ -16,12 +16,22 @@
 	@import url("@/common/overallSituation.css");
 	/*每个页面公共css */
 	@import url("@/common/overallSituation.css");
+	/*每个页面公共css动画 */
+	@import url("@/common/animate.min.css");
 	/* #ifndef APP-NVUE */
 	@font-face {
 		font-family: jdticon;
 		font-weight: normal;
 		font-style: normal;
 		src: url('https://at.alicdn.com/t/font_1078604_w4kpxh0rafi.ttf') format('truetype');
+	}
+	
+	.jdticon {
+		font-family: "jdticon" !important;
+		font-size: 16px;
+		font-style: normal;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 	}
 	
 	.jdticon {

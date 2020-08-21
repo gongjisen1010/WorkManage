@@ -53,6 +53,10 @@
 						"navigationStyle": "custom"
 						//#endif
 					}
+				},
+				{
+					"path": "pages/complaint",
+					"style": {}
 				}
 			]
 		}
