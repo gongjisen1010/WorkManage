@@ -44,11 +44,11 @@
 				</view>
 				<view class="jiantou1">
 					<view v-if="!openType2" class="shangjiantou1" @click="openList(2)">
-					<image src="../static/shangjiantou.png" class="jiantou"></image>
-				</view>
-				<view v-if="openType2" class="shangjiantou1" @click="closeList(2)">
-					<image src="../static/xiajiantou.png" class="jiantou"></image>
-				</view>
+						<image src="../static/xiajiantou.png" class="jiantou"></image>
+					</view>
+					<view v-if="openType2" class="shangjiantou1" @click="closeList(2)">
+						<image src="../static/shangjiantou.png" class="jiantou"></image>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -59,7 +59,7 @@
 			</view>
 			<!-- 建议描述文本域 -->
 			<view class="problem-textare-view">
-				<textarea v-model="complaintInfo" class="problem-textare" placeholder="请描述问题，让达小弟更快帮您解决问题" maxlength="500" @input="Inputtext" />
+				<textarea v-model="complaintInfo" class="problem-textare" placeholder="请描述问题，让维修人员更快帮您解决问题" maxlength="500" @input="Inputtext" />
 				</view>
 			<!-- 字数统计 -->
 			<view class="top-view-bottomtext">
@@ -67,8 +67,8 @@
 			</view>
 		</view>
 		<!-- 提交 -->
-		<view v-if="!btncheck" class="btnClass changecolor1" @click="successClick">提交</view>
-		<view v-if="btncheck" class="btnClass changecolor2" @click="successClick">提交</view>
+		<view v-if="!btncheck" class="btnClass changecolor1" hover-class="hover" @click="successClick2">提交</view>
+		<view v-if="btncheck" class="btnClass changecolor2" hover-class="hover2" @click="successClick">提交</view>
 	</view>
 </template>
 
@@ -125,7 +125,13 @@
 				//类型文字
 				Typetext:[
 					{
-						text:'零件故障',
+						text:'硬件故障',
+						checked:false,//判断是否选中
+						btncheck:false,//判断提交是否变色
+						check:true//判断是否显示
+					},
+					{
+						text:'软件故障',
 						checked:false,//判断是否选中
 						btncheck:false,//判断提交是否变色
 						check:true//判断是否显示
@@ -137,37 +143,19 @@
 						check:true//判断是否显示
 					},
 					{
-						text:'系统问题',
-						checked:false,//判断是否选中
-						btncheck:false,//判断提交是否变色
-						check:true//判断是否显示
-					},
-					{
-						text:'线路问题',
+						text:'电源故障',
 						checked:false,//判断是否选中
 						btncheck:false,//判断提交是否变色
 						check:false//判断是否显示
 					},
 					{
-						text:'外部电源',
+						text:'屏幕故障',
 						checked:false,//判断是否选中
 						btncheck:false,//判断提交是否变色
 						check:false//判断是否显示
 					},
 					{
 						text:'内存问题',
-						checked:false,//判断是否选中
-						btncheck:false,//判断提交是否变色
-						check:false//判断是否显示
-					},
-					{
-						text:'显卡问题',
-						checked:false,//判断是否选中
-						btncheck:false,//判断提交是否变色
-						check:false//判断是否显示
-					},
-					{
-						text:'启动故障',
 						checked:false,//判断是否选中
 						btncheck:false,//判断提交是否变色
 						check:false//判断是否显示
@@ -276,6 +264,15 @@
 				var that = this;
 				that.textmarn=e.detail.cursor; 
 			},
+			
+			//------------------------请选择问题----------------------------
+			successClick2: function() {
+				uni.showToast({
+					title: '请选择问题',
+					icon: 'none'
+				})
+			},
+			//------------------------提交数据----------------------------
 			successClick:function(){
 				uni.showLoading({
 					title:'提交投诉中...'
@@ -327,7 +324,7 @@
 	page {
 		background-color: #F4F6F8;
 	}
-
+	
 	.business-view {
 		/* height: 319upx; */
 		background-color: #FFFFFF;
@@ -354,7 +351,8 @@
 		font-size: 28upx;
 		color: #555555;
 		margin-left: 30upx;
-		padding-bottom: 30upx;
+		padding: 40upx 0;
+		padding-top: 16rpx;
 		width: 630upx;
 		text-overflow: ellipsis; //文章超出宽度隐藏并用...表示
 		white-space: nowrap;
@@ -417,7 +415,7 @@
 	.changefontStyle{
 		font-size: 28upx;
 		  color: #FFFFFF;
-		  background-color: #4CD964;
+		  background-color: #5694fb;
 		  width: 100%;
 		  text-align: center;
 		  border-radius: 34upx;
@@ -434,7 +432,7 @@
 	.problem-textare{
 		width: 634upx;
 		height: 160upx;
-		font-size: 32upx;
+		font-size: 28upx;
 	}
 	.top-view-bottomtext{
 		font-size: 28upx;
@@ -458,7 +456,7 @@
 		color: #999999;
 	}
 	.changecolor2{
-		background-color: #4CD964;
+		background-color: #5694fb;
 		color: #FFFFFF;
 	}
 	.jiantou{
@@ -471,8 +469,25 @@
 		padding-bottom: 20upx;
 	}
 	.jiantou1{
-		margin-top: 10upx;
-		margin-left: 325upx;
-		padding-bottom: 10upx;
+		padding: 24upx 0;
+		width: 100%;
+		text-align: center;
 	}
+	
+	.hover{
+		transition: all .3s; //过度
+		border-radius: 24upx;
+		opacity: 0.1;
+		color: #FFFFFF;
+		background: #5694fb;
+	}
+	
+	.hover2{
+		transition: all .3s; //过度
+		border-radius: 24upx;
+		opacity: 0.6;
+		color: #FFFFFF;
+		background: #5694fb;
+	}
+	
 </style>

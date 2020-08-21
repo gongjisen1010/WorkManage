@@ -19,7 +19,7 @@
 					<text class="et_text">设备类型</text>
 
 					<!-- 凭单机 -->
-					<view class="et_typeContent" v-for="(item,index) in DeviceData" :key="index" @tap="checkAttention(item.name)">
+					<view class="et_typeContent"  hover-class="hover" v-for="(item,index) in DeviceData" :key="index" @tap="checkAttention(item.name)">
 						<view>
 							<view class="tc_image">
 								<image class="tc_image2" v-if="item.name=='检票口班次信息屏'" src="../../static/HOME/bancixinxiping.png" mode="aspectFit"></image>
@@ -59,7 +59,7 @@
 				<scroll-view class="noticeBox2" scroll-y="ture">
 					<view class="tv_title" v-for="(item,index) in standAlone" :key="index">
 						<!-- <view class="tt_txt">{{item.txt}}</view> -->
-						<view class="tt_equipmentContent" @click="Jump(item)">
+						<view class="tt_equipmentContent" hover-class="hover" @click="Jump(item)">
 							<view class="ec_image">
 								<image class="ec_image2" v-if="popUpModule == 5" src="../../static/HOME/bancixinxiping.png" mode="aspectFit"></image>
 								<image class="ec_image2" v-if="popUpModule == 4" src="../../static/HOME/fachewei.png" mode="aspectFit"></image>
@@ -734,5 +734,13 @@
 				}
 			}
 		}
+	}
+	
+	.hover{
+		transition: all .3s; //过度
+		border-radius: 12upx;
+		opacity: 0.1;
+		color: #FFFFFF;
+		background: #f6f6f6;
 	}
 </style>
