@@ -415,7 +415,7 @@
 	.changefontStyle{
 		font-size: 28upx;
 		  color: #FFFFFF;
-		  background-color: #4CD964;
+		  background-color: #5694fb;
 		  width: 100%;
 		  text-align: center;
 		  border-radius: 34upx;
@@ -456,7 +456,7 @@
 		color: #999999;
 	}
 	.changecolor2{
-		background-color: #4CD964;
+		background-color: #5694fb;
 		color: #FFFFFF;
 	}
 	.jiantou{
@@ -479,15 +479,15 @@
 		border-radius: 24upx;
 		opacity: 0.1;
 		color: #FFFFFF;
-		background: #007614;
+		background: #5694fb;
 	}
 	
 	.hover2{
 		transition: all .3s; //过度
 		border-radius: 24upx;
-		opacity: 0.8;
+		opacity: 0.6;
 		color: #FFFFFF;
-		background: #1d9e33;
+		background: #5694fb;
 	}
 	
 </style>
