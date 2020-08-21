@@ -23,7 +23,7 @@
 			<view class="lineClass"></view>
 		</view>
 		
-		<!-- 企业车辆，企业设备，智慧中心 -->
+		<!-- 企业车站，企业设备，智慧中心 -->
 		<view class="centerBox">
 			<view v-for="(item,index) in modularList" :key="index" class="modularClass" @click="operation(item.title)" hover-class="btnClass">
 				<image :src="item.icon" :class="item.style"></image>
@@ -52,10 +52,10 @@
 				typeNum:0,//设备分类数
 				login:false, //是否登录
 				
-				modularList:[{  //企业车辆，企业设备，智慧中心功能
-					title:'企业车辆',
-					style:'carClass',
-					icon:'../../static/GRZX/icon-car.png',
+				modularList:[{  //企业车站，企业设备，智慧中心功能
+					title:'企业车站',
+					style:'stationClass',
+					icon:'../../static/GRZX/icon-station.png',
 					IsUse:true,
 				},
 				{
@@ -141,7 +141,7 @@
 			//----------------------------操作-------------------------------
 			operation(title){
 				switch (title){
-					case '企业车辆':
+					case '企业车站':
 						uni.showToast({
 							title:'暂未开放',
 							icon:'none'
@@ -411,7 +411,7 @@
 		display: flex;
 		flex-direction: row;
 		
-		//每个模块--企业车辆，企业设备，智慧中心 
+		//每个模块--企业车站，企业设备，智慧中心 
 		.modularClass{
 			width: 33%;
 			display: flex;
@@ -420,10 +420,10 @@
 		}
 		
 		//图标
-		.carClass{
+		.stationClass{
 			width: 60upx;
-			height: 55upx;
-			padding: 25upx 82upx 15upx 82upx;
+			height: 60upx;
+			padding: 20upx 82upx 15upx 82upx;
 		}
 		.equipmentClass{
 			width: 54upx;

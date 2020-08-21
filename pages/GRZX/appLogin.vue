@@ -21,7 +21,7 @@
 		</view>
 
 		<!-- logo -->
-		<image :src="logo" class="logoClass"></image>
+		<image :src="logo||'/static/GRZX/logo.png'" class="logoClass"></image>
 
 		<!-- 第三方登录 -->
 		<view class="loginMode">第三方登录</view>
@@ -563,6 +563,7 @@
 		top: 200upx;
 		left: 33.87%;
 		position: absolute;
+		border-radius: 50%;
 	}
 
 	.iconClass1 {
