@@ -44,11 +44,11 @@
 				</view>
 				<view class="jiantou1">
 					<view v-if="!openType2" class="shangjiantou1" @click="openList(2)">
-					<image src="../static/xiajiantou.png" class="jiantou"></image>
-				</view>
-				<view v-if="openType2" class="shangjiantou1" @click="closeList(2)">
-					<image src="../static/shangjiantou.png" class="jiantou"></image>
-				</view>
+						<image src="../static/xiajiantou.png" class="jiantou"></image>
+					</view>
+					<view v-if="openType2" class="shangjiantou1" @click="closeList(2)">
+						<image src="../static/shangjiantou.png" class="jiantou"></image>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -274,54 +274,47 @@
 			},
 			//------------------------提交数据----------------------------
 			successClick:function(){
-				if(this.complaintInfo==''){
-					uni.showToast({
-						title:'请提出建议',
-						icon: 'none'
-					})
-				}else{
-					uni.showLoading({
-						title:'提交投诉中...'
-					})
-					uni.request({
-						url: $Sbjg.SbjgInterface.AddStateBy.Url,
-						method: $Sbjg.SbjgInterface.AddStateBy.method,
-						header: $Sbjg.SbjgInterface.AddStateBy.header,
-						data: {
-							SettingAID: this.AID,
-							// OperationTime: ,
-							// OperationUser: ,
-							// State: ,
-							// Repairer:,
-							Remark:this.complaintInfo
-						},
-						success: (res) => {
-							console.log(res)
-							if (res.data.status== true) {
-								uni.hideLoading()
-								uni.showToast({
-									title:'投诉成功',
-									icon: 'none',
-								})
-								if(that.Remark==''){
-									setTimeout(function(){
-										uni.navigateBack();
-									},2000);
-								}
-							} else {
-								
-							}
-					
-						},
-						fail: () => {
+				uni.showLoading({
+					title:'提交投诉中...'
+				})
+				uni.request({
+					url: $Sbjg.SbjgInterface.AddStateBy.Url,
+					method: $Sbjg.SbjgInterface.AddStateBy.method,
+					header: $Sbjg.SbjgInterface.AddStateBy.header,
+					data: {
+						SettingAID: this.AID,
+						// OperationTime: ,
+						// OperationUser: ,
+						// State: ,
+						// Repairer:,
+						Remark:this.complaintInfo
+					},
+					success: (res) => {
+						console.log(res)
+						if (res.data.status== true) {
 							uni.hideLoading()
 							uni.showToast({
-								title:'投诉失败',
-								icon:'none'
+								title:'投诉成功',
+								icon: 'none',
 							})
+							if(that.Remark==''){
+								setTimeout(function(){
+									uni.navigateBack();
+								},2000);
+							}
+						} else {
+							
 						}
-					})
-				}
+				
+					},
+					fail: () => {
+						uni.hideLoading()
+						uni.showToast({
+							title:'投诉失败',
+							icon:'none'
+						})
+					}
+				})
 			}
 		}
 	}
