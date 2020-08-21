@@ -295,7 +295,7 @@
 			//------------------------提交数据----------------------------
 			successClick:function(){
 				uni.showLoading({
-					title:'提交投诉中...'
+					title:'提交中...'
 				})
 				uni.request({
 					url: $Sbjg.SbjgInterface.AddStateBy.Url,
@@ -314,8 +314,8 @@
 						if (res.data.status== true) {
 							uni.hideLoading()
 							uni.showToast({
-								title:'投诉成功',
-								icon: 'none',
+								title:'报修成功',
+								icon: 'success',
 							})
 							if(that.Remark==''){
 								setTimeout(function(){
@@ -323,14 +323,18 @@
 								},2000);
 							}
 						} else {
-							
+							uni.hideLoading()
+							uni.showToast({
+								title:'报修失败，服务器异常',
+								icon: 'none',
+							})
 						}
 				
 					},
 					fail: () => {
 						uni.hideLoading()
 						uni.showToast({
-							title:'投诉失败',
+							title:'网络异常，请重试',
 							icon:'none'
 						})
 					}
