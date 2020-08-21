@@ -103,7 +103,7 @@
 					<image class="sd_icon" style="width: 30upx;" src="../static/zijian.png" mode="aspectFit"></image>
 					<text class="sd_text">查看进程</text>
 				</view>
-				<view class="ol_shutDown" hover-class="ol_hover" style="margin-bottom: 56upx;" @click="notYetOpen">
+				<view class="ol_shutDown" hover-class="ol_hover" style="margin-bottom: 56upx;" @click="guarantee">
 					<image class="sd_icon" style="width: 30upx;" src="../static/dengji.png" mode="aspectFit"></image>
 					<text class="sd_text">保修登记</text>
 				</view>

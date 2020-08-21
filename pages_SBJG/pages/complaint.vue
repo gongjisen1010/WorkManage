@@ -67,8 +67,8 @@
 			</view>
 		</view>
 		<!-- 提交 -->
-		<view v-if="!btncheck" class="btnClass changecolor1" @click="successClick">提交</view>
-		<view v-if="btncheck" class="btnClass changecolor2" @click="successClick">提交</view>
+		<view v-if="!btncheck" class="btnClass changecolor1" hover-class="hover" @click="successClick2">提交</view>
+		<view v-if="btncheck" class="btnClass changecolor2" hover-class="hover2" @click="successClick">提交</view>
 	</view>
 </template>
 
@@ -264,48 +264,64 @@
 				var that = this;
 				that.textmarn=e.detail.cursor; 
 			},
-			successClick:function(){
-				uni.showLoading({
-					title:'提交投诉中...'
+			
+			//------------------------请选择问题----------------------------
+			successClick2: function() {
+				uni.showToast({
+					title: '请选择问题',
+					icon: 'none'
 				})
-				uni.request({
-					url: $Sbjg.SbjgInterface.AddStateBy.Url,
-					method: $Sbjg.SbjgInterface.AddStateBy.method,
-					header: $Sbjg.SbjgInterface.AddStateBy.header,
-					data: {
-						SettingAID: this.AID,
-						// OperationTime: ,
-						// OperationUser: ,
-						// State: ,
-						// Repairer:,
-						Remark:this.complaintInfo
-					},
-					success: (res) => {
-						console.log(res)
-						if (res.data.status== true) {
+			},
+			//------------------------提交数据----------------------------
+			successClick:function(){
+				if(this.complaintInfo==''){
+					uni.showToast({
+						title:'请提出建议',
+						icon: 'none'
+					})
+				}else{
+					uni.showLoading({
+						title:'提交投诉中...'
+					})
+					uni.request({
+						url: $Sbjg.SbjgInterface.AddStateBy.Url,
+						method: $Sbjg.SbjgInterface.AddStateBy.method,
+						header: $Sbjg.SbjgInterface.AddStateBy.header,
+						data: {
+							SettingAID: this.AID,
+							// OperationTime: ,
+							// OperationUser: ,
+							// State: ,
+							// Repairer:,
+							Remark:this.complaintInfo
+						},
+						success: (res) => {
+							console.log(res)
+							if (res.data.status== true) {
+								uni.hideLoading()
+								uni.showToast({
+									title:'投诉成功',
+									icon: 'none',
+								})
+								if(that.Remark==''){
+									setTimeout(function(){
+										uni.navigateBack();
+									},2000);
+								}
+							} else {
+								
+							}
+					
+						},
+						fail: () => {
 							uni.hideLoading()
 							uni.showToast({
-								title:'投诉成功',
-								icon: 'none',
+								title:'投诉失败',
+								icon:'none'
 							})
-							if(that.Remark==''){
-								setTimeout(function(){
-									uni.navigateBack();
-								},2000);
-							}
-						} else {
-							
 						}
-				
-					},
-					fail: () => {
-						uni.hideLoading()
-						uni.showToast({
-							title:'投诉失败',
-							icon:'none'
-						})
-					}
-				})
+					})
+				}
 			}
 		}
 	}
@@ -315,7 +331,7 @@
 	page {
 		background-color: #F4F6F8;
 	}
-
+	
 	.business-view {
 		/* height: 319upx; */
 		background-color: #FFFFFF;
@@ -460,7 +476,26 @@
 	}
 	.jiantou1{
 		margin-top: 10upx;
-		margin-left: 325upx;
+		// margin-left: 325upx;
 		padding-bottom: 10upx;
+		width: 100%;
+		text-align: center;
 	}
+	
+	.hover{
+		transition: all .3s; //过度
+		border-radius: 24upx;
+		opacity: 0.1;
+		color: #FFFFFF;
+		background: #007614;
+	}
+	
+	.hover2{
+		transition: all .3s; //过度
+		border-radius: 24upx;
+		opacity: 0.8;
+		color: #FFFFFF;
+		background: #1d9e33;
+	}
+	
 </style>
