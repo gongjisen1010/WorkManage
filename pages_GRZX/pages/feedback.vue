@@ -27,29 +27,31 @@
 		},
 		data() {
 			return {
-			remnant:0,
-			nickid:'',
-			ideaContent:'',
-			enableDel : true,//是否启动del
-			enableAdd : true,//是否启动删除
-			enableDrag : false,//是否启动拖动
-			show: true,//是否显示
-				
-			serverUrl: 'http://localhost:2000/work/uploadWorkPicture',//模拟服务器地址
-			serverUrlDeleteImage: 'http://localhost:2000/work/deleteWorkPicture',//模拟服务器删除
-			formData: {//表格数据
+				remnant:0,
+				nickid:'',
+				ideaContent:'',
+				enableDel : true,//是否启动del
+				enableAdd : true,//是否启动删除
+				enableDrag : false,//是否启动拖动
+				show: true,//是否显示
+					
+				serverUrl: 'http://localhost:2000/work/uploadWorkPicture',//模拟服务器地址
+				serverUrlDeleteImage: 'http://localhost:2000/work/deleteWorkPicture',//模拟服务器删除
+				formData: 
+				{//表格数据
 					userId: 2
 				},
-			imagelist:[],//图像列表框
-			detailInfo : {//详细信息
-				imageData : [],//图像日期	
-			}
+				imagelist:[],//图像列表框
+				detailInfo :
+				{//详细信息
+					imageData : [],//图像日期	
+				}
 			}
 		},
 		onShow() {
 			this.getLogin();
 			uni.setNavigationBarTitle({
-				title: '意见反馈'
+				title: '意见反馈',
 			});
 		},
 		methods: {
@@ -201,7 +203,7 @@
 			left: 3%;
 			.fb_btn{
 				border-radius:30px;
-				background: #0055ff;
+				background: #FF971E;
 				color: #FFFFFF;
 			}
 		}

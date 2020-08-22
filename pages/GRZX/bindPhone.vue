@@ -86,7 +86,7 @@
 				this[key] = e.detail.value;
 			},
 			
-			//测试................................................
+			//...............................测试...............................
 			// bindPhone(){
 			// 	var userInfo=uni.getStorageSync('appUserInfo')	//验证码和手机号
 			// 	this.login(this.type,userInfo,'15260769755');
@@ -426,11 +426,11 @@
 		height: 64upx;
 	}
 	.style{
-		border:1px solid #0055ff;
-		color: #0055ff;
+		border:1px solid #FF971E;
+		color: #FF971E;
 	}
 	.btnClass{
-		background-color: #0055ff;
+		background: linear-gradient(54deg, rgba(255, 128, 8, 1) 0%, rgba(255, 200, 55, 1) 100%);
 		color: #FFFFFF;
 		margin-top: 50upx;
 		margin-left: 5%;
@@ -450,7 +450,7 @@
 		height: 350upx;
 	}
 	.titleClass{
-		color: #0055ff;
+		color: #FF971E;
 		font-size: 48upx;
 		margin-top:30upx;
 		margin-left: 6%;
