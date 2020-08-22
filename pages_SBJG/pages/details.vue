@@ -15,7 +15,7 @@
 			<view class="ol_equipmentStatus">
 				<text class="es_text animated">设备状态</text>
 				<text class="es_text2" v-if="parameter.Online==true">硬件在线</text>
-				<text class="es_text3 animated flash" v-if="parameter.Online==false">硬件离线</text>
+				<text class="es_text3 animated flash" v-if="parameter.Online==false">硬件异常</text>
 				<text class="es_text2" v-if="parameter.Online==true">软件在线</text>
 				<text class="es_text3 animated flash" v-if="parameter.Online==false">软件异常</text>
 			</view>
@@ -164,7 +164,7 @@
 						<view class="tl_content">
 							<text class="ct_text">设备状态</text>
 							<text class="ct_text2" style="color: #3CB96B;" v-if="parameter.Online==true">在线</text>
-							<text class="ct_text2 animated flash" style="color: #FF6969;" v-if="parameter.Online==false">离线</text>
+							<text class="ct_text2 animated flash" style="color: #FF6969;" v-if="parameter.Online==false">报修</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">网络状态</text>

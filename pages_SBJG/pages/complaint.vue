@@ -164,12 +164,14 @@
 				AID:'',
 				Remark:'',
 				Code:'',
+				datestring:'',
 			}
 		},
 		onLoad(param) {
 			this.AID = param.AID;
 			this.Remark = param.Remark;
 			this.Code = param.Code;
+			this.currentTime();
 		},
 		methods: {
 			openList:function(e){
@@ -272,10 +274,28 @@
 					icon: 'none'
 				})
 			},
+			
+			//------------------------获取当前时间----------------------------
+			currentTime:function(){
+				
+				//获取当前时间
+				var date = new Date();
+				var year = date.getFullYear();
+				var month = date.getMonth() + 1;
+				var day = date.getDate() + 2;
+				var hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+				var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+				month >= 1 && month <= 9 ? (month = "0" + month) : "";
+				day >= 0 && day <= 9 ? (day = "0" + day) : "";
+				var timer = year + '-' + month + '-' + day; //当前年月日时分
+				this.datestring = timer; //截取日期
+				console.log('获取当前时间',this.datestring)
+			},
+			
 			//------------------------提交数据----------------------------
 			successClick:function(){
 				uni.showLoading({
-					title:'提交投诉中...'
+					title:'提交中...'
 				})
 				uni.request({
 					url: $Sbjg.SbjgInterface.AddStateBy.Url,
@@ -283,7 +303,7 @@
 					header: $Sbjg.SbjgInterface.AddStateBy.header,
 					data: {
 						SettingAID: this.AID,
-						// OperationTime: ,
+						OperationTime: this.datestring,
 						// OperationUser: ,
 						// State: ,
 						// Repairer:,
@@ -294,8 +314,8 @@
 						if (res.data.status== true) {
 							uni.hideLoading()
 							uni.showToast({
-								title:'投诉成功',
-								icon: 'none',
+								title:'报修成功',
+								icon: 'success',
 							})
 							if(that.Remark==''){
 								setTimeout(function(){
@@ -303,14 +323,18 @@
 								},2000);
 							}
 						} else {
-							
+							uni.hideLoading()
+							uni.showToast({
+								title:'报修失败，服务器异常',
+								icon: 'none',
+							})
 						}
 				
 					},
 					fail: () => {
 						uni.hideLoading()
 						uni.showToast({
-							title:'投诉失败',
+							title:'网络异常，请重试',
 							icon:'none'
 						})
 					}

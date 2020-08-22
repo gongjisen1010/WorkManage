@@ -29,7 +29,7 @@
 		<view class="rightLine"></view>
 		<!-- <image src="../../static/GRZX/qqLogo.png" class="qqClass" @click="qqLogin"></image> -->
 		<!-- 苹果登录 -->
-		<image src="../../static/GRZX/appleLogo.png" class="appleClass" @click="appleLogin" v-if="platform=='ios'"></image>
+		<!-- <image src="../../static/GRZX/appleLogo.png" class="appleClass" @click="appleLogin" v-if="platform=='ios'"></image> -->
 		<image src="../../static/GRZX/wxLogo.png" :class="platform=='ios'?'wxClass':'wxClass1'" @click="wxLogin" ></image>
 	</view>
 </template>
