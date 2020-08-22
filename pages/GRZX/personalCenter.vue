@@ -5,7 +5,7 @@
 			<image src="../../static/GRZX/backImg.png" class="backClass"></image>
 			<!-- 头像 -->
 			<view class="portraitBox" @click="checkLogin">
-				<image :src="portrait|| '/static/GRZX/icon-jdt.png'" :class="login?'portraitClass2':'portraitClass1'"></image>
+				<image :src="portrait|| '/static/GRZX/icon-headImg.png'" class="portraitClass"></image>
 			</view>
 			<!-- 公司名称 -->
 			<text class="nameClass" @click="checkLogin">{{userName}}</text>
@@ -327,22 +327,13 @@
 			width: 110upx;
 			height: 110upx;
 			border-radius: 50%;
-			background-color: #FFFFFF;
 			position: absolute;
 			left: 7%;
 			top: 25upx;
-			box-shadow:0px 6px 6px 0px rgba(4,0,0,0.09);
 		}
 		
 		//头像
-		.portraitClass1{	
-			width: 60upx;
-			height: 55upx;
-			position: absolute;
-			left: 25%;
-			top: 28upx;
-		}
-		.portraitClass2{
+		.portraitClass{
 			width: 100%;
 			height: 100%;
 			border-radius: 50%;
