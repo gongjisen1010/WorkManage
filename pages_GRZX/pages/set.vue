@@ -133,8 +133,8 @@
 	.itemClass{
 		display: flex;
 		flex-direction: row;
+		padding: 30upx 0upx 30upx 30upx;
 		font-size: 28upx;
-		padding: 30upx 30upx;
 		background-color: #ffffff;
 		margin-top: 20upx;
 	}
@@ -145,7 +145,9 @@
 		margin-left: 1%;
 	}
 	.sizeClass{
-		margin-left: 65%;
+		width: 50%;
+		text-align: right;
+		margin-left: 25%;
 	}
 	.loginClass{
 		width: 100%;
