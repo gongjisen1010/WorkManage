@@ -164,7 +164,7 @@
 						<view class="tl_content">
 							<text class="ct_text">设备状态</text>
 							<text class="ct_text2" style="color: #3CB96B;" v-if="parameter.Online==true">在线</text>
-							<text class="ct_text2 animated flash" style="color: #FF6969;" v-if="parameter.Online==false">报修</text>
+							<text class="ct_text2 animated flash" style="color: #FF6969;" v-if="parameter.Online==false">离线</text>
 						</view>
 						<view class="tl_content">
 							<text class="ct_text">网络状态</text>
