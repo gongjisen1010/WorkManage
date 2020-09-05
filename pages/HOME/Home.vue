@@ -15,7 +15,7 @@
 		data(){
 			return{
 				functionList:[{
-					title:"工作报告",
+					title:"工作报告", 
 					style:"Color1",
 				},
 				{
