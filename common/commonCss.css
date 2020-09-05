@@ -1,0 +1,12 @@
+/* 蓝色渐变按钮 */
+.bc_blue{
+	background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));
+	box-shadow:0px 7px 38px 8px rgba(70,103,252,0.15);
+}
+
+/* 按钮点击效果 */
+.btn_Click{
+	transition: all .3s; /*过渡 */ 
+	opacity: 0.9;
+	background-color:#a1a2a6;
+}

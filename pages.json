@@ -1,98 +1,99 @@
 {
-	"pages": [
+	"pages": [ //pages数组中第一项表示应用启动页,
 		{
-		    "path" : "pages/HOME/JKSBhomePage",
-		    "style" : {
+			"path": "pages/Home/Home",
+			"style": {
 				"navigationStyle": "custom"
 			}
 		},
+		//---------------------------个人中心start---------------------------
+		{
+			"path": "pages/personCenter/personCenter",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/personCenter/set",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/personCenter/ipList",
+			"style": {
+				"navigationBarTitleText": "ip地址"
+			}
+		},
+		{
+			"path": "pages/personCenter/addIp",
+			"style": {
+				"navigationBarTitleText": "ip地址"
+			}
+		},
+		{
+			"path": "pages/personCenter/login",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/personCenter/personInfo",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
+		},
+		//---------------------------个人中心end---------------------------
 		
-		{	//个人中心
-			"path": "pages/GRZX/personalCenter",
-			"style": {
-				"navigationStyle": "custom"
-			}	
-		},
-		{	//绑定手机号
-			"path": "pages/GRZX/bindPhone",
-			"style": {
-				"navigationStyle": "custom"
-			}	
-		},
-		{	//app登录
-			"path": "pages/GRZX/appLogin",
-			"style": {
-				"navigationStyle": "custom"
-			}	
-		}
-    ],
-	"subPackages": [
-		//---------------------------------------------第1个包：个人中心------------------------------------------
+		//---------------------------工作报告start---------------------------
 		{
-			"root": "pages_GRZX/",
-			"pages": [
-				{
-					"path": "pages/feedback",
-					"style": {}
-				},
-				{
-					"path": "pages/set",
-					"style": {}
-				}
-			]
-		},
-		//---------------------------------------------第2个包：设备监管------------------------------------------
-		{
-			"root": "pages_SBJG/",
-			"pages": [
-				//----------------------------------详情页--------------------------------------------
-				{
-					"path": "pages/details",
-					"style": {
-						//#ifdef H5
-						"navigationStyle": "custom"
-						//#endif
-					}
-				},
-				{
-					"path": "pages/complaint",
-					"style": {}
-				}
-			]
-		}
-	],
-	
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	},
-	
-	"tabBar": {
-		"color": "#666666",
-		"selectedColor": "#666666",
-		// "selectedColor": "#0000ff",
-		"backgroundColor": "#FFFFFF",
-		"borderStyle": "black",
-		"list": [
-			{
-				"pagePath": "pages/HOME/JKSBhomePage",
-				"text": "首页",
-				"iconPath":"static/HOME/home.png",
-				"selectedIconPath":"static/HOME/home_selector.png"
-			},
-			// {
-			// 	"pagePath": "",
-			// 	"text": "商城",
-			//	"iconPath":"static/HOME/shop.png",
-			//	"selectedIconPath":"static/HOME/shop_selector.png"
-			// },
-			{
-				"pagePath": "pages/GRZX/personalCenter",
-				"text": "我的",
-				"iconPath":"static/HOME/personalCenter.png",
-				"selectedIconPath":"static/HOME/personalCenter_selector.png"
+			"path": "pages/workReport/reportList",
+			"style": {
+				"navigationBarTitleText": "工作报告"
 			}
-		]
+		},
+		{
+			"path": "pages/workReport/addReport",
+			"style": {}
+		},
+		//---------------------------工作报告end---------------------------
+		
+		//---------------------------项目管理start---------------------------
+		{
+			"path": "pages/projectManage/projectManage",
+			"style": {
+				"navigationBarTitleText": "项目管理"
+			}
+		},
+		{
+			"path": "pages/projectManage/addProject",
+			"style": {
+				"navigationBarTitleText": "项目管理"
+			}
+		}
+		//---------------------------项目管理end---------------------------
+	],
+	"tabBar": {
+		"color": "#7a7e83",
+		"selectedColor": "#000000",
+		"backgroundColor": "#ffffff",
+		//#ifdef APP-PLUS
+		"fontSize": "16px",
+		//#endif
+		"list": [{
+			"pagePath": "pages/Home/Home",
+			"text": "主页"
+			// "iconPath": "static/img/home.png",
+			// "selectedIconPath": "static/img/homeHL.png
+		}, 
+		{
+			"pagePath": "pages/personCenter/personCenter",
+			"text": "我的"
+		}]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#0faeff",
+		"backgroundColor": "#fbf9fe"
 	}
 }
