@@ -1,7 +1,9 @@
 <template>
 	<view class="content">
 		<view class="topBox">
-			<text class="fontClass loginClass" @click="declick">登录</text>
+			<image src="../../static/Home/lbt4.jpg" class="bgClass"></image>
+			<image src="../../static/PersonCenter/ip.png" class="imgClass" @click="ipChangeClick"></image>
+			<text class="fontClass loginClass" @click="switchTab(true)">登录</text>
 			<view class="triangle" :class="tab?'pl1':'pl2'"></view>
 			<!-- <view :animation="animationData" class="triangle" :class="tab?'pl1':'pl2'" @click="declick"></view> -->
 			<text class="fontClass registerClass" @click="switchTab(false)">注册</text>
@@ -9,14 +11,16 @@
 		
 		<view class="itemClass">
 			<image src="../../static/PersonCenter/num.png" class="imgClass"></image>
-			<input type="number" v-model="number" maxlength="15" class="inputClass" placeholder="请输入您的账号" />
+			<input v-show="tab" type="number" v-model="number" maxlength="15" class="inputClass" placeholder="请输入您的账号" />
+			<input v-show="!tab" type="number" v-model="registerNum" maxlength="15" class="inputClass" placeholder="请输入您的账号" />
 		</view>
 		<view class="itemClass">
 			<image src="../../static/PersonCenter/pwd.png" class="imgClass"></image>
-			<input type="password" v-model="password" maxlength="20" class="inputClass" placeholder="请输入您的密码" />
+			<input v-show="tab" type="password" v-model="password" maxlength="20" class="inputClass" placeholder="请输入您的密码" />
+			<input v-show="!tab" type="password" v-model="registerPwd" maxlength="20" class="inputClass" placeholder="请输入您的密码" />
 		</view>
 		
-		<view class="rememberBox" v-if="tab">
+		<view class="rememberBox" v-show="tab">
 			<checkbox-group @change="rememberChange">
 				<label>
 					<checkbox :value="rememberPassword" :checked="rememberPassword" color="#0055ff" style="transform:scale(0.7)" />记住密码
@@ -40,6 +44,10 @@
 				tab:true,   	//切换登录注册
 				number:'',		//账号
 				password:'',	//密码
+				
+				registerNum:'',		//注册账号
+				registerPwd:'',		//注册密码
+				
 				btn_Text:'登录',		//按钮显示文字
 				rememberPassword:false, //是否记住密码
 			}
@@ -65,6 +73,8 @@
 				}else{
 					this.number = "";
 					this.password = "";
+					this.registerNum = "";
+					this.registerPwd = "";
 				}
 			},
 			
@@ -75,7 +85,7 @@
 					success: res => {
 						this.rememberPassword = true;
 						this.number = res.data.number;
-						this.password = res.data.password;
+						this.password = this.$base64.decode(res.data.password);
 					},
 					fail: () => {
 						this.rememberPassword = false;
@@ -85,96 +95,107 @@
 			
 			//----------------------------------------检查账号密码----------------------------------------
 			checkNumPwd(){
-				if(this.number<10){
-					uni.showToast({
-						title: '账号不能少于10位'
-					});
-				}else if(this.password<10){
-					uni.showToast({
-						title: '密码不能少于10位'
-					});
-				}else{
-					if(this.tab){
-						this.loginClick();
-					}else{
-						this.registerClick();
-					}
-				}
+				this.tab?this.loginClick():this.registerClick();
 			},
 			
 			//----------------------------------------登录----------------------------------------
 			loginClick(){
-				uni.showLoading({
-					title: '登录中...',
-					mask: false
-				});
-				uni.request({
-					url:this.$all.getUrl() + this.$all.Inter_person.login.url,
-					method: this.$all.Inter_person.login.method,
-					data: {
-						num : this.number,
-						pwd : this.password,
-					},
-					success: res => {
-						console.log(res);
-						uni.showToast({
-							title: res.data.msg,
-							icon:'none',
-						});						
-						if(res.data.status){
-							this.setUserInfo(res.data.data.aid);
-							uni.setStorageSync('password',{
-								number:this.number,
-								password:this.password,
-							})
-						}else{
-							this.password = "";
-						}
-					},
-					fail: (err) => {
-						uni.showToast({
-							title: '网络连接失败',
-							icon:'none',
-						});
-					},
-				});
+				if(this.number.length<9){
+					uni.showToast({
+						title: '账号不能少于9位',
+						icon:'none'
+					});
+				}else if(this.password.length<9){
+					uni.showToast({
+						title: '密码不能少于9位',
+						icon:'none'
+					});
+				}else{
+					uni.showLoading({
+						title: '登录中...',
+						mask: false
+					});
+					uni.request({
+						url:this.$all.getUrl() + this.$all.Inter_person.login.url,
+						method: this.$all.Inter_person.login.method,
+						data: {
+							num : this.number,
+							pwd : this.password,
+						},
+						success: res => {
+							console.log(res);
+							uni.showToast({
+								title: res.data.msg,
+								icon:'none',
+							});						
+							if(res.data.status){
+								this.setUserInfo(res.data.data.aid);
+								if(this.rememberPassword){
+									var password = this.$base64.encode(this.password);
+									uni.setStorageSync('password',{
+										number:this.number,
+										password:password,
+									})
+								}else{
+									uni.removeStorageSync('password');
+								}
+							}else{
+								this.password = "";
+							}
+						},
+						fail: (err) => {
+							uni.showToast({
+								title: '网络连接失败',
+								icon:'none',
+							});
+						},
+					});
+				}
 			},
 			
 			//----------------------------------------注册----------------------------------------
 			registerClick(){
-				uni.showLoading({
-					title: '提交中...',
-					mask: false
-				});
-				uni.request({
-					url: this.$all.getUrl() + this.$all.Inter_person.register.url,
-					method: this.$all.Inter_person.register.method,
-					data: {
-						num : this.number,
-						pwd : this.password,
-					},
-					success: res => {
-						uni.showToast({
-							title: res.data.msg,
-							icon:'none',
-						});
-					},
-					fail: (err) => {
-						uni.showToast({
-							title: '网络连接失败',
-							icon:'none',
-						});
-					},
-				});
+				if(this.registerNum.length<9){
+					uni.showToast({
+						title: '账号不能少于9位',
+						icon:'none'
+					});
+				}else if(this.registerPwd.length<9){
+					uni.showToast({
+						title: '密码不能少于9位',
+						icon:'none'
+					});
+				}else{
+					uni.showLoading({
+						title: '提交中...',
+						mask: false
+					});
+					uni.request({
+						url: this.$all.getUrl() + this.$all.Inter_person.register.url,
+						method: this.$all.Inter_person.register.method,
+						data: {
+							num : this.registerNum,
+							pwd : this.registerPwd,
+						},
+						success: res => {
+							uni.showToast({
+								title: res.data.msg,
+								icon:'none',
+							});
+						},
+						fail: (err) => {
+							uni.showToast({
+								title: '网络连接失败',
+								icon:'none',
+							});
+						},
+					});
+				}
 			},
 			
 			//----------------------------------------记住密码----------------------------------------
 			rememberChange(){
-				if(this.rememberPassword){
-					this.rememberPassword = false;
-				}else{
-					this.rememberPassword = true;
-				}
+				this.rememberPassword = this.rememberPassword ? false : true;
 			},
 			
 			//----------------------------------------缓存用户信息----------------------------------------
@@ -189,7 +210,7 @@
 						uni.setStorageSync('userInfo',res.data.data)
 						setTimeout(function(){
 							uni.switchTab({
-								url:'/pages/personCenter/personCenter',
+								url:'/pages/Home/Home',
 							})
 						},300)
 					},
@@ -200,6 +221,13 @@
 						});
 					},
 				});
+			},
+			
+			//----------------------------------------更改IP----------------------------------------
+			ipChangeClick(){
+				uni.navigateTo({
+					url:'./ipList'
+				})
 			},
 			
 			//----------------------------------------动画----------------------------------------
@@ -222,7 +250,8 @@
 			norotateAndScale() {
 			    this.animation.rotate(0).scale(1, 1).step()
 			    this.animationData = this.animation.export()
-			}
+			},
+			
 		}
 	}
 </script>
@@ -233,18 +262,28 @@
 	}
 	.topBox{
 		width: 100%;
-		height: 400upx;
-		background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));
+		height: 460upx;
+		// background:linear-gradient(270deg,rgba(94,109,255,1),rgba(73,152,251,1));
 		position: relative;
+		.imgClass{
+			width: 50upx;
+			height: 50upx;
+			position: absolute;
+			top:50upx;
+			left: 2%;
+		}
+		.bgClass{
+			width: 100%;
+			height: 460upx;
+		}
 	}
 	.fontClass{
 		color: #ffffff;
 		font-size: 40upx;
 		position: absolute;
-		top:325upx;
+		top:385upx;
 	}
 	.loginClass{
-		
 		left: 25%;
 	}
 	.registerClass{
@@ -258,7 +297,7 @@
 		border-left: 20upx solid transparent;    //transparent 表示透明
 		border-right: 20upx solid transparent;
 		position: absolute;
-		top:382upx;
+		top:442upx;
 	}
 	.pl1{
 		left: 28%;
@@ -275,6 +314,7 @@
 		border-radius: 60upx;
 		width: 80%;
 		margin-left: 10%;
+		position: relative;
 	}
 	.imgClass{
 		width: 45upx;

@@ -1,6 +1,8 @@
 <template>
 	<view class="content">
-		<image src="../../static/Home/banner.jpg" class="imgClass"></image>
+		<!-- 轮播区 -->
+		<u-swiper :list="rotationChart" :height="550" indicator-pos="bottomRight" name="ImageURL"></u-swiper>
+		<!-- <image src="../../static/Home/banner.jpg" class="imgClass"></image> -->
 		
 		<view class="boxClass">
 			<view v-for="(item,index) in functionList" :key="index" class="functionClass" hover-class="btn_Click" @click="operateClick(item.title)">
@@ -11,63 +13,62 @@
 </template>
 
 <script>
-	export default{
-		data(){
-			return{
-				functionList:[{
-					title:"工作报告", 
-					style:"Color1",
-				},
-				{
-					title:"项目管理",
-					style:"Color2",
-				},
-				{
-					title:"查询",
-					style:"Color3",
-				},
-				{
-					title:"添加",
-					style:"Color4",
-				}]
-			}
-		},
-		onLoad() {
-			
-		},
-		onShow() {
-			
-		},
-		methods:{
-			operateClick(e){
-				switch (e){
-					case '工作报告':
-						uni.navigateTo({
-							url:'../workReport/reportList',
-						})
-						break;
-					case '项目管理':
-						uni.navigateTo({
-							url:'../projectManage/projectManage',
-						})
-						break;
-					case '查询':
-						uni.navigateTo({
-							//url:'../workReport/reportList',
-						})
-						break;
-					case '添加':
-						uni.navigateTo({
-							//url:'../workReport/reportList',
-						})
-						break;
-					default:
-						return '';
-				}
-				
+export default{
+	data(){
+		return{
+			rotationChart: ['../../../static/Home/lbt1.jpg','../../../static/Home/lbt2.jpg','../../../static/Home/lbt3.jpg'], 		//轮播图
+			functionList:[{
+				title:"工作报告", 
+				style:"Color1",
+			},
+			{
+				title:"项目管理",
+				style:"Color2",
+			},
+			{
+				title:"项目进度",
+				style:"Color3",
+			},
+			{
+				title:"联系",
+				style:"Color4",
+			}],
+		}
+	},
+	onLoad() {
+		
+	},
+	onShow() {
+	},
+	methods:{
+		operateClick(e){
+			switch (e){
+				case '工作报告':
+					uni.navigateTo({
+						url:'../workReport/reportList',
+					})
+					break;
+				case '项目管理':
+					uni.navigateTo({
+						url:'../projectManage/projectManage',
+					})
+					break;
+				case '项目进度':
+					uni.navigateTo({
+						url:'../projectProgress/queryProject',
+					})
+					break;
+				case '添加':
+					uni.navigateTo({
+						//url:'../workReport/reportList',
+					})
+					break;
+				default:
+					return '';
 			}
 		}
 	}
+}
 </script>
 
 <style lang="scss">
@@ -79,7 +80,7 @@
 	}
 	.imgClass{
 		width: 100%;
-		height: 430upx;
+		height: 850upx;
 	}
 	.boxClass{
 		display: flex; 

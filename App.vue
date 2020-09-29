@@ -14,6 +14,7 @@
 
 <style>
 	@import url("@/common/commonCss.css");
+	@import "uview-ui/index.scss"; //引入uview框架样式
 	/*每个页面公共css */
 	page {
 		min-height: 100%;

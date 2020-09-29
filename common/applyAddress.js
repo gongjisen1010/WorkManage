@@ -23,7 +23,7 @@ const Inter_person={
 		name:'用户登录',
 		method:'POST',
 		pages: [],
-		parameterName:'num，pwd',//需要传入的参数
+		parameterName:'num,pwd',//需要传入的参数
 		header:{'content-type': 'application/json'},
 	},
 	
@@ -41,15 +41,15 @@ const Inter_person={
 		name:'用户注册',
 		method:'POST',
 		pages: [],
-		parameterName:'num，pwd',//需要传入的参数
+		parameterName:'num,pwd',//需要传入的参数
 	},
 	
-	updateUserInfo:{
-		url:Url+'/api/person/updateUserInfo',
-		name:'修改账号，密码',
+	updatePwd:{
+		url:Url+'/api/person/updatePwd',
+		name:'修改密码',
 		method:'POST',
 		pages: [],
-		parameterName:'num，pwd，id',//需要传入的参数
+		parameterName:'newPwd,pwd,id',//需要传入的参数
 	},
 	
 	getUserByUserId:{
@@ -65,7 +65,7 @@ const Inter_person={
 		name:'修改用户信息（除手机号）',
 		method:'POST',
 		pages: [],
-		parameterName:'id，name，birthday，portrait，sex，signature，state',//需要传入的参数
+		parameterName:'id,name,birthday,portrait,sex,signature',//需要传入的参数
 	},
 	
 	updatePhoneNum:{
@@ -73,7 +73,7 @@ const Inter_person={
 		name:'修改手机号',
 		method:'POST',
 		pages: [],
-		parameterName:'id，phoneNumber',//需要传入的参数
+		parameterName:'id,phoneNumber',//需要传入的参数
 	},
 	
 	exitLogin:{
@@ -83,6 +83,31 @@ const Inter_person={
 		pages: [],
 		parameterName:'id',//需要传入的参数
 	},
+	
+	signIn:{
+		url:Url+'/api/person/signIn',
+		name:'签到',
+		method:'POST',
+		pages: [],
+		parameterName:'name,id',//需要传入的参数
+	},
+	
+	checkSignIn:{
+		url:Url+'/api/person/checkSignIn',
+		name:'检查是否签到',
+		method:'POST',
+		pages: [],
+		parameterName:'id',//需要传入的参数
+	},
+	
+	getSignInNum:{
+		url:Url+'/api/person/getSignInNum',
+		name:'获取签到数',
+		method:'POST',
+		pages: [],
+		parameterName:'id',//需要传入的参数
+	},
+	
 }
 //---------------------个人中心endding------------------------
 
@@ -109,7 +134,7 @@ const Inter_report={
 		name:'添加报告',
 		method:'POST',
 		pages: [],
-		parameterName:'userId，projectName，reportType，userName，workContent，workProblem，updateTime',//需要传入的参数
+		parameterName:'userId,projectName,reportType,userName,workContent,workProblem,updateTime',//需要传入的参数
 	},
 	
 	deleteReport:{
@@ -117,7 +142,7 @@ const Inter_report={
 		name:'删除报告',
 		method:'POST',
 		pages: [],
-		parameterName:'reportId，userId',//需要传入的参数
+		parameterName:'reportId,userId',//需要传入的参数
 	},
 	
 	deleteReportByReportId:{
@@ -137,7 +162,7 @@ const Inter_projcet={
 		name:'添加项目',
 		method:'POST',
 		pages: [],
-		parameterName:'projectName,customerCompany,department，startDate,developPeriod，development，userName，updateTime，userId',//需要传入的参数
+		parameterName:'projectName,customerCompany,department,startDate,developPeriod,development,userName,updateTime,userId',//需要传入的参数
 	},
 	
 	editProject:{
@@ -145,7 +170,7 @@ const Inter_projcet={
 		name:'修改项目',
 		method:'POST',
 		pages: [],
-		parameterName:'id,projectName,customerCompany,department，startDate,developPeriod，development，userName，updateTime，userId',//需要传入的参数
+		parameterName:'id,projectName,customerCompany,department,startDate,developPeriod,development,userName,updateTime,userId',//需要传入的参数
 	},
 	
 	getProject:{
@@ -153,7 +178,7 @@ const Inter_projcet={
 		name:'获得项目列表',
 		method:'POST',
 		pages: [],
-		parameterName:'projectName,customerCompany,department，startDate,developPeriod，development，userName，updateTime，userId',//需要传入的参数
+		parameterName:'projectName,customerCompany,department,startDate,developPeriod,development,userName,updateTime,userId',//需要传入的参数
 	},
 	
 	deleteProject:{
@@ -163,8 +188,49 @@ const Inter_projcet={
 		pages: [],
 		parameterName:'id',//需要传入的参数
 	},
+	
+	getProjectProgress:{
+		url:Url+'/api/projectDetail/getProjectProgress',
+		name:'获取项目的总进度',
+		method:'POST',
+		pages: [],
+		parameterName:'id',//需要传入的参数
+	},
 }
 //---------------------项目详情endding------------------------
+
+//---------------------项目进度------------------------
+const Inter_progress={
+	queryProgress:{
+		url:Url+'/api/projectProgress/queryProgress',
+		name:'查询项目进度',
+		method:'POST',
+		pages: [],
+		parameterName:'projectId',//需要传入的参数
+	},
+	
+	addProgress:{
+		url:Url+'/api/projectProgress/addProgress',
+		name:'添加项目进度',
+		method:'POST',
+		pages: [],
+		parameterName:'projectName，projectId，userId，userName，progress',//需要传入的参数
+	},
+	
+}
+//---------------------项目进度endding------------------------
+
+//---------------------好友列表------------------------
+const Inter_friendList={
+	getFriendList:{
+		url:Url+'/api/friend/getFriendList',
+		name:'获取好友列表',
+		method:'POST',
+		pages: [],
+		parameterName:'',//需要传入的参数
+	},
+}
+//---------------------好友列表endding------------------------
 
 //---------------------数据库------------------------
 const Inter_database={
@@ -207,6 +273,8 @@ export default {
 	Inter_person,
 	Inter_report,
 	Inter_projcet,
+	Inter_progress,
 	Inter_database,
+	Inter_friendList,
 	getUrl,
 }

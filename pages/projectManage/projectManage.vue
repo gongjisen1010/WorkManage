@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<view class="boxClass">
-			<view v-for="(item,index) in projectList" :key="index" class="projectClass" hover-class="btn_Click" @click="editProject(item)">
+			<view v-for="(item,index) in projectList" :key="index" class="projectClass" hover-class="" @click="editProject(item)">
 				<view class="itemClass" :class="item.style">{{item.projectName}}</view>
 			</view>
 		</view>
@@ -28,6 +28,10 @@
 		methods:{
 			//------------------------------加载项目列表------------------------------
 			loadProjectList(){
+				uni.showLoading({
+					title: '加载中...',
+					mask: false
+				});
 				this.projectList=[];
 				uni.request({
 					url:this.$all.getUrl() + this.$all.Inter_projcet.getProject.url,
@@ -36,17 +40,21 @@
 						console.log(res);
 						let list = res.data.data;
 						if(res.data.status){
-							for(var i=0; i<list.length; i++){
-								list[i].style="Color"+(i%4+1);
-								this.projectList.push(list[i]);
-							}
 							var that = this;
-							this.projectList=this.projectList.sort(function(a, b){
+							list=list.sort(function(a, b){
 								let time1=that.formateTime(a.updateTime);
 								let time2=that.formateTime(b.updateTime);
 								return Date.parse(time2) - Date.parse(time1);
 							});
+							for(var i=0; i<list.length; i++){
+								list[i].style="Color"+(i%4+1);
+								this.projectList.push(list[i]);
+							}
 						}
+						uni.hideLoading();
+					},
+					fail: () => {
+						uni.hideLoading();
 					}
 				})
 			},
@@ -98,7 +106,7 @@
 	.itemClass{
 		color: #ffffff;
 		padding:100upx 5%;
-		width: 90%;
+		width: 100%;
 		text-align: center;
 	}
 	.Color1{

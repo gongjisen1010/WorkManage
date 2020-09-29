@@ -66,7 +66,6 @@
 								if(e.confirm){
 									this.exitLogin(res.data.userId)
 									uni.removeStorageSync('userInfo');
-									
 								}
 							}
 						});
@@ -93,8 +92,8 @@
 					},
 					complete: () => {
 						setTimeout(()=>{
-							uni.switchTab({
-								url:'/pages/personCenter/personCenter'
+							uni.navigateTo({
+								url:'/pages/personCenter/login'
 							})
 						}, 200)
 					},

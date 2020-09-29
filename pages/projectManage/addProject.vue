@@ -26,6 +26,12 @@
 				<view class="titleClass">开发周期</view>
 				<input class="inputClass" name="developPeriod" v-model="developPeriod" placeholder="请填写开发周期" />
 			</view>
+			
+			<view v-if="type=='edit'" class="itemClass rowClass">
+				<view class="titleClass">开发进度</view>
+				<text class="inputClass">{{progress}}</text>
+			</view>
+			
 			<view class="itemClass">
 				<view class="titleClass">开发情况</view>
 				<textarea class="development" auto-height="true" placeholder="请填写开发情况(非必填)" maxlength="200" v-model="development"/>
@@ -69,8 +75,10 @@
 				development:'',				//开发情况
 				userName:'',				//修改人
 				nowTime:'',			//当前时间
+				progress:'',		//项目总进度
 				
 				type:'',			//操作类型
+				userInfo:'',		//用户信息
 			}
 		},
 		onLoad(options) {
@@ -88,6 +96,7 @@
 						this.development=res.data.development;
 						this.userName=res.data.userName;
 						this.nowTime=res.data.updateTime;
+						this.getProjectProgress(res.data.id);
 						uni.removeStorageSync('projectDetail');
 						uni.setNavigationBarTitle({
 							title:res.data.projectName,
@@ -107,18 +116,38 @@
 				uni.setNavigationBarTitle({
 					title:"添加项目",
 				})
+				uni.getStorage({
+					key:'userInfo',
+					success:res=>{
+						this.userName = res.data.userName;
+					}
+				})
 			}
-			
 		},
 		onShow() {
-
-		},
+			this.userInfo = uni.getStorageSync('userInfo') || '';
+		}, 
 		methods:{
 			//---------------------------加载当前时间---------------------------
 			loadTime(){
 				var myDate = new Date();
 				let date = utils.formatDate(myDate);
 				return `${date.YYYY}-${date.MM}-${date.DD} ${date.hh}:${date.mm}`
+			},
+			
+			//---------------------------获取项目总进度---------------------------
+			getProjectProgress(e){
+				uni.request({
+					url:this.$all.getUrl() + this.$all.Inter_projcet.getProjectProgress.url,
+					method:this.$all.Inter_projcet.getProjectProgress.method,
+					data:{
+						id:e,
+					},
+					success: (res) => {
+						console.log(res,"获取项目总进度");
+						this.progress = res.data.data == ""?"0%" : res.data.data + "%";
+					}
+				})
 			},
 			
 			//---------------------------选择部门---------------------------
@@ -132,7 +161,7 @@
 				this.startDate=date.f1;
 			},
 			
-			//---------------------------提交报告---------------------------
+			//---------------------------提交项目---------------------------
 			submitProject(){
 				if(this.projectName==""){
 					uni.showToast({
@@ -170,7 +199,7 @@
 				}
 			},
 			
-			//---------------------------添加报告---------------------------
+			//---------------------------添加项目---------------------------
 			addProject(){
 				uni.request({
 					url:this.$all.getUrl() + this.$all.Inter_projcet.addProject.url,
@@ -182,9 +211,9 @@
 						startDate:this.startDate,
 						developPeriod:this.developPeriod,
 						development:this.development,
-						userName:'测试用户',
+						userName:this.userName,
 						updateTime:this.loadTime(),
-						userId:'101037',
+						userId:this.userInfo.userId,
 					},
 					success: (res) => {
 						console.log(res);
@@ -201,7 +230,7 @@
 				})
 			},
 			
-			//---------------------------编辑报告---------------------------
+			//---------------------------编辑项目---------------------------
 			editProject(){
 				uni.request({
 					url:this.$all.getUrl() + this.$all.Inter_projcet.editProject.url,
@@ -213,9 +242,9 @@
 						startDate:this.startDate,
 						developPeriod:this.developPeriod,
 						development:this.development,
-						userName:'测试用户',
+						userName:this.userInfo.userName,
 						updateTime:this.loadTime(),
-						userId:'101037',
+						userId:this.userInfo.userId,
 						id:this.id,
 					},
 					success: (res) => {
@@ -233,7 +262,7 @@
 				})
 			},
 			
-			//---------------------------删除报告---------------------------
+			//---------------------------删除项目---------------------------
 			deleteProject(){
 				uni.showModal({
 					title:'温馨提示',

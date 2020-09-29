@@ -51,6 +51,8 @@
 				nowTime:'',			//当前时间
 				type:'',			//操作类型
 				disable:false,		//是否禁用
+				
+				userInfo:'',		//用户信息
 			}
 		},
 		onLoad(options) {
@@ -82,6 +84,7 @@
 			}
 		},
 		onShow() {
+			this.userInfo = uni.getStorageSync('userInfo') || '';
 			this.loadProjectList();
 		},
 		methods:{
@@ -149,10 +152,10 @@
 						url:this.$all.getUrl() + this.$all.Inter_report.addReport.url,
 						method:this.$all.Inter_report.addReport.method,
 						data:{
-							userId:'101037',
+							userId:this.userInfo.userId,
 							projectName:this.projectName,
 							reportType:this.reportType,
-							userName:'用户15260769752',
+							userName:this.userInfo.userName,
 							workContent:this.workContent,
 							workProblem:this.workProblem,
 							updateTime:this.loadTime(),

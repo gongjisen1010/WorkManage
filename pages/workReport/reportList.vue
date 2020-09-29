@@ -101,7 +101,6 @@
 					method:this.$all.Inter_report.getAllReports.method,
 					success: (res) => {
 						console.log(res);
-						var obj=new Object();
 						if(res.data.status){
 							var that=this;
 							//按时间排序

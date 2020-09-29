@@ -1,7 +1,17 @@
 {
+	//-------------------定义组件引入规则，一个pages只能一个easycom，引入uview框架---------------------
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
-			"path": "pages/Home/Home",
+			"path": "pages/personCenter/login",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/Home/Home", //首页
 			"style": {
 				"navigationStyle": "custom"
 			}
@@ -32,15 +42,15 @@
 			}
 		},
 		{
-			"path": "pages/personCenter/login",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path": "pages/personCenter/personInfo",
 			"style": {
 				"navigationBarTitleText": "个人信息"
+			}
+		},
+		{
+			"path": "pages/personCenter/changePwd",
+			"style": {
+				"navigationBarTitleText": "修改密码"
 			}
 		},
 		//---------------------------个人中心end---------------------------
@@ -70,8 +80,44 @@
 			"style": {
 				"navigationBarTitleText": "项目管理"
 			}
-		}
+		},
 		//---------------------------项目管理end---------------------------
+		
+		//---------------------------项目进度start---------------------------
+		{
+			"path": "pages/projectProgress/queryProject",
+			"style": {}
+		},
+		{
+			"path": "pages/projectProgress/progressDetail",
+			"style": {
+				"navigationBarTitleText": "项目进度"
+			}
+		},
+		//---------------------------项目进度end---------------------------
+		
+		//---------------------------在线聊天start---------------------------
+		{
+			"path": "pages/chatMessage/chat",
+			"style": {}
+		},
+		{
+			"path": "pages/chatMessage/messageList",
+			"style": {
+				"navigationBarTitleText": "消息"
+			}
+		},
+		//---------------------------在线聊天end---------------------------
+		
+		//---------------------------好友列表start---------------------------
+		{
+			"path": "pages/goodFriends/friendList",
+			"style": {
+				"navigationBarTitleText": "我的好友"
+			}
+		}
+		//---------------------------好友列表end---------------------------
+		
 	],
 	"tabBar": {
 		"color": "#7a7e83",
@@ -85,7 +131,15 @@
 			"text": "主页"
 			// "iconPath": "static/img/home.png",
 			// "selectedIconPath": "static/img/homeHL.png
-		}, 
+		},
+		 {
+		 	"pagePath": "pages/chatMessage/messageList",
+		 	"text": "消息"
+		 },
+		 {
+		 	"pagePath": "pages/goodFriends/friendList",
+		 	"text": "好友"
+		 },
 		{
 			"pagePath": "pages/personCenter/personCenter",
 			"text": "我的"

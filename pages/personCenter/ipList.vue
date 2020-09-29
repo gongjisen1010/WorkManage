@@ -45,12 +45,18 @@
 							res.data[i].checked = false;
 						}
 					}
+					var that = this;
+					var timeList=res.data.sort(function(a, b){
+						let time1=that.formateTime(a.addTime);
+						let time2=that.formateTime(b.addTime);
+						return Date.parse(time2) - Date.parse(time1);
+					});
 					let list=[];
-					for(var n = 0; n<res.data.length; n++){
-						if(res.data[n].checked){
-							list.unshift(res.data[n]);
+					for(var n = 0; n<timeList.length; n++){
+						if(timeList[n].checked){
+							list.unshift(timeList[n]);
 						}else{
-							list.push(res.data[n]);
+							list.push(timeList[n]);
 						}
 					}
 					this.ipList=list;
@@ -105,6 +111,12 @@
 				uni.navigateTo({
 					url:'./addIp?type=add'
 				})
+			},
+			
+			//---------------------------------格式化时间---------------------------------
+			formateTime(time){
+				let date=time.replace('T',' ');
+				return date.substring(0,16);
 			},
 		}
 	}

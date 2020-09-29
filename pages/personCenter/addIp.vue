@@ -209,18 +209,18 @@
 		flex-direction: row;
 	}
 	.inputClass{
-		width: 70%;
+		width: 65%;
 		padding-top: 28upx;
 		text-align: right;
 	}
 	.inputClass1{
-		margin-left: 30%;
+		margin-left: 25%;
 		width: 40%;
 		padding-top: 28upx;
 		text-align: right;
 	}
 	.titleClass{
-		width: 20%;
+		width: 30%;
 		padding: 30upx 3%;
 	}
 	
