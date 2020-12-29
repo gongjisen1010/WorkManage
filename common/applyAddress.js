@@ -220,17 +220,38 @@ const Inter_progress={
 }
 //---------------------项目进度endding------------------------
 
-//---------------------好友列表------------------------
+//---------------------好友列表和消息------------------------
 const Inter_friendList={
 	getFriendList:{
 		url:Url+'/api/friend/getFriendList',
 		name:'获取好友列表',
 		method:'POST',
 		pages: [],
-		parameterName:'',//需要传入的参数
+		parameterName:'无',//需要传入的参数
 	},
+	sendMessage:{
+		url:Url+'/api/friend/sendMessage',
+		name:'发送消息',
+		method:'POST',
+		pages: [],
+		parameterName:'sendId,sendName,content,receiver，receiverId',//需要传入的参数
+	},
+	readMessage:{
+		url:Url+'/api/friend/readMessage',
+		name:'已读操作',
+		method:'POST',
+		pages: [],
+		parameterName:'id',//需要传入的参数
+	},
+	getChatMessage:{
+		url:Url+'/api/friend/getChatMessage',
+		name:'获取与好友的消息',
+		method:'POST',
+		pages: [],
+		parameterName:'sendId,receiverId',//需要传入的参数
+	}
 }
-//---------------------好友列表endding------------------------
+//---------------------好友列表和消息endding------------------------
 
 //---------------------数据库------------------------
 const Inter_database={

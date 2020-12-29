@@ -16,6 +16,12 @@
 				"navigationStyle": "custom"
 			}
 		},
+		{
+			"path": "pages/Home/test",
+			"style": {
+				"navigationBarTitleText": "测试"
+			}
+		},
 		//---------------------------个人中心start---------------------------
 		{
 			"path": "pages/personCenter/personCenter",

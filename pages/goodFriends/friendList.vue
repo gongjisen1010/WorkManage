@@ -78,6 +78,10 @@
 			
 			//--------------------------------选中用户--------------------------------
 			select(item){
+				uni.setStorageSync('friendInfo',item);
+				uni.navigateTo({
+					url:'/pages/chatMessage/chat'
+				})
 				console.log(item);
 			}
 		}
